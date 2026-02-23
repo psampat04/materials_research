@@ -1,6 +1,16 @@
 # Research: Material Science
 
-Perovskite stability descriptor research, reproducing and extending Bartel et al. (Sci. Adv. 2019).
+**Goal**: build a general-purpose LLM-guided MCTS agent for automatic discovery of mathematical descriptors (symbolic descriptor discovery / Collective Variables) in materials science. The workflow is:
+
+1. Give the LLM a problem description
+2. The LLM proposes candidate formulas (Python function + LaTeX + explanation + etc.)
+3. Evaluate each formula's classification ability on labeled data using decision trees, SVMs, etc.
+4. Feed evaluation results (accuracy, histograms, parity plots) back to the LLM to guide improvement
+5. Use MCTS to systematically explore and optimize the formula space
+
+The aim is to leverage the prior knowledge already embedded in sota LLMs.
+
+**Immediate target**: reproduce and surpass the perovskite stability tolerance factor τ proposed by Bartel et al. (2019). τ achieves about 92% classification accuracy on 576 ABX₃ compounds, outperforming the classical Goldschmidt tolerance factor t (about 74%). See `bartel2019-new-tolerance-factor.md` for details.
 
 ## Setup
 
