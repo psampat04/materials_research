@@ -246,6 +246,14 @@ def run_mcts(
                 selected.id,
                 selected.accuracy,
             )
+        else:
+            log.info(
+                "Selected node %s (depth=%d) could not be expanded (likely max depth); "
+                "stopping search.",
+                selected.id,
+                selected.depth,
+            )
+            break
 
         state.save(state_save_path)
 

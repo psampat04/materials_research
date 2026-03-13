@@ -70,14 +70,27 @@ class LLMClient:
     def _parse_json(self, response: str) -> dict:
         match = re.search(r"```(?:json)?\s*(.*?)```", response, re.DOTALL)
         raw = match.group(1).strip() if match else response.strip()
-        # try-catch approved: LLM output format is unpredictable, fallback to regex extraction
+        # First attempt: as-is
         try:
             return json.loads(raw)
         except json.JSONDecodeError:
-            match2 = re.search(r"\{.*\}", response, re.DOTALL)
-            if match2:
-                return json.loads(match2.group(0))
-            raise ValueError(f"Could not parse JSON from LLM response:\n{response[:300]}") from None
+            # Second attempt: sanitize backslashes in the extracted block
+            try:
+                fixed = self._fix_backslashes(raw)
+                return json.loads(fixed)
+            except json.JSONDecodeError:
+                pass
+        # Fallback: search for a JSON object anywhere in the response
+        match2 = re.search(r"\{.*\}", response, re.DOTALL)
+        if match2:
+            text = match2.group(0).strip()
+            try:
+                return json.loads(text)
+            except json.JSONDecodeError:
+                fixed = self._fix_backslashes(text)
+                return json.loads(fixed)
+        raise ValueError(f"Could not parse JSON from LLM response:\n{response[:300]}") from None
+
 
     def _call(self, messages: list[dict]) -> str:
         self.stats.total_calls += 1
