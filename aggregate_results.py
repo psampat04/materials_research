@@ -16,7 +16,11 @@ def main():
             print(f"Skipping empty file: {state_file}")
             continue
         with open(state_file) as f:
-            data = json.load(f)
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError as e:
+                print(f"Skipping malformed JSON: {state_file} ({e})")
+                continue
 
         for node in data["nodes"].values():
             all_formulas.append({
