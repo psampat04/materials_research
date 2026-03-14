@@ -8,6 +8,7 @@ mcts:
   initial_samples: 5
   ucb_constant: 1.41
   max_depth: 5
+  max_children_per_node: 3
 
 eval:
   data_path: "perovskite-stability/TableS1.csv"

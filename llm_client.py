@@ -63,9 +63,38 @@ class LLMClient:
         return self._call(self._attach_images(messages, images))
 
     def query_json(self, messages: list[dict], images: list[Path] | None = None) -> dict:
-        """Call LLM and parse the response as JSON."""
-        raw = self.query_with_images(messages, images) if images else self.query_text(messages)
-        return self._parse_json(raw)
+        """Call LLM and parse the response as JSON.
+
+        Prefer the API's native JSON mode for robustness, and fall back to
+        heuristic parsing if that fails for any reason.
+        """
+        # First try native JSON response_format
+        try:
+            self.stats.total_calls += 1
+            if images:
+                messages_to_send = self._attach_images(messages, images)
+            else:
+                messages_to_send = messages
+
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=messages_to_send,
+                temperature=self.temperature,
+                max_tokens=self.max_tokens,
+                response_format={"type": "json_object"},
+            )
+            self.stats.total_input_tokens += response.usage.prompt_tokens
+            self.stats.total_output_tokens += response.usage.completion_tokens
+            self.stats.successful_calls += 1
+
+            content = response.choices[0].message.content.strip()
+            return json.loads(content)
+        except Exception:
+            # Log and fall back to text mode + heuristic parsing
+            self.stats.failed_calls += 1
+            log.exception("LLM JSON-mode call failed, falling back to text parsing")
+            raw = self.query_with_images(messages, images) if images else self.query_text(messages)
+            return self._parse_json(raw)
 
     def _parse_json(self, response: str) -> dict:
         match = re.search(r"```(?:json)?\s*(.*?)```", response, re.DOTALL)

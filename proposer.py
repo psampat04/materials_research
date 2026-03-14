@@ -25,9 +25,17 @@ class Proposal:
 
 
 def _build_proposal(data: dict) -> Proposal:
-    missing = [k for k in ("function", "explanation", "formula") if k not in data]
-    if missing:
-        raise ValueError(f"LLM JSON missing keys: {missing}; got: {list(data.keys())}")
+    # Be strict about the essential fields needed to run the search,
+    # but treat the LaTeX formula as optional so occasional LLM mistakes
+    # do not crash the entire run.
+    missing_required = [k for k in ("function", "explanation") if k not in data]
+    if missing_required:
+        raise ValueError(
+            f"LLM JSON missing required keys: {missing_required}; got: {list(data.keys())}"
+        )
+    if "formula" not in data:
+        log.warning("LLM JSON missing optional key 'formula'; defaulting to empty string.")
+        data["formula"] = ""
     return Proposal(
         function=data["function"],
         explanation=data["explanation"],
