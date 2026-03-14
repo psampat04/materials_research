@@ -42,7 +42,11 @@ INITIAL_PROMPT_TEMPLATE = """
 {problem_desc}
 
 Propose a novel descriptor formula. Be creative and try something genuinely new.
-Do NOT simply reproduce the Goldschmidt tolerance factor.
+
+STRICT RULES — violating any of these will make your answer invalid:
+- Do NOT reproduce the classical Goldschmidt tolerance factor: t = (rA + rX) / (sqrt(2) * (rB + rX))
+- Do NOT reproduce the Bartel tau factor: tau = (rX / rB) - nA * (nA - (rA / rB) / ln(rA / rB))
+- Your descriptor must use a meaningfully different functional form from both of the above.
 
 Output ONLY the JSON, no other text.
 """.strip()
@@ -68,7 +72,14 @@ Analyze what the previous descriptor gets wrong:
 - Consider which anion types (O, F, Cl, Br, I) have low accuracy
 - Think about what physical effects are missing
 
-Propose an IMPROVED descriptor that addresses these weaknesses. Make a meaningful change to the functional form, not just parameter tweaking.
+Propose an IMPROVED descriptor that addresses these weaknesses.
+
+STRICT RULES — violating any of these will make your answer invalid:
+- Do NOT reproduce the classical Goldschmidt tolerance factor: t = (rA + rX) / (sqrt(2) * (rB + rX))
+- Do NOT reproduce the Bartel tau factor: tau = (rX / rB) - nA * (nA - (rA / rB) / ln(rA / rB))
+- Your new descriptor must have a DIFFERENT functional form from the parent descriptor shown above — different mathematical structure, not just rescaled or rearranged versions of it.
+- Do NOT simply rename variables or add a constant offset/scaling to the parent formula.
+- Make a genuinely meaningful change: introduce new physical terms, combine variables in a new way, or use a completely different physical rationale.
 
 Output ONLY the JSON, no other text.
 """.strip()

@@ -24,14 +24,18 @@ class Proposal:
     formula: str
 
 
-def _build_proposal(data: dict, client: LLMClient | None = None) -> Proposal:
-    missing = [k for k in ("function", "explanation", "formula") if k not in data]
-    if missing:
-        raise ValueError(f"LLM JSON missing keys: {missing}; got: {list(data.keys())}")
-    formula = data.get("formula")
-    if not formula and client is not None:
-        log.warning("LLM JSON missing 'formula' — requesting it separately")
-        formula = _recover_formula(client, data["function"])
+def _build_proposal(data: dict) -> Proposal:
+    # Be strict about the essential fields needed to run the search,
+    # but treat the LaTeX formula as optional so occasional LLM mistakes
+    # do not crash the entire run.
+    missing_required = [k for k in ("function", "explanation") if k not in data]
+    if missing_required:
+        raise ValueError(
+            f"LLM JSON missing required keys: {missing_required}; got: {list(data.keys())}"
+        )
+    if "formula" not in data:
+        log.warning("LLM JSON missing optional key 'formula'; defaulting to empty string.")
+        data["formula"] = ""
     return Proposal(
         function=data["function"],
         explanation=data["explanation"],
@@ -45,7 +49,7 @@ def propose_initial(client: LLMClient) -> Proposal:
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": prompt},
     ]
-    data = client.query_json(messages) # , images=[STRUCTURE_FIG] cannot interpret images right now
+    data = client.query_json(messages)
     return _build_proposal(data)
 
 
@@ -68,7 +72,6 @@ def propose_improvement(
         {"role": "system", "content": SYSTEM_PROMPT},
         {"role": "user", "content": prompt},
     ]
-    # images = [STRUCTURE_FIG]
     images = []
     if STRUCTURE_FIG.exists():
         images.append(STRUCTURE_FIG)
@@ -76,13 +79,3 @@ def propose_improvement(
         images.append(plot_image)
     data = client.query_json(messages, images=images if images else None)
     return _build_proposal(data)
-
-def _recover_formula(client: LLMClient, function_code: str) -> str:
-    messages = [
-        {"role": "system", "content": "You are a materials science expert."},
-        {"role": "user", "content": (
-            f"Given this Python descriptor function:\n```python\n{function_code}\n```\n"
-            "Write the equivalent LaTeX formula. Output ONLY the LaTeX string, nothing else."
-        )},
-    ]
-    return client.query_text(messages)

@@ -35,6 +35,8 @@ def select_node(state: SearchState, cfg) -> FormulaNode | None:
 
     ucb_constant = cfg.mcts.ucb_constant
     max_depth = cfg.mcts.max_depth
+    # Allow multiple children per node so the search forms a real tree
+    max_children = getattr(cfg.mcts, "max_children_per_node", 3)
 
     total_root_visits = sum(state.nodes[cid].visit_count for cid in state.root_children)
     if total_root_visits == 0:
@@ -46,7 +48,14 @@ def select_node(state: SearchState, cfg) -> FormulaNode | None:
     )
     current = state.nodes[best_id]
 
-    while current.children_ids and current.depth < max_depth:
+    # Traverse down using UCB, but stop at any node that is not "fully expanded"
+    # so that each node can spawn multiple children instead of a single chain.
+    while current.depth < max_depth:
+        if len(current.children_ids) < max_children:
+            # This node can still create new children — expand from here.
+            break
+
+        # All children already exist; select the best child and continue.
         parent_visits = current.visit_count if current.visit_count > 0 else 1
         best_child_id = max(
             current.children_ids,
