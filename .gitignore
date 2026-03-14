@@ -1,8 +1,10 @@
 .env
 .venv/
+.DS_Store
 __pycache__/
 *.pyc
 *.png
+!search_runs/**/*.png
 *.pkl
 *.p
 outputs/
