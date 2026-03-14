@@ -1,0 +1,340 @@
+{
+  "nodes": {
+    "81c33cdd": {
+      "id": "81c33cdd",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the ratio of the A-site ionic radius to the B-site ionic radius\n    radius_ratio = rA / rB\n    \n    # Calculate the absolute difference in oxidation states\n    oxidation_diff = abs(nA - nB)\n    \n    # Combine ratios into a weighted sum, emphasizing size compatibility and charge balance\n    # Smaller difference in oxidation states suggests better charge compatibility\n    # Radius ratio close to 1 indicates size fit; deviations suggest instability\n    # Use a sigmoid to emphasize the optimal size match around radius_ratio=1\n    size_factor = 1 / (1 + abs(radius_ratio - 1))\n    charge_factor = 1 / (1 + oxidation_diff)\n    \n    # Final descriptor combines size and charge factors; higher values suggest higher stability\n    return size_factor * charge_factor",
+      "description": "This descriptor captures the stability of ABX3 perovskites by combining the size compatibility between A and B cations and the charge balance of their oxidation states. The radius ratio rA/rB reflects how well the A cation fits into the B-site cage, with values close to 1 indicating optimal fit. Simultaneously, the oxidation state difference assesses charge compatibility; smaller differences favor stability. By combining these factors multiplicatively, the descriptor emphasizes compositions with both good size fit and charge balance, offering a novel holistic measure of perovskite stability beyond traditional geometric criteria.",
+      "formula": "D = \\frac{1}{1 + |\\frac{r_A}{r_B} - 1|} \\times \\frac{1}{1 + |n_A - n_B|}",
+      "accuracy": 0.6857638888888888,
+      "metrics": {
+        "train_accuracy": 0.691304347826087,
+        "test_accuracy": 0.6637931034482759,
+        "false_positive_rate": 0.026615969581749048,
+        "per_anion_accuracy": {
+          "O": 0.7371273712737128,
+          "F": 0.22727272727272727,
+          "Cl": 0.704225352112676,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy: 68.6%\nTrain accuracy: 69.1%\nTest accuracy: 66.4%\nFalse positive rate: 2.7%\nDecision thresholds: [0.0738, 0.4526, 0.6887]\nTP=139 FP=7 TN=256 FN=174\nPer-anion accuracy:\n  O: 73.7%\n  F: 22.7%\n  Cl: 70.4%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/materials_research/search_runs/20260312_181037/plots/81c33cdd.png",
+      "visit_count": 2,
+      "total_reward": 0.6666666666666667,
+      "children_ids": [
+        "8d21cfb9"
+      ],
+      "depth": 0
+    },
+    "25450d26": {
+      "id": "25450d26",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the size mismatch ratio between A and the B-X cage\n    cage_radius = 0.5 * (rB + rX)  # Approximate radius of the B-X octahedral cage\n    size_ratio = rA / cage_radius\n    # Incorporate oxidation states to account for electrostatic considerations\n    charge_factor = abs(nA) / (abs(nB) + abs(nX))\n    # Combine size and charge factors with a logarithmic function for smoothness\n    value = (size_ratio - 1.0) * charge_factor\n    # Return the negative if higher values indicate less stability (assuming larger mismatch reduces stability)\n    return -value",
+      "description": "This descriptor captures the relative fit of the A cation inside the B-X octahedral cage by comparing their ionic radii, which influences structural stability. It incorporates oxidation states to reflect electrostatic compatibility, with the size ratio indicating whether the A cation appropriately fits the cage (values close to 1). The combination with charge ratios ensures that both size and electrostatic considerations influence the stability prediction, providing a nuanced, monotonic measure of perovskite stability.",
+      "formula": "D = - \\left( \\left( \\frac{r_A}{0.5 (r_B + r_X)} - 1 \\right) \\times \\frac{|n_A|}{|n_B| + |n_X|} \\right)",
+      "accuracy": 0.7083333333333334,
+      "metrics": {
+        "train_accuracy": 0.6956521739130435,
+        "test_accuracy": 0.7586206896551724,
+        "false_positive_rate": 0.596958174904943,
+        "per_anion_accuracy": {
+          "O": 0.7804878048780488,
+          "F": 0.8787878787878788,
+          "Cl": 0.43661971830985913,
+          "Br": 0.5185185185185185,
+          "I": 0.3953488372093023
+        },
+        "metrics_summary": "Overall accuracy: 70.8%\nTrain accuracy: 69.6%\nTest accuracy: 75.9%\nFalse positive rate: 59.7%\nDecision thresholds: [-0.2441, -0.0054, 0.0055]\nTP=302 FP=157 TN=106 FN=11\nPer-anion accuracy:\n  O: 78.0%\n  F: 87.9%\n  Cl: 43.7%\n  Br: 51.9%\n  I: 39.5%"
+      },
+      "plot_path": "/Users/shaashvatshetty/materials_research/search_runs/20260312_181037/plots/25450d26.png",
+      "visit_count": 2,
+      "total_reward": 1.1666666666666665,
+      "children_ids": [
+        "3410499b"
+      ],
+      "depth": 0
+    },
+    "e364dba3": {
+      "id": "e364dba3",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Novel stability predictor based on ionic radius ratios and charge balance\n    # Compute the radius ratio for A site cage fit and B site octahedral stability\n    ratio_A = rA / rX\n    ratio_B = rB / rX\n    # Calculate a combined size factor emphasizing the A-site fit and B-site stability\n    size_factor = (ratio_A * ratio_B) ** 0.5\n    # Incorporate charge balance as a multiplicative modifier (more balanced charges favor stability)\n    charge_factor = 1 - abs(nA + nX) / max(abs(nA), abs(nX), 1)\n    # Final descriptor: a weighted geometric mean combining size and charge factors\n    descriptor_value = size_factor * charge_factor\n    return descriptor_value",
+      "description": "This descriptor captures the stability of ABX3 perovskites by integrating the geometric mean of the ionic radius ratios for the A and B sites, reflecting how well the A cation fits within the cage and the octahedral stability of B. Additionally, it incorporates charge balance considerations, since closer to ideal oxidation states promote structural stability. The geometric mean ensures a smooth, monotonic relationship where better size compatibility and charge neutrality lead to higher stability scores.",
+      "formula": "D = \\left( \\frac{r_A}{r_X} \\times \\frac{r_B}{r_X} \\right)^{1/2} \\times \\left( 1 - \\frac{|n_A + n_X|}{\\max(|n_A|, |n_X|, 1)} \\right)",
+      "accuracy": 0.671875,
+      "metrics": {
+        "train_accuracy": 0.6565217391304348,
+        "test_accuracy": 0.7327586206896551,
+        "false_positive_rate": 0.7186311787072244,
+        "per_anion_accuracy": {
+          "O": 0.7886178861788617,
+          "F": 0.7727272727272727,
+          "Cl": 0.36619718309859156,
+          "Br": 0.37037037037037035,
+          "I": 0.20930232558139536
+        },
+        "metrics_summary": "Overall accuracy: 67.2%\nTrain accuracy: 65.7%\nTest accuracy: 73.3%\nFalse positive rate: 71.9%\nDecision thresholds: [0.3093, 0.6787]\nTP=313 FP=189 TN=74 FN=0\nPer-anion accuracy:\n  O: 78.9%\n  F: 77.3%\n  Cl: 36.6%\n  Br: 37.0%\n  I: 20.9%"
+      },
+      "plot_path": "/Users/shaashvatshetty/materials_research/search_runs/20260312_181037/plots/e364dba3.png",
+      "visit_count": 2,
+      "total_reward": 0.5,
+      "children_ids": [
+        "08fdccc1"
+      ],
+      "depth": 0
+    },
+    "9b8826f2": {
+      "id": "9b8826f2",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import math\n    # Compute the size mismatch ratios\n    ratioA = rA / rX\n    ratioB = rB / rX\n    # Incorporate oxidation states as weights to favor charge compatibility\n    charge_factor = abs(nA + nB + nX) / (abs(nA) + abs(nB) + abs(nX))\n    # Calculate a combined size and charge stability metric\n    stability_metric = (1 - abs(ratioA - 1)) * (1 - abs(ratioB - 1)) * charge_factor\n    # Normalize to ensure positive and monotonic\n    return max(stability_metric, 0.0)",
+      "description": "This descriptor evaluates the stability based on the relative ionic sizes of A and B compared to X, penalizing deviations from ideal size ratios (unity), while also considering charge balance via oxidation states. A balanced combination of size similarity and charge compatibility suggests a higher likelihood of stable perovskite formation. The design emphasizes that optimal size fit (ratios close to 1) and charge neutrality are key factors, combining geometric and electrostatic considerations into a single monotonic stability measure.",
+      "formula": "stability = \\left(1 - \\left|\\frac{r_A}{r_X} - 1\\right|\\right) \\times \\left(1 - \\left|\\frac{r_B}{r_X} - 1\\right|\\right) \\times \\frac{|n_A + n_B + n_X|}{|n_A| + |n_B| + |n_X|}",
+      "accuracy": 0.8038194444444444,
+      "metrics": {
+        "train_accuracy": 0.8173913043478261,
+        "test_accuracy": 0.75,
+        "false_positive_rate": 0.3193916349809886,
+        "per_anion_accuracy": {
+          "O": 0.8699186991869918,
+          "F": 0.8484848484848485,
+          "Cl": 0.5352112676056338,
+          "Br": 0.6296296296296297,
+          "I": 0.7209302325581395
+        },
+        "metrics_summary": "Overall accuracy: 80.4%\nTrain accuracy: 81.7%\nTest accuracy: 75.0%\nFalse positive rate: 31.9%\nDecision thresholds: [0.1366, 0.1611, 0.3020]\nTP=284 FP=84 TN=179 FN=29\nPer-anion accuracy:\n  O: 87.0%\n  F: 84.8%\n  Cl: 53.5%\n  Br: 63.0%\n  I: 72.1%"
+      },
+      "plot_path": "/Users/shaashvatshetty/materials_research/search_runs/20260312_181037/plots/9b8826f2.png",
+      "visit_count": 3,
+      "total_reward": 2.75,
+      "children_ids": [
+        "4238a73a"
+      ],
+      "depth": 0
+    },
+    "01167330": {
+      "id": "01167330",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the ratio of A-site size to the B-X octahedral size\n    size_ratio = rA / (rB + rX)\n    # Incorporate electrostatic considerations via a weighted charge ratio\n    charge_ratio = (abs(nA) * nX) / (abs(nB) * abs(nX))\n    # Combine size and charge factors to produce a stability metric\n    # The stability increases when size ratio is close to an optimal value (~1)\n    # and when electrostatic interactions favor a stable configuration\n    # Use a Gaussian centered at the ideal size ratio (~1.0) to reflect optimal fit\n    import math\n    stability_score = math.exp(-((size_ratio - 1.0) ** 2) / 0.02) \n    # Incorporate electrostatic factor linearly (positive correlation)\n    electrostatic_factor = charge_ratio\n    # Final descriptor is a weighted sum of geometric and electrostatic components\n    return stability_score * electrostatic_factor",
+      "description": "This descriptor combines a geometric size ratio reflecting how well the A cation fits within the BX6 octahedral cage with an electrostatic charge ratio that encapsulates the ionic interaction strength. The Gaussian function peaks when the size ratio is near 1, indicating optimal fit for stability, while the electrostatic term adjusts the score based on charge compatibility. This holistic approach captures both spatial and electrostatic factors influencing perovskite stability in a single, monotonic measure.",
+      "formula": "D = \\exp\\left(-\\frac{(\\frac{r_A}{r_B + r_X} - 1)^2}{0.02}\\right) \\times \\frac{|n_A| \\times |n_X|}{|n_B| \\times |n_X|}",
+      "accuracy": 0.7378472222222222,
+      "metrics": {
+        "train_accuracy": 0.7326086956521739,
+        "test_accuracy": 0.7586206896551724,
+        "false_positive_rate": 0.5133079847908745,
+        "per_anion_accuracy": {
+          "O": 0.8238482384823849,
+          "F": 0.803030303030303,
+          "Cl": 0.43661971830985913,
+          "Br": 0.5925925925925926,
+          "I": 0.4883720930232558
+        },
+        "metrics_summary": "Overall accuracy: 73.8%\nTrain accuracy: 73.3%\nTest accuracy: 75.9%\nFalse positive rate: 51.3%\nDecision thresholds: [-0.1209, -0.0000, -0.0000]\nTP=297 FP=135 TN=128 FN=16\nPer-anion accuracy:\n  O: 82.4%\n  F: 80.3%\n  Cl: 43.7%\n  Br: 59.3%\n  I: 48.8%"
+      },
+      "plot_path": "/Users/shaashvatshetty/materials_research/search_runs/20260312_181037/plots/01167330.png",
+      "visit_count": 3,
+      "total_reward": 2.166666666666667,
+      "children_ids": [
+        "459e01d0"
+      ],
+      "depth": 0
+    },
+    "4238a73a": {
+      "id": "4238a73a",
+      "parent_id": "9b8826f2",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import math\n    # Compute the size mismatch ratios\n    ratioA = rA / rX\n    ratioB = rB / rX\n    # Incorporate oxidation states as weights to favor charge compatibility\n    charge_factor = abs(nA + nB + nX) / (abs(nA) + abs(nB) + abs(nX))\n    # Calculate the classical Goldschmidt tolerance factor\n    t = (rA + rX) / (math.sqrt(2) * (rB + rX))\n    # Adjust the tolerance factor based on charge balance and size mismatch\n    stability_score = (1 - abs(t - 1)) * charge_factor * (1 / (abs(rA - rX) + abs(rB - rX) + 1e-6))\n    # Return a monotonic function emphasizing geometric fit and charge neutrality\n    return max(stability_score, 0.0)",
+      "description": "This improved descriptor integrates the classical Goldschmidt tolerance factor, which captures the geometric fit of the A cation within the BX6 octahedral cage, a key determinant of perovskite stability. It modulates the tolerance factor by the charge balance factor to account for electrostatic considerations that influence stability, especially important for different anion types (like F, Cl, Br, I) which vary in electronegativity and bonding characteristics. Additionally, dividing by the sum of size mismatches emphasizes the importance of optimal ionic size compatibility, reducing false positives in cases with size mismatch but acceptable geometric fit. This combination addresses the previous descriptor's limitations by incorporating a well-established geometric criterion and electrostatic effects, leading to a more physically meaningful and discriminative stability prediction.",
+      "formula": "t = \\frac{r_A + r_X}{\\sqrt{2}(r_B + r_X)}",
+      "accuracy": 0.8333333333333334,
+      "metrics": {
+        "train_accuracy": 0.8369565217391305,
+        "test_accuracy": 0.8189655172413793,
+        "false_positive_rate": 0.29277566539923955,
+        "per_anion_accuracy": {
+          "O": 0.8753387533875339,
+          "F": 0.8484848484848485,
+          "Cl": 0.6197183098591549,
+          "Br": 0.7777777777777778,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy: 83.3%\nTrain accuracy: 83.7%\nTest accuracy: 81.9%\nFalse positive rate: 29.3%\nDecision thresholds: [0.3565, 0.3621, 0.7777]\nTP=294 FP=77 TN=186 FN=19\nPer-anion accuracy:\n  O: 87.5%\n  F: 84.8%\n  Cl: 62.0%\n  Br: 77.8%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/materials_research/search_runs/20260312_181037/plots/4238a73a.png",
+      "visit_count": 2,
+      "total_reward": 2.0,
+      "children_ids": [
+        "83bfab39"
+      ],
+      "depth": 1
+    },
+    "459e01d0": {
+      "id": "459e01d0",
+      "parent_id": "01167330",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import math\n    # Calculate classical tolerance factor\n    t = (rA + rX) / (math.sqrt(2) * (rB + rX))\n    # Calculate electrostatic difference (charge mismatch)\n    charge_diff = abs(nA + nX) / (abs(nB) + abs(nX))\n    # Incorporate anion-specific ionicity factor (empirically determined)\n    # For example, the higher the ionicity for certain anions (like F, O), the more stable\n    # We assign a weight based on the anion type\n    anion_weight = 1.0\n    if abs(nX) > 1:  # For larger anions like Cl, Br, I\n        anion_weight = 0.8\n    elif abs(nX) == 1:  # For F, O\n        anion_weight = 1.2\n    # Combine the tolerance factor, charge mismatch, and anion-specific weight\n    # Use a weighted sum to produce a single descriptor\n    return (1 / (1 + abs(t - 1))) * (1 / (1 + charge_diff)) * anion_weight",
+      "description": "This descriptor integrates the classical Goldschmidt tolerance factor with a measure of ionic charge mismatch to capture geometric and electrostatic compatibility. Additionally, it incorporates an anion-specific ionicity factor, recognizing that different halides and oxides influence stability differently. The inverse relationships emphasize that values closer to ideal (t near 1, charge mismatch near zero) and more favorable anion types contribute positively to stability. This multidimensional approach improves discrimination, especially for anions with lower accuracy in the previous model, by explicitly accounting for their chemical nature and electrostatic effects.",
+      "formula": "D = \\left(\\frac{1}{1 + \\left| \\frac{r_A + r_X}{\\sqrt{2}(r_B + r_X)} - 1 \\right|} \\right) \\times \\left(\\frac{1}{1 + |n_A + n_X| / (|n_B| + |n_X|)}\\right) \\times \\text{anion\\_weight}",
+      "accuracy": 0.6666666666666666,
+      "metrics": {
+        "train_accuracy": 0.6760869565217391,
+        "test_accuracy": 0.6293103448275862,
+        "false_positive_rate": 0.25475285171102663,
+        "per_anion_accuracy": {
+          "O": 0.6368563685636857,
+          "F": 0.9393939393939394,
+          "Cl": 0.6901408450704225,
+          "Br": 0.7037037037037037,
+          "I": 0.4418604651162791
+        },
+        "metrics_summary": "Overall accuracy: 66.7%\nTrain accuracy: 67.6%\nTest accuracy: 62.9%\nFalse positive rate: 25.5%\nDecision thresholds: [0.5676, 0.6154, 1.0597]\nTP=188 FP=67 TN=196 FN=125\nPer-anion accuracy:\n  O: 63.7%\n  F: 93.9%\n  Cl: 69.0%\n  Br: 70.4%\n  I: 44.2%"
+      },
+      "plot_path": "/Users/shaashvatshetty/materials_research/search_runs/20260312_181037/plots/459e01d0.png",
+      "visit_count": 2,
+      "total_reward": 1.0,
+      "children_ids": [
+        "b7e1a19a"
+      ],
+      "depth": 1
+    },
+    "3410499b": {
+      "id": "3410499b",
+      "parent_id": "25450d26",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the Goldschmidt tolerance factor\n    t = (rA + rX) / (np.sqrt(2) * (rB + rX))\n    # Compute the octahedral factor (B-site stability)\n    octahedral = rB / rX\n    # Incorporate oxidation state balance as a measure of electrostatic stability\n    charge_ratio = (abs(nA) + abs(nB) + abs(nX)) / 3\n    # Combine factors: favor t close to 1, octahedral stability > 0.414, and balanced charge\n    stability_score = -abs(t - 1) + 0.5 * (octahedral - 0.414) + (1 / charge_ratio)\n    return stability_score",
+      "description": "This improved descriptor combines the classical Goldschmidt tolerance factor to evaluate size fit, the octahedral factor to assess B-site stability, and a measure of electrostatic charge balance. By emphasizing how closely the tolerance factor approaches 1 and the octahedral factor exceeds a known stability threshold, it captures size and shape compatibility. Including charge ratio accounts for electrostatic effects, especially important for different anion types with varying electronegativities. The combination reduces overlap in the distribution of stable vs. unstable compounds, addressing weaknesses related to specific anions and size mismatches.",
+      "formula": "stability\\_score = -\\left| \\frac{r_A + r_X}{\\sqrt{2}(r_B + r_X)} - 1 \\right| + 0.5 \\left( \\frac{r_B}{r_X} - 0.414 \\right) + \\frac{1}{\\frac{|n_A| + |n_B| + |n_X|}{3}}",
+      "accuracy": 0.7864583333333334,
+      "metrics": {
+        "train_accuracy": 0.7869565217391304,
+        "test_accuracy": 0.7844827586206896,
+        "false_positive_rate": 0.13307984790874525,
+        "per_anion_accuracy": {
+          "O": 0.8834688346883469,
+          "F": 0.24242424242424243,
+          "Cl": 0.7464788732394366,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy: 78.6%\nTrain accuracy: 78.7%\nTest accuracy: 78.4%\nFalse positive rate: 13.3%\nDecision thresholds: [0.2088, 0.2308, 0.4511]\nTP=225 FP=35 TN=228 FN=88\nPer-anion accuracy:\n  O: 88.3%\n  F: 24.2%\n  Cl: 74.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/materials_research/search_runs/20260312_181037/plots/3410499b.png",
+      "visit_count": 1,
+      "total_reward": 0.75,
+      "children_ids": [],
+      "depth": 1
+    },
+    "8d21cfb9": {
+      "id": "8d21cfb9",
+      "parent_id": "81c33cdd",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    \n    # Compute the classical Goldschmidt tolerance factor t\n    t = (rA + rX) / ( (2 ** 0.5) * (rB + rX) )\n    \n    # Compute the octahedral factor for B-site and X-site\n    octahedral_factor_B = rB / rX\n    octahedral_factor_X = rX / rB\n    \n    # Calculate the charge difference (absolute value of the product of oxidation states)\n    charge_product = abs(nA * nX * nB)\n    \n    # Incorporate ionic charge compatibility\n    charge_factor = 1 / (1 + abs(nA + nB + nX))\n    \n    # Combine the geometric tolerance factor with charge compatibility and octahedral factors\n    # Aim for t close to 1 (perovskite stability), octahedral factors within typical range, and charge balance\n    geometric_score = 1 / (1 + abs(t - 1))  # peaks at t=1\n    octahedral_score = min(octahedral_factor_B / 0.7, 1.4 / octahedral_factor_B)  # typical B-X octahedral range\n    octahedral_score = max(0, octahedral_score)  # ensure non-negative\n    combined_score = geometric_score * octahedral_score * charge_factor\n    \n    return combined_score",
+      "description": "This descriptor integrates the classical Goldschmidt tolerance factor, which assesses the fit of the A cation within the cage formed by the BX6 octahedra, with octahedral factors that evaluate the stability of the BX6 units themselves. By including both geometric and charge considerations, it captures the key physical factors influencing perovskite stability. The use of peaks at t=1 and typical octahedral ratio ranges addresses the limitations of the previous size-only focus, reducing overlap between stable and unstable phases, especially across different halide anions with varying ionic sizes and bonding characteristics.",
+      "formula": "t = \\frac{r_A + r_X}{\\sqrt{2}(r_B + r_X)}",
+      "accuracy": 0.703125,
+      "metrics": {
+        "train_accuracy": 0.7086956521739131,
+        "test_accuracy": 0.6810344827586207,
+        "false_positive_rate": 0.17110266159695817,
+        "per_anion_accuracy": {
+          "O": 0.7777777777777778,
+          "F": 0.22727272727272727,
+          "Cl": 0.676056338028169,
+          "Br": 0.8148148148148148,
+          "I": 0.7674418604651163
+        },
+        "metrics_summary": "Overall accuracy: 70.3%\nTrain accuracy: 70.9%\nTest accuracy: 68.1%\nFalse positive rate: 17.1%\nDecision thresholds: [0.0737, 0.0988, 0.1408]\nTP=187 FP=45 TN=218 FN=126\nPer-anion accuracy:\n  O: 77.8%\n  F: 22.7%\n  Cl: 67.6%\n  Br: 81.5%\n  I: 76.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/materials_research/search_runs/20260312_181037/plots/8d21cfb9.png",
+      "visit_count": 1,
+      "total_reward": 0.5,
+      "children_ids": [],
+      "depth": 1
+    },
+    "83bfab39": {
+      "id": "83bfab39",
+      "parent_id": "4238a73a",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import math\n    # Compute the classical Goldschmidt tolerance factor\n    t = (rA + rX) / (math.sqrt(2) * (rB + rX))\n    # Compute the octahedral factor for B-site stability\n    octahedral_factor = rB / rX\n    # Calculate the electrostatic charge mismatch\n    charge_mismatch = abs(nA + nB + nX)\n    # Combine geometric and electrostatic factors, emphasizing the octahedral stability\n    stability_score = (1 - abs(t - 1)) * (octahedral_factor) / (charge_mismatch + 1)\n    # Return a scaled and monotonic score\n    return max(stability_score, 0.0)",
+      "description": "This improved descriptor incorporates the classical Goldschmidt tolerance factor to assess the geometric fit of the A cation, which is crucial for perovskite stability. It adds the octahedral factor (rB/rX) to explicitly evaluate the B-site's ability to form a stable octahedral environment, addressing the previous descriptor's weakness in capturing B-site stability, especially relevant for halides like Cl and I. The inclusion of the charge mismatch term recognizes the importance of electrostatic neutrality and electrostatic interactions, which influence the stability of the structure. By combining geometric fit with B-site stability and electrostatics, this descriptor better discriminates between perovskite and nonperovskite phases, especially across different anion types with varying electronegativities and bonding characteristics.",
+      "formula": "t = \\frac{r_A + r_X}{\\sqrt{2}(r_B + r_X)} \\quad , \\quad \\text{octahedral\\_factor} = \\frac{r_B}{r_X} \\quad , \\quad \\text{descriptor} = \\max\\left(0, \\left|1 - t\\right| \\times \\frac{r_B}{r_X} \\div (\\left|n_A + n_B + n_X\\right| + 1) \\right)",
+      "accuracy": 0.703125,
+      "metrics": {
+        "train_accuracy": 0.7108695652173913,
+        "test_accuracy": 0.6724137931034483,
+        "false_positive_rate": 0.1444866920152091,
+        "per_anion_accuracy": {
+          "O": 0.7777777777777778,
+          "F": 0.22727272727272727,
+          "Cl": 0.676056338028169,
+          "Br": 0.7777777777777778,
+          "I": 0.7906976744186046
+        },
+        "metrics_summary": "Overall accuracy: 70.3%\nTrain accuracy: 71.1%\nTest accuracy: 67.2%\nFalse positive rate: 14.4%\nDecision thresholds: [0.0683, 0.0688, 0.0948]\nTP=180 FP=38 TN=225 FN=133\nPer-anion accuracy:\n  O: 77.8%\n  F: 22.7%\n  Cl: 67.6%\n  Br: 77.8%\n  I: 79.1%"
+      },
+      "plot_path": "/Users/shaashvatshetty/materials_research/search_runs/20260312_181037/plots/83bfab39.png",
+      "visit_count": 1,
+      "total_reward": 0.41666666666666663,
+      "children_ids": [],
+      "depth": 2
+    },
+    "08fdccc1": {
+      "id": "08fdccc1",
+      "parent_id": "e364dba3",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Improved stability predictor incorporating electrostatic and covalent considerations\n    # Calculate the classical Goldschmidt tolerance factor\n    t = (rA + rX) / ( (2 ** 0.5) * (rB + rX) )\n    # Calculate the octahedral factor for B-site stability\n    octahedral_factor = rB / rX\n    # Determine the charge ratio for A-site cation to X-site anion\n    charge_ratio_A = abs(nA) / abs(nX)\n    # Incorporate ionicity indicator based on charge difference\n    charge_diff = abs(nA + nX)\n    # Combine these factors into a single descriptor with weighted influence\n    # Emphasize the tolerance factor, octahedral factor, and charge considerations\n    value = t * octahedral_factor * (1 / (1 + charge_diff))\n    return value",
+      "description": "This descriptor integrates the traditional Goldschmidt tolerance factor with the octahedral stability and electrostatic charge considerations. By combining the size fit (t), octahedral stability (octahedral_factor), and charge imbalance (charge_diff), it better captures the physical conditions influencing perovskite stability, especially addressing inconsistencies arising from different anion types. This holistic approach aims to reduce overlaps and improve classification accuracy for diverse anions by explicitly considering electrostatic and geometric compatibility.",
+      "formula": "D = \\left( \\frac{r_A + r_X}{\\sqrt{2}(r_B + r_X)} \\right) \\times \\frac{r_B}{r_X} \\times \\frac{1}{1 + |n_A + n_X|}",
+      "accuracy": 0.6371527777777778,
+      "metrics": {
+        "train_accuracy": 0.6478260869565218,
+        "test_accuracy": 0.5948275862068966,
+        "false_positive_rate": 0.09125475285171103,
+        "per_anion_accuracy": {
+          "O": 0.6802168021680217,
+          "F": 0.22727272727272727,
+          "Cl": 0.647887323943662,
+          "Br": 0.7037037037037037,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy: 63.7%\nTrain accuracy: 64.8%\nTest accuracy: 59.5%\nFalse positive rate: 9.1%\nDecision thresholds: [0.1423, 0.1721, 0.2202]\nTP=128 FP=24 TN=239 FN=185\nPer-anion accuracy:\n  O: 68.0%\n  F: 22.7%\n  Cl: 64.8%\n  Br: 70.4%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/materials_research/search_runs/20260312_181037/plots/08fdccc1.png",
+      "visit_count": 1,
+      "total_reward": 0.08333333333333337,
+      "children_ids": [],
+      "depth": 1
+    },
+    "b7e1a19a": {
+      "id": "b7e1a19a",
+      "parent_id": "459e01d0",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import math\n    # Calculate classical tolerance factor\n    t = (rA + rX) / (math.sqrt(2) * (rB + rX))\n    # Calculate electrostatic difference (charge mismatch)\n    charge_diff = abs(nA + nX) / (abs(nB) + abs(nX))\n    # Determine ionic size ratio to capture fit of A cation within B-X cage\n    size_ratio = rA / rB\n    # Adjust for anion influence by considering ionic radius ratio\n    anion_effect = rX / (rA + rB + rX)\n    # Combine factors into a single descriptor emphasizing geometric fit and electrostatics\n    # Higher values indicate better fit and stability\n    return (abs(t - 1) / (1 + abs(t - 1))) + (1 / (1 + charge_diff)) + anion_effect",
+      "description": "This improved descriptor explicitly incorporates the geometric size compatibility between the A cation and the B-X cage, which is critical for perovskite stability but was underrepresented in the previous model. By including the size ratio rA/rB, it captures how well the A ion fits into the cage defined by the B-X framework, addressing issues with ions that are either too large or too small. The anion effect term accounts for the influence of different halide sizes and their impact on stability, especially for smaller or larger anions like F and I, which previous models struggled to discriminate. Combining these factors with the electrostatic charge mismatch provides a more holistic measure of the structural stability, reducing overlap between stable and unstable compounds and improving predictive accuracy across various anion types.",
+      "formula": "D = \\left( \\frac{|t - 1|}{1 + |t - 1|} \\right) + \\frac{1}{1 + \\frac{|n_A + n_X|}{|n_B| + |n_X|}} + \\frac{r_X}{r_A + r_B + r_X}",
+      "accuracy": 0.7881944444444444,
+      "metrics": {
+        "train_accuracy": 0.7847826086956522,
+        "test_accuracy": 0.8017241379310345,
+        "false_positive_rate": 0.3840304182509506,
+        "per_anion_accuracy": {
+          "O": 0.8319783197831978,
+          "F": 0.8939393939393939,
+          "Cl": 0.6056338028169014,
+          "Br": 0.5925925925925926,
+          "I": 0.6744186046511628
+        },
+        "metrics_summary": "Overall accuracy: 78.8%\nTrain accuracy: 78.5%\nTest accuracy: 80.2%\nFalse positive rate: 38.4%\nDecision thresholds: [1.2322, 1.4974, 1.5473]\nTP=292 FP=101 TN=162 FN=21\nPer-anion accuracy:\n  O: 83.2%\n  F: 89.4%\n  Cl: 60.6%\n  Br: 59.3%\n  I: 67.4%"
+      },
+      "plot_path": "/Users/shaashvatshetty/materials_research/search_runs/20260312_181037/plots/b7e1a19a.png",
+      "visit_count": 1,
+      "total_reward": 0.8333333333333334,
+      "children_ids": [],
+      "depth": 2
+    }
+  },
+  "root_children": [
+    "81c33cdd",
+    "25450d26",
+    "e364dba3",
+    "9b8826f2",
+    "01167330"
+  ],
+  "budget_used": 12,
+  "total_llm_calls": 12,
+  "debug_calls": 0
+}

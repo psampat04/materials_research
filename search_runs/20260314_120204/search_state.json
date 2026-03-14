@@ -1,0 +1,144 @@
+{
+  "nodes": {
+    "5eaacf21": {
+      "id": "5eaacf21",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import math\n    # Compute the size mismatch ratio between A and the octahedral cage formed by B and X\n    size_ratio = rA / ( (rB + rX) / 2 )\n    # Incorporate the oxidation states to weight the ionic interactions\n    charge_balance_factor = abs(nA + nB + nX) / (abs(nA) + abs(nB) + abs(nX))\n    # Calculate a composite stability indicator: the exponential of the deviation from ideal size ratio,\n    # modulated by charge balance, emphasizing optimal fit and charge neutrality\n    descriptor_value = math.exp(-abs(size_ratio - 1.0)) * (1 - charge_balance_factor)\n    return descriptor_value",
+      "description": "This descriptor assesses the fit of the A cation within the octahedral cage formed by B and X ions by comparing the A ionic radius to the average of B and X radii. Values close to 1 indicate a good size match, promoting structural stability. Incorporating the normalized total oxidation state sum penalizes deviations from charge neutrality, which is essential for stable perovskite formation. The exponential function emphasizes optimal size matching, making the descriptor sensitive to deviations that destabilize the structure.",
+      "formula": "D = \\exp\\left(-\\left| \\frac{r_A}{\\frac{r_B + r_X}{2}} - 1 \\right|\\right) \\times \\left(1 - \\frac{|n_A + n_B + n_X|}{|n_A| + |n_B| + |n_X|}\\right)",
+      "accuracy": 0.6024305555555556,
+      "metrics": {
+        "train_accuracy": 0.6,
+        "test_accuracy": 0.6120689655172413,
+        "false_positive_rate": 0.4524714828897338,
+        "per_anion_accuracy": {
+          "O": 0.5636856368563685,
+          "F": 0.803030303030303,
+          "Cl": 0.5774647887323944,
+          "Br": 0.6666666666666666,
+          "I": 0.627906976744186
+        },
+        "metrics_summary": "Overall accuracy: 60.2%\nTrain accuracy: 60.0%\nTest accuracy: 61.2%\nFalse positive rate: 45.2%\nDecision thresholds: [0.2512, 0.2571, 0.4284]\nTP=203 FP=119 TN=144 FN=110\nPer-anion accuracy:\n  O: 56.4%\n  F: 80.3%\n  Cl: 57.7%\n  Br: 66.7%\n  I: 62.8%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260314_120204/plots/5eaacf21.png",
+      "visit_count": 1,
+      "total_reward": 0.4,
+      "children_ids": [],
+      "depth": 0
+    },
+    "5998aac9": {
+      "id": "5998aac9",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate a normalized size mismatch factor based on ionic radii\n    size_mismatch = abs(rA - (rB + rX) / 2) / ((rA + rB + rX) / 3)\n    \n    # Incorporate oxidation state stability influence\n    charge_balance = abs(nA + nB + nX) / (abs(nA) + abs(nB) + abs(nX))\n    \n    # Combine size and charge factors into a single descriptor\n    descriptor_value = size_mismatch * (1 + charge_balance)\n    return descriptor_value",
+      "description": "This descriptor quantifies structural stability by measuring the relative size mismatch between the A cation and the average B-X cage size, normalized to account for overall ionic size. Additionally, it incorporates a measure of charge balance, penalizing deviations from ideal oxidation states. A lower value indicates better fit and charge compatibility, correlating with higher stability of the perovskite structure.",
+      "formula": "D = \\left| r_A - \\frac{r_B + r_X}{2} \\right| \\bigg/ \\frac{r_A + r_B + r_X}{3} \\times \\left( 1 + \\frac{| n_A + n_B + n_X |}{| n_A | + | n_B | + | n_X |} \\right)",
+      "accuracy": 0.6006944444444444,
+      "metrics": {
+        "train_accuracy": 0.5978260869565217,
+        "test_accuracy": 0.6120689655172413,
+        "false_positive_rate": 0.45627376425855515,
+        "per_anion_accuracy": {
+          "O": 0.5609756097560976,
+          "F": 0.803030303030303,
+          "Cl": 0.5774647887323944,
+          "Br": 0.6666666666666666,
+          "I": 0.627906976744186
+        },
+        "metrics_summary": "Overall accuracy: 60.1%\nTrain accuracy: 59.8%\nTest accuracy: 61.2%\nFalse positive rate: 45.6%\nDecision thresholds: [0.2203, 0.8166, 0.8400]\nTP=203 FP=120 TN=143 FN=110\nPer-anion accuracy:\n  O: 56.1%\n  F: 80.3%\n  Cl: 57.7%\n  Br: 66.7%\n  I: 62.8%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260314_120204/plots/5998aac9.png",
+      "visit_count": 1,
+      "total_reward": 0.19999999999999996,
+      "children_ids": [],
+      "depth": 0
+    },
+    "48f3d156": {
+      "id": "48f3d156",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute a modified size mismatch factor emphasizing cage fit and ionic charge\n    size_ratio_A = rA / rB\n    size_ratio_X = rX / rB\n    charge_factor = (abs(nA + nX) + abs(nB + nX)) / 2\n    # Incorporate the deviation of size ratios from an optimal value (0.8), scaled by charge\n    mismatch_A = abs(size_ratio_A - 0.8) * charge_factor\n    mismatch_X = abs(size_ratio_X - 0.8) * charge_factor\n    # Combine mismatches into a single descriptor with exponential decay to emphasize stability\n    descriptor_value = (1 / (1 + mismatch_A + mismatch_X)) * (1 + (nA + nX + nB + nX)/10)**2\n    return max(0.0, descriptor_value)",
+      "description": "This descriptor quantifies the fit of the A and X ions within the B-centered cage by measuring how their size ratios deviate from an empirically suggested optimal ratio (~0.8). It scales this mismatch by the average ionic charge sum to incorporate electrostatic considerations, emphasizing the importance of charge balance. The exponential decay form ensures that smaller mismatches (closer to ideal fit) correspond to higher stability, while larger mismatches penalize the stability score, providing a physically motivated, monotonic predictor that captures size and charge compatibility distinct from classical models.",
+      "formula": "D = \\left( \\frac{1}{1 + \\left| \\frac{r_A}{r_B} - 0.8 \\right| \\times \\frac{|n_A + n_X| + |n_B + n_X|}{2} + \\left| \\frac{r_X}{r_B} - 0.8 \\right| \\times \\frac{|n_A + n_X| + |n_B + n_X|}{2} \\right) \\times \\left( 1 + \\frac{n_A + n_X + n_B + n_X}{10} \\right)^2",
+      "accuracy": 0.6996527777777778,
+      "metrics": {
+        "train_accuracy": 0.7152173913043478,
+        "test_accuracy": 0.6379310344827587,
+        "false_positive_rate": 0.5551330798479087,
+        "per_anion_accuracy": {
+          "O": 0.8130081300813008,
+          "F": 0.8333333333333334,
+          "Cl": 0.4507042253521127,
+          "Br": 0.3333333333333333,
+          "I": 0.16279069767441862
+        },
+        "metrics_summary": "Overall accuracy: 70.0%\nTrain accuracy: 71.5%\nTest accuracy: 63.8%\nFalse positive rate: 55.5%\nDecision thresholds: [0.1886, 0.3013, 0.6864]\nTP=286 FP=146 TN=117 FN=27\nPer-anion accuracy:\n  O: 81.3%\n  F: 83.3%\n  Cl: 45.1%\n  Br: 33.3%\n  I: 16.3%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260314_120204/plots/48f3d156.png",
+      "visit_count": 1,
+      "total_reward": 0.6,
+      "children_ids": [],
+      "depth": 0
+    },
+    "10bcfe13": {
+      "id": "10bcfe13",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Novel descriptor based on the relative volumetric fit and electrostatic compatibility.\n    # Compute a size mismatch factor: the geometric mean of ionic radii ratios.\n    size_factor = (rA / rX) * (rB / rX)\n    # Compute an electrostatic charge balance factor: the product of oxidation states, normalized.\n    charge_factor = (abs(nA) * abs(nB) * abs(nX)) ** 0.5\n    # Combine factors with an exponential decay to emphasize optimal matching.\n    # The idea: optimal stability when size mismatch and charge balance are favorable.\n    value = 1.0 / (1.0 + abs(size_factor - 1.0)) * (charge_factor ** 0.2)\n    return value",
+      "description": "This descriptor captures the stability trend by combining a size mismatch term, reflecting how well the A and B cations fit within the X anion cage, with an electrostatic compatibility factor that considers the balance of oxidation states. The exponential relationship emphasizes optimal size and charge matching, promoting stability when the size ratio approaches unity and the charges are favorably balanced. Unlike traditional factors, it integrates volumetric and electrostatic considerations in a novel, multiplicative manner, providing a continuous measure of structural compatibility.",
+      "formula": "\\text{descriptor} = \\frac{1}{1 + \\left| \\frac{r_A}{r_X} \\times \\frac{r_B}{r_X} - 1 \\right|} \\times \\left( \\sqrt{ |n_A| \\times |n_B| \\times |n_X| } \\right)^{0.2}",
+      "accuracy": 0.8298611111111112,
+      "metrics": {
+        "train_accuracy": 0.8347826086956521,
+        "test_accuracy": 0.8103448275862069,
+        "false_positive_rate": 0.155893536121673,
+        "per_anion_accuracy": {
+          "O": 0.8780487804878049,
+          "F": 0.6363636363636364,
+          "Cl": 0.7746478873239436,
+          "Br": 0.7777777777777778,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy: 83.0%\nTrain accuracy: 83.5%\nTest accuracy: 81.0%\nFalse positive rate: 15.6%\nDecision thresholds: [0.6555, 0.7950, 0.8399]\nTP=256 FP=41 TN=222 FN=57\nPer-anion accuracy:\n  O: 87.8%\n  F: 63.6%\n  Cl: 77.5%\n  Br: 77.8%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260314_120204/plots/10bcfe13.png",
+      "visit_count": 1,
+      "total_reward": 1.0,
+      "children_ids": [],
+      "depth": 0
+    },
+    "86d082f6": {
+      "id": "86d082f6",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the normalized size mismatch between A and the octahedral cage\n    size_ratio = rA / rB\n    # Incorporate charge compatibility as a factor influencing stability\n    charge_factor = (abs(nA) + abs(nX)) / (abs(nB) + abs(nX))\n    # Define a combined stability indicator as the inverse of a weighted sum\n    stability_score = 1 / (abs(size_ratio - 1) + 0.1) * (1 / (charge_factor + 0.1))\n    # Return a monotonic function: higher indicates better fit and charge compatibility\n    return stability_score",
+      "description": "This descriptor assesses the stability of ABX3 perovskites by combining the size mismatch between the A cation and the B-centered octahedral cage with charge compatibility. The size ratio (rA/rB) indicates how well the A ion fits inside the cage: values near 1 suggest optimal fit, promoting stability. The charge factor accounts for the electrostatic compatibility between ions, with lower ratios indicating more favorable charge interactions. By taking the inverse of the sum of deviations, the descriptor increases with better size matching and charge compatibility, providing a single monotonic measure of potential stability that is distinct from classical geometric or purely ionic descriptors.",
+      "formula": "def descriptor(rA, rB, rX, nA, nB, nX):\n    size_ratio = rA / rB\n    charge_factor = (abs(nA) + abs(nX)) / (abs(nB) + abs(nX))\n    stability_score = 1 / (abs(size_ratio - 1) + 0.1) * (1 / (charge_factor + 0.1))\n    return stability_score",
+      "accuracy": 0.7621527777777778,
+      "metrics": {
+        "train_accuracy": 0.7521739130434782,
+        "test_accuracy": 0.8017241379310345,
+        "false_positive_rate": 0.4866920152091255,
+        "per_anion_accuracy": {
+          "O": 0.8346883468834688,
+          "F": 0.8787878787878788,
+          "Cl": 0.6056338028169014,
+          "Br": 0.5925925925925926,
+          "I": 0.32558139534883723
+        },
+        "metrics_summary": "Overall accuracy: 76.2%\nTrain accuracy: 75.2%\nTest accuracy: 80.2%\nFalse positive rate: 48.7%\nDecision thresholds: [0.6472, 2.1638, 3.3960]\nTP=304 FP=128 TN=135 FN=9\nPer-anion accuracy:\n  O: 83.5%\n  F: 87.9%\n  Cl: 60.6%\n  Br: 59.3%\n  I: 32.6%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260314_120204/plots/86d082f6.png",
+      "visit_count": 1,
+      "total_reward": 0.8,
+      "children_ids": [],
+      "depth": 0
+    }
+  },
+  "root_children": [
+    "5eaacf21",
+    "5998aac9",
+    "48f3d156",
+    "10bcfe13",
+    "86d082f6"
+  ],
+  "budget_used": 5,
+  "total_llm_calls": 5,
+  "debug_calls": 0
+}

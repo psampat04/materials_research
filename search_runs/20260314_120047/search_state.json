@@ -1,0 +1,63 @@
+{
+  "nodes": {
+    "d39489e0": {
+      "id": "d39489e0",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute a combined size mismatch factor that emphasizes how well the A-site cation fits into the cage formed by B and X.\n    # Incorporate the oxidation states to account for charge balance influence.\n    # Use a logarithmic and exponential combination to introduce nonlinearity.\n    size_ratio_A = rA / (rB + rX)\n    size_ratio_BX = (rB + rX) / max(rA, 1e-6)\n    charge_factor = abs(nA + nX + nB) / (abs(nA) + abs(nX) + abs(nB) + 1e-6)\n    # The descriptor combines these with a nonlinear transformation to reflect stability tendency.\n    value = (size_ratio_A * size_ratio_BX * charge_factor) ** 2 + 1\n    return value\n",
+      "description": "This descriptor quantifies the fit of the A cation within the B-X cage by examining the ratio of the A ionic radius to the combined B and X radii, emphasizing size compatibility. It also incorporates the relative charge balance through the sum of oxidation states, which influences electrostatic stability. The use of nonlinear transformations (logarithms and exponents) captures complex interactions beyond simple linear metrics, aiming to correlate larger values with increased stability in a monotonic manner.",
+      "formula": "D = \\left( \\frac{r_A}{r_B + r_X} \\times \\frac{r_B + r_X}{\\max(r_A, 1e-6)} \\times \\frac{|n_A + n_X + n_B|}{|n_A| + |n_X| + |n_B| + 1e-6} \\right)^2 + 1",
+      "accuracy": 0.5434027777777778,
+      "metrics": {
+        "train_accuracy": 0.5260869565217391,
+        "test_accuracy": 0.6120689655172413,
+        "false_positive_rate": 1.0,
+        "per_anion_accuracy": {
+          "O": 0.6287262872628726,
+          "F": 0.7727272727272727,
+          "Cl": 0.2535211267605634,
+          "Br": 0.18518518518518517,
+          "I": 0.16279069767441862
+        },
+        "metrics_summary": "Overall accuracy: 54.3%\nTrain accuracy: 52.6%\nTest accuracy: 61.2%\nFalse positive rate: 100.0%\nDecision thresholds: []\nTP=313 FP=263 TN=0 FN=0\nPer-anion accuracy:\n  O: 62.9%\n  F: 77.3%\n  Cl: 25.4%\n  Br: 18.5%\n  I: 16.3%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260314_120047/plots/d39489e0.png",
+      "visit_count": 1,
+      "total_reward": 0.5,
+      "children_ids": [],
+      "depth": 0
+    },
+    "719369cd": {
+      "id": "719369cd",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import math\n    # Compute the size mismatch factor between A and the BX cage\n    size_mismatch = abs(rA - (rB + rX) / 2)\n    # Compute the charge ratio factor to account for electrostatic compatibility\n    charge_ratio = abs(nA) / abs(nX)\n    # Combine into a single descriptor: smaller mismatch and balanced charge ratio favor stability\n    stability_score = 1 / (1 + size_mismatch * charge_ratio)\n    return stability_score",
+      "description": "This descriptor captures the stability tendency by combining the size compatibility between the A cation and the B-X cage with electrostatic considerations. A smaller size mismatch indicates a better fit of A inside the cage, promoting stability. The charge ratio reflects electrostatic complementarity; balanced charges enhance structural integrity. The inverse relationship ensures that as mismatch or charge imbalance increases, the stability score decreases, making the descriptor monotonic with stability.",
+      "formula": "S = \\frac{1}{1 + \\left| r_A - \\frac{r_B + r_X}{2} \\right| \\times \\frac{\\left| n_A \\right|}{\\left| n_X \\right|}}",
+      "accuracy": 0.5885416666666666,
+      "metrics": {
+        "train_accuracy": 0.5760869565217391,
+        "test_accuracy": 0.6379310344827587,
+        "false_positive_rate": 0.8060836501901141,
+        "per_anion_accuracy": {
+          "O": 0.6368563685636857,
+          "F": 0.803030303030303,
+          "Cl": 0.36619718309859156,
+          "Br": 0.37037037037037035,
+          "I": 0.3488372093023256
+        },
+        "metrics_summary": "Overall accuracy: 58.9%\nTrain accuracy: 57.6%\nTest accuracy: 63.8%\nFalse positive rate: 80.6%\nDecision thresholds: [0.5671, 0.9379, 0.9412]\nTP=288 FP=212 TN=51 FN=25\nPer-anion accuracy:\n  O: 63.7%\n  F: 80.3%\n  Cl: 36.6%\n  Br: 37.0%\n  I: 34.9%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260314_120047/plots/719369cd.png",
+      "visit_count": 1,
+      "total_reward": 1.0,
+      "children_ids": [],
+      "depth": 0
+    }
+  },
+  "root_children": [
+    "d39489e0",
+    "719369cd"
+  ],
+  "budget_used": 2,
+  "total_llm_calls": 2,
+  "debug_calls": 0
+}
