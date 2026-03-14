@@ -24,10 +24,14 @@ class Proposal:
     formula: str
 
 
-def _build_proposal(data: dict) -> Proposal:
+def _build_proposal(data: dict, client: LLMClient | None = None) -> Proposal:
     missing = [k for k in ("function", "explanation", "formula") if k not in data]
     if missing:
         raise ValueError(f"LLM JSON missing keys: {missing}; got: {list(data.keys())}")
+    formula = data.get("formula")
+    if not formula and client is not None:
+        log.warning("LLM JSON missing 'formula' — requesting it separately")
+        formula = _recover_formula(client, data["function"])
     return Proposal(
         function=data["function"],
         explanation=data["explanation"],
@@ -72,3 +76,13 @@ def propose_improvement(
         images.append(plot_image)
     data = client.query_json(messages, images=images if images else None)
     return _build_proposal(data)
+
+def _recover_formula(client: LLMClient, function_code: str) -> str:
+    messages = [
+        {"role": "system", "content": "You are a materials science expert."},
+        {"role": "user", "content": (
+            f"Given this Python descriptor function:\n```python\n{function_code}\n```\n"
+            "Write the equivalent LaTeX formula. Output ONLY the LaTeX string, nothing else."
+        )},
+    ]
+    return client.query_text(messages)
