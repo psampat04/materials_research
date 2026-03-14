@@ -25,6 +25,9 @@ class Proposal:
 
 
 def _build_proposal(data: dict) -> Proposal:
+    missing = [k for k in ("function", "explanation", "formula") if k not in data]
+    if missing:
+        raise ValueError(f"LLM JSON missing keys: {missing}; got: {list(data.keys())}")
     return Proposal(
         function=data["function"],
         explanation=data["explanation"],

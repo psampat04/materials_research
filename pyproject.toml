@@ -13,6 +13,7 @@ dependencies = [
     "hydra-core>=1.3.0",
     "python-dotenv>=1.0.0",
     "Pillow>=10.0.0",
+    "graphviz>=0.21",
 ]
 
 [project.optional-dependencies]
