@@ -76,6 +76,7 @@ def _try_evaluate(
     cfg,
 ):
     """Try to evaluate a function, with one debug attempt on failure."""
+    cv_folds = getattr(cfg.eval, "cv_folds", 5)
     result = evaluate_candidate(
         code,
         df,
@@ -83,6 +84,7 @@ def _try_evaluate(
         node_id,
         decision_tree_max_depth=cfg.eval.decision_tree_max_depth,
         train_split_label=cfg.eval.train_split_label,
+        cv_folds=cv_folds,
     )
 
     if not result.error:
@@ -99,6 +101,7 @@ def _try_evaluate(
         node_id,
         decision_tree_max_depth=cfg.eval.decision_tree_max_depth,
         train_split_label=cfg.eval.train_split_label,
+        cv_folds=cv_folds,
     )
     if not result2.error:
         return result2, fixed_code
@@ -118,6 +121,9 @@ def _result_to_node(
         metrics={
             "train_accuracy": result.train_accuracy,
             "test_accuracy": result.test_accuracy,
+            "cv_accuracy": result.cv_accuracy,
+            "cv_std": result.cv_std,
+            "cv_fold_scores": result.cv_fold_scores,
             "false_positive_rate": result.false_positive_rate,
             "per_anion_accuracy": result.per_anion_accuracy,
             "metrics_summary": result.metrics_summary,
