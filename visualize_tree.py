@@ -19,14 +19,14 @@ def truncate(text: str, max_len: int = 60) -> str:
 
 def accuracy_color(test_acc: float) -> str:
     if test_acc >= 0.80:
-        return "#2ecc71"
+        return "#00AA44"  # vivid green
     if test_acc >= 0.75:
-        return "#a8e6cf"
+        return "#66CC55"  # bright lime-green
     if test_acc >= 0.70:
-        return "#ffeaa7"
+        return "#FFD700"  # gold yellow
     if test_acc >= 0.65:
-        return "#fdcb6e"
-    return "#e17055"
+        return "#FF8800"  # bright orange
+    return "#DD1100"      # strong red
 
 
 def build_tree(state_path: str, output_path: str | None = None):
@@ -70,7 +70,8 @@ def build_tree(state_path: str, output_path: str | None = None):
         )
 
         color = accuracy_color(test_acc)
-        dot.node(nid, label, fillcolor=color)
+        fontcolor = "white" if test_acc >= 0.80 or test_acc < 0.65 else "black"
+        dot.node(nid, label, fillcolor=color, fontcolor=fontcolor)
 
     for rid in root_children:
         node = nodes[rid]
@@ -90,9 +91,29 @@ def build_tree(state_path: str, output_path: str | None = None):
     print(f"Tree saved to {output_path}.png")
 
 
+def build_all_trees(search_runs_dir: str = "search_runs"):
+    """Find every search_state.json under search_runs/ and generate a tree."""
+    runs_path = Path(search_runs_dir)
+    if not runs_path.is_dir():
+        sys.exit(f"Directory not found: {runs_path}")
+
+    state_files = sorted(runs_path.rglob("search_state.json"))
+    if not state_files:
+        sys.exit(f"No search_state.json files found under {runs_path}")
+
+    print(f"Found {len(state_files)} search state(s)\n")
+    for sf in state_files:
+        print(f"  → {sf}")
+        build_tree(str(sf))
+    print(f"\nDone – generated {len(state_files)} tree(s).")
+
+
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python visualize_tree.py <search_state.json> [output_path]")
-        sys.exit(1)
-    out = sys.argv[2] if len(sys.argv) > 2 else None
-    build_tree(sys.argv[1], out)
+    if len(sys.argv) >= 2 and sys.argv[1].endswith(".json"):
+        # Single-file mode (original behavior)
+        out = sys.argv[2] if len(sys.argv) > 2 else None
+        build_tree(sys.argv[1], out)
+    else:
+        # Batch mode: iterate all search_runs
+        runs_dir = sys.argv[1] if len(sys.argv) >= 2 else "search_runs"
+        build_all_trees(runs_dir)

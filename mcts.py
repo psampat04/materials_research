@@ -268,7 +268,7 @@ def run_mcts(
                 selected.id,
                 selected.depth,
             )
-            break
+            continue
 
         state.save(state_save_path)
 

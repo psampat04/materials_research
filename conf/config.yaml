@@ -6,8 +6,8 @@ llm:
 mcts:
   budget: 50
   initial_samples: 5
-  ucb_constant: 1.41
-  max_depth: 5
+  ucb_constant: 1.0575
+  max_depth: 10
   max_children_per_node: 10
 
 eval:
