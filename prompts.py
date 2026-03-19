@@ -21,32 +21,35 @@ Available inputs (all floats):
 
 Physical context:
 - The classical Goldschmidt tolerance factor is t = (rA + rX) / (sqrt(2) * (rB + rX))
+- Simple size-ratio descriptors (including any monotonic transformation of Goldschmidt) are already well-studied. Your descriptor must capture effects BEYOND simple size-ratio matching — e.g., charge-dependent bonding, electronegativity mismatch, coordination preferences, or other physical mechanisms.
 
 Requirements:
 - The function must be named `descriptor` with signature: def descriptor(rA, rB, rX, nA, nB, nX)
 - Return a single finite float value (1-dimensional descriptor)
 - The descriptor should be monotonic with respect to stability (either higher = more stable or lower = more stable)
+- Keep the formula SIMPLE: ideally a single algebraic expression with at most 3-4 arithmetic operations. A good descriptor is one a physicist could write on a napkin. Complexity is NOT creativity.
 
-Output format — a JSON object with three keys:
+Output format — a JSON object with two keys:
 ```json
 {
   "function": "def descriptor(rA, rB, rX, nA, nB, nX):\\n    ...",
-  "explanation": "Brief explanation of the physical reasoning behind this descriptor.",
-  "formula": "LaTeX formula, e.g. t = \\\\frac{r_A + r_X}{\\\\sqrt{2}(r_B + r_X)}"
+  "explanation": "Brief explanation of the physical reasoning behind this descriptor."
 }
 ```
+Do NOT include a LaTeX formula — only the JSON with "function" and "explanation".
 Output ONLY the JSON, no other text.
 """.strip()
 
 INITIAL_PROMPT_TEMPLATE = """
 {problem_desc}
 
-Propose a novel descriptor formula. Be creative and try something genuinely new.
+Propose a novel descriptor formula.
 
 STRICT RULES — violating any of these will make your answer invalid:
-- Do NOT reproduce the classical Goldschmidt tolerance factor: t = (rA + rX) / (sqrt(2) * (rB + rX))
+- Do NOT reproduce the classical Goldschmidt tolerance factor or ANY monotonic transformation of it (e.g., wrapping (rA + rX)/(rB + rX) in exp, log, tanh, or multiplying by a constant still counts as Goldschmidt).
 - Do NOT reproduce the Bartel tau factor: tau = (rX / rB) - nA * (nA - (rA / rB) / ln(rA / rB))
-- Your descriptor must use a meaningfully different functional form from both of the above.
+- Your descriptor must capture physics BEYOND simple ionic size ratios — use oxidation states, charge-radius coupling, or other physical mechanisms.
+- Keep it simple: 3-4 operations max. No nested exp/log/tanh wrappers.
 
 Output ONLY the JSON, no other text.
 """.strip()
@@ -55,7 +58,6 @@ IMPROVEMENT_PROMPT_TEMPLATE = """
 {problem_desc}
 
 The previous descriptor was:
-- Formula: {parent_formula}
 - Explanation: {parent_explanation}
 - Function:
 ```python
@@ -75,13 +77,26 @@ Analyze what the previous descriptor gets wrong:
 Propose an IMPROVED descriptor that addresses these weaknesses.
 
 STRICT RULES — violating any of these will make your answer invalid:
-- Do NOT reproduce the classical Goldschmidt tolerance factor: t = (rA + rX) / (sqrt(2) * (rB + rX))
+- Do NOT reproduce the classical Goldschmidt tolerance factor or ANY monotonic transformation of it (e.g., wrapping (rA + rX)/(rB + rX) in exp, log, tanh, or multiplying by a constant still counts as Goldschmidt).
 - Do NOT reproduce the Bartel tau factor: tau = (rX / rB) - nA * (nA - (rA / rB) / ln(rA / rB))
-- Your new descriptor must have a DIFFERENT functional form from the parent descriptor shown above — different mathematical structure, not just rescaled or rearranged versions of it.
-- Do NOT simply rename variables or add a constant offset/scaling to the parent formula.
-- Make a genuinely meaningful change: introduce new physical terms, combine variables in a new way, or use a completely different physical rationale.
+- Your new descriptor must have a DIFFERENT functional form from the parent — not just rescaled, rearranged, or wrapped in a nonlinear function.
+- Your descriptor must capture physics BEYOND simple ionic size ratios — use oxidation states, charge-radius coupling, or other physical mechanisms.
+- Keep it simple: 3-4 operations max. No nested exp/log/tanh wrappers. A good descriptor fits on a napkin.
 
 Output ONLY the JSON, no other text.
+""".strip()
+
+LATEX_PROMPT_TEMPLATE = """
+Convert the following Python descriptor function into a single LaTeX formula.
+
+```python
+{code}
+```
+
+Rules:
+- The LaTeX must be an EXACT mathematical representation of what the code computes — no simplifications, no approximations.
+- Use standard notation: r_A, r_B, r_X for radii and n_A, n_B, n_X for oxidation states.
+- Output ONLY the raw LaTeX string (e.g. \\frac{{r_A + r_X}}{{r_B + r_X}}), no other text, no $$ delimiters.
 """.strip()
 
 DEBUG_PROMPT_TEMPLATE = """

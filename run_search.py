@@ -12,12 +12,13 @@ from omegaconf import DictConfig
 from evaluator import load_dataset
 from llm_client import LLMClient
 from mcts import run_mcts
+from proposer import derive_latex
 from state import SearchState
 
 log = logging.getLogger(__name__)
 
 
-def _print_top_formulas(state: SearchState, k: int = 10) -> None:
+def _print_top_formulas(state: SearchState, client: LLMClient, k: int = 10) -> None:
     top = state.top_k(k)
     print("\n" + "=" * 70)
     print(f"Top {min(k, len(top))} formulas by accuracy")
@@ -29,8 +30,10 @@ def _print_top_formulas(state: SearchState, k: int = 10) -> None:
         if per_anion:
             anion_str = ", ".join(f"{a}={v:.0%}" for a, v in per_anion.items())
             print(f"  Per-anion: {anion_str}")
-        if node.formula:
-            print(f"  Formula: {node.formula}")
+        # Derive LaTeX from the code so it's guaranteed to match
+        latex = derive_latex(client, node.code)
+        node.formula = latex
+        print(f"  Formula: {latex}")
         if node.description:
             print(f"  Explanation: {node.description}")
         print(f"  Code:\n{_indent(node.code, 4)}")
@@ -75,7 +78,8 @@ def main(cfg: DictConfig) -> None:
 
     state = run_mcts(client, state, df, plot_dir, cfg, state_save_path=state_save_path)
 
-    _print_top_formulas(state)
+    _print_top_formulas(state, client)
+    state.save(state_save_path)
 
     print(f"\nSearch complete. Budget used: {state.budget_used}/{cfg.mcts.budget}")
     print(f"Total LLM calls: {state.total_llm_calls} (debug: {state.debug_calls})")

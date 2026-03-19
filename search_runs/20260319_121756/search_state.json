@@ -1,0 +1,1833 @@
+{
+  "nodes": {
+    "976a4f4d": {
+      "id": "976a4f4d",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA - nX * rX) + abs(nB * rB - nX * rX)) / (rA + rB + rX)",
+      "description": "This descriptor measures the mismatch between the ionic radius scaled by oxidation state (reflecting effective charge density) for A and X, as well as B and X, capturing how well the ionic sizes and charges complement each other to stabilize the structure. Smaller values suggest better charge-size compatibility, which promotes stability beyond simple size ratios.",
+      "formula": "",
+      "accuracy": 0.6474662668665666,
+      "metrics": {
+        "train_accuracy": 0.6760869565217391,
+        "test_accuracy": 0.6379310344827587,
+        "cv_accuracy": 0.6474662668665666,
+        "cv_std": 0.030406867501673637,
+        "cv_fold_scores": [
+          0.7068965517241379,
+          0.6260869565217392,
+          0.6347826086956522,
+          0.6434782608695652,
+          0.6260869565217392
+        ],
+        "false_positive_rate": 0.33079847908745247,
+        "per_anion_accuracy": {
+          "O": 0.7018970189701897,
+          "F": 0.22727272727272727,
+          "Cl": 0.7464788732394366,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 66.8%\nTrain accuracy: 67.6%\nTest accuracy: 63.8%\nCV accuracy (5 fold): 64.7% \u00b1 3.0%  [70.7%, 62.6%, 63.5%, 64.3%, 62.6%]\nFalse positive rate: 33.1%\nDecision thresholds: [3.1248]\nTP=209 FP=87 TN=176 FN=104\nPer-anion accuracy:\n  O: 70.2%\n  F: 22.7%\n  Cl: 74.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/976a4f4d.png",
+      "visit_count": 7,
+      "total_reward": 3.5,
+      "children_ids": [
+        "8bfb0a23",
+        "34f383f7",
+        "0ba3fd44"
+      ],
+      "depth": 0
+    },
+    "ee6b9b1c": {
+      "id": "ee6b9b1c",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (nA * rA + nX * rX) / (abs(nB) * rB + rX)",
+      "description": "This descriptor combines ionic size with oxidation state effects, capturing the influence of charge coupling on stability. The numerator emphasizes the A-site's charge-radius product, reflecting its bonding strength and fit within the cage, while the denominator accounts for B-site charge and size, balancing the overall electrostatic and geometric compatibility beyond simple size ratios.",
+      "formula": "\\frac{n_A r_A + n_X r_X}{|n_B| r_B + r_X}",
+      "accuracy": 0.755247376311844,
+      "metrics": {
+        "train_accuracy": 0.7804347826086957,
+        "test_accuracy": 0.6810344827586207,
+        "cv_accuracy": 0.755247376311844,
+        "cv_std": 0.01620314452419824,
+        "cv_fold_scores": [
+          0.7327586206896551,
+          0.7565217391304347,
+          0.7565217391304347,
+          0.7478260869565218,
+          0.782608695652174
+        ],
+        "false_positive_rate": 0.4296577946768061,
+        "per_anion_accuracy": {
+          "O": 0.8130081300813008,
+          "F": 0.803030303030303,
+          "Cl": 0.4788732394366197,
+          "Br": 0.4444444444444444,
+          "I": 0.9069767441860465
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 76.0%\nTrain accuracy: 78.0%\nTest accuracy: 68.1%\nCV accuracy (5 fold): 75.5% \u00b1 1.6%  [73.3%, 75.7%, 75.7%, 74.8%, 78.3%]\nFalse positive rate: 43.0%\nDecision thresholds: [-0.0786]\nTP=288 FP=113 TN=150 FN=25\nPer-anion accuracy:\n  O: 81.3%\n  F: 80.3%\n  Cl: 47.9%\n  Br: 44.4%\n  I: 90.7%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/ee6b9b1c.png",
+      "visit_count": 17,
+      "total_reward": 14.28,
+      "children_ids": [
+        "d63b6d0b",
+        "7f03d563",
+        "4d4cec81"
+      ],
+      "depth": 0
+    },
+    "d4fa3940": {
+      "id": "d4fa3940",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA - nB * rB) + abs(nX * rX - nB * rB)) / (rA + rX + rB)",
+      "description": "This descriptor combines ionic radii and oxidation states to capture the mismatch between charge-scaled sizes of cations and anions. It reflects how well the ionic sizes and charges complement each other, influencing bonding strength and structural stability beyond simple size ratios. Larger mismatches indicate less optimal charge-size compatibility, reducing stability.",
+      "formula": "",
+      "accuracy": 0.633568215892054,
+      "metrics": {
+        "train_accuracy": 0.6369565217391304,
+        "test_accuracy": 0.6293103448275862,
+        "cv_accuracy": 0.633568215892054,
+        "cv_std": 0.03372694929154885,
+        "cv_fold_scores": [
+          0.6982758620689655,
+          0.6086956521739131,
+          0.6173913043478261,
+          0.6347826086956522,
+          0.6086956521739131
+        ],
+        "false_positive_rate": 0.22433460076045628,
+        "per_anion_accuracy": {
+          "O": 0.6504065040650406,
+          "F": 0.22727272727272727,
+          "Cl": 0.7464788732394366,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 63.5%\nTrain accuracy: 63.7%\nTest accuracy: 62.9%\nCV accuracy (5 fold): 63.4% \u00b1 3.4%  [69.8%, 60.9%, 61.7%, 63.5%, 60.9%]\nFalse positive rate: 22.4%\nDecision thresholds: [1.8952]\nTP=162 FP=59 TN=204 FN=151\nPer-anion accuracy:\n  O: 65.0%\n  F: 22.7%\n  Cl: 74.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/d4fa3940.png",
+      "visit_count": 4,
+      "total_reward": 1.2000000000000002,
+      "children_ids": [
+        "9626b8a2",
+        "57b96ed6",
+        "5a982898"
+      ],
+      "depth": 0
+    },
+    "863de9b8": {
+      "id": "863de9b8",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (nA * rA + nB * rB + nX * rX) / (abs(nA) + abs(nB) + abs(nX))",
+      "description": "This descriptor combines ionic radii weighted by their oxidation states, capturing the overall charge-driven size compatibility. A higher value suggests better electrostatic fit and bonding, beyond mere size ratios, reflecting the balance of charge and size that stabilizes the perovskite structure.",
+      "formula": "",
+      "accuracy": 0.7500299850074963,
+      "metrics": {
+        "train_accuracy": 0.7565217391304347,
+        "test_accuracy": 0.7241379310344828,
+        "cv_accuracy": 0.7500299850074963,
+        "cv_std": 0.01725217053597751,
+        "cv_fold_scores": [
+          0.7327586206896551,
+          0.7739130434782608,
+          0.7478260869565218,
+          0.7652173913043478,
+          0.7304347826086957
+        ],
+        "false_positive_rate": 0.5057034220532319,
+        "per_anion_accuracy": {
+          "O": 0.8915989159891599,
+          "F": 0.7727272727272727,
+          "Cl": 0.4225352112676056,
+          "Br": 0.2962962962962963,
+          "I": 0.32558139534883723
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 75.0%\nTrain accuracy: 75.7%\nTest accuracy: 72.4%\nCV accuracy (5 fold): 75.0% \u00b1 1.7%  [73.3%, 77.4%, 74.8%, 76.5%, 73.0%]\nFalse positive rate: 50.6%\nDecision thresholds: [0.2413]\nTP=302 FP=133 TN=130 FN=11\nPer-anion accuracy:\n  O: 89.2%\n  F: 77.3%\n  Cl: 42.3%\n  Br: 29.6%\n  I: 32.6%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/863de9b8.png",
+      "visit_count": 11,
+      "total_reward": 7.92,
+      "children_ids": [
+        "f6975dd2",
+        "c4e42a05",
+        "b18d3196"
+      ],
+      "depth": 0
+    },
+    "bd658869": {
+      "id": "bd658869",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (nA * rA + nB * rB + nX * rX) / (abs(nA) + abs(nB) + abs(nX))",
+      "description": "This descriptor combines ionic radii weighted by their oxidation states, capturing the overall electrostatic balance and charge distribution in the structure. It reflects how well the combined charge-radius environment supports perovskite stability, beyond mere size ratios, by considering the influence of oxidation states on bonding strength and lattice compatibility.",
+      "formula": "",
+      "accuracy": 0.7500299850074963,
+      "metrics": {
+        "train_accuracy": 0.7565217391304347,
+        "test_accuracy": 0.7241379310344828,
+        "cv_accuracy": 0.7500299850074963,
+        "cv_std": 0.01725217053597751,
+        "cv_fold_scores": [
+          0.7327586206896551,
+          0.7739130434782608,
+          0.7478260869565218,
+          0.7652173913043478,
+          0.7304347826086957
+        ],
+        "false_positive_rate": 0.5057034220532319,
+        "per_anion_accuracy": {
+          "O": 0.8915989159891599,
+          "F": 0.7727272727272727,
+          "Cl": 0.4225352112676056,
+          "Br": 0.2962962962962963,
+          "I": 0.32558139534883723
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 75.0%\nTrain accuracy: 75.7%\nTest accuracy: 72.4%\nCV accuracy (5 fold): 75.0% \u00b1 1.7%  [73.3%, 77.4%, 74.8%, 76.5%, 73.0%]\nFalse positive rate: 50.6%\nDecision thresholds: [0.2413]\nTP=302 FP=133 TN=130 FN=11\nPer-anion accuracy:\n  O: 89.2%\n  F: 77.3%\n  Cl: 42.3%\n  Br: 29.6%\n  I: 32.6%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/bd658869.png",
+      "visit_count": 11,
+      "total_reward": 7.86,
+      "children_ids": [
+        "61d71c24",
+        "4a63f377",
+        "7e6528f9"
+      ],
+      "depth": 0
+    },
+    "d63b6d0b": {
+      "id": "d63b6d0b",
+      "parent_id": "ee6b9b1c",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (rA * nA + rX * abs(nX)) / (rB * abs(nB) + abs(nX))",
+      "description": "This descriptor combines ionic size and oxidation state effects to reflect the electrostatic and bonding preferences beyond simple size ratios. The numerator emphasizes the charge-weighted size of the A-site cation, indicating how well it fits the cage considering its charge. The denominator accounts for the B-site's size and charge, balancing electrostatic interactions. This captures charge coupling and preferences affecting stability, addressing weaknesses in size-only descriptors.",
+      "formula": "",
+      "accuracy": 0.6111544227886057,
+      "metrics": {
+        "train_accuracy": 0.591304347826087,
+        "test_accuracy": 0.7155172413793104,
+        "cv_accuracy": 0.6111544227886057,
+        "cv_std": 0.015694967550478982,
+        "cv_fold_scores": [
+          0.5862068965517241,
+          0.6086956521739131,
+          0.6173913043478261,
+          0.6347826086956522,
+          0.6086956521739131
+        ],
+        "false_positive_rate": 0.8250950570342205,
+        "per_anion_accuracy": {
+          "O": 0.6747967479674797,
+          "F": 0.8484848484848485,
+          "Cl": 0.4084507042253521,
+          "Br": 0.4444444444444444,
+          "I": 0.20930232558139536
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 61.6%\nTrain accuracy: 59.1%\nTest accuracy: 71.6%\nCV accuracy (5 fold): 61.1% \u00b1 1.6%  [58.6%, 60.9%, 61.7%, 63.5%, 60.9%]\nFalse positive rate: 82.5%\nDecision thresholds: [1.9100]\nTP=309 FP=217 TN=46 FN=4\nPer-anion accuracy:\n  O: 67.5%\n  F: 84.8%\n  Cl: 40.8%\n  Br: 44.4%\n  I: 20.9%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/d63b6d0b.png",
+      "visit_count": 2,
+      "total_reward": 0.32000000000000006,
+      "children_ids": [
+        "b3e1534c"
+      ],
+      "depth": 1
+    },
+    "f6975dd2": {
+      "id": "f6975dd2",
+      "parent_id": "863de9b8",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX) / (abs(nA) + abs(nX))",
+      "description": "This descriptor combines ionic radii weighted by the magnitude of their oxidation states to reflect the electrostatic and charge distribution effects that influence structural stability. It emphasizes the influence of charge magnitude on size compatibility, capturing charge-driven polarization or covalency effects beyond simple size ratios, thus improving stability prediction for diverse ABX3 compounds.",
+      "formula": "",
+      "accuracy": 0.6181109445277362,
+      "metrics": {
+        "train_accuracy": 0.65,
+        "test_accuracy": 0.6810344827586207,
+        "cv_accuracy": 0.6181109445277362,
+        "cv_std": 0.020879213334442183,
+        "cv_fold_scores": [
+          0.5862068965517241,
+          0.6173913043478261,
+          0.6521739130434783,
+          0.6173913043478261,
+          0.6173913043478261
+        ],
+        "false_positive_rate": 0.6083650190114068,
+        "per_anion_accuracy": {
+          "O": 0.6341463414634146,
+          "F": 0.696969696969697,
+          "Cl": 0.6056338028169014,
+          "Br": 0.7407407407407407,
+          "I": 0.813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 65.6%\nTrain accuracy: 65.0%\nTest accuracy: 68.1%\nCV accuracy (5 fold): 61.8% \u00b1 2.1%  [58.6%, 61.7%, 65.2%, 61.7%, 61.7%]\nFalse positive rate: 60.8%\nDecision thresholds: [1.5350]\nTP=275 FP=160 TN=103 FN=38\nPer-anion accuracy:\n  O: 63.4%\n  F: 69.7%\n  Cl: 60.6%\n  Br: 74.1%\n  I: 81.4%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/f6975dd2.png",
+      "visit_count": 2,
+      "total_reward": 0.52,
+      "children_ids": [
+        "374fa21f"
+      ],
+      "depth": 1
+    },
+    "61d71c24": {
+      "id": "61d71c24",
+      "parent_id": "bd658869",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA) + abs(nX * rX) - abs(nB * rB))",
+      "description": "This descriptor combines ionic radii weighted by their oxidation states to account for charge-driven effects like electrostatic attraction and covalent bonding tendencies, emphasizing the charge-radius coupling. It captures the balance of electrostatic forces influencing stability, addressing limitations of size-only ratios by incorporating oxidation state effects on lattice stabilization.",
+      "formula": "",
+      "accuracy": 0.6318590704647675,
+      "metrics": {
+        "train_accuracy": 0.6543478260869565,
+        "test_accuracy": 0.5603448275862069,
+        "cv_accuracy": 0.6318590704647675,
+        "cv_std": 0.03537030009918435,
+        "cv_fold_scores": [
+          0.6810344827586207,
+          0.6260869565217392,
+          0.6521739130434783,
+          0.5739130434782609,
+          0.6260869565217392
+        ],
+        "false_positive_rate": 0.1482889733840304,
+        "per_anion_accuracy": {
+          "O": 0.6720867208672087,
+          "F": 0.22727272727272727,
+          "Cl": 0.704225352112676,
+          "Br": 0.6666666666666666,
+          "I": 0.813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 63.5%\nTrain accuracy: 65.4%\nTest accuracy: 56.0%\nCV accuracy (5 fold): 63.2% \u00b1 3.5%  [68.1%, 62.6%, 65.2%, 57.4%, 62.6%]\nFalse positive rate: 14.8%\nDecision thresholds: [3.9650]\nTP=142 FP=39 TN=224 FN=171\nPer-anion accuracy:\n  O: 67.2%\n  F: 22.7%\n  Cl: 70.4%\n  Br: 66.7%\n  I: 81.4%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/61d71c24.png",
+      "visit_count": 2,
+      "total_reward": 0.56,
+      "children_ids": [
+        "f7e52970"
+      ],
+      "depth": 1
+    },
+    "8bfb0a23": {
+      "id": "8bfb0a23",
+      "parent_id": "976a4f4d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA - nX * rX) - abs(nB * rB - nX * rX)) / (rA + rB + rX)",
+      "description": "This descriptor captures the charge-dependent mismatch between the A and X ions relative to the B and X ions. It emphasizes the relative difference in effective charge densities (size scaled by oxidation states), highlighting how well the A cation's charge-radius coupling complements the B-X pairing. Larger positive values suggest better charge-size complementarity and increased stability, addressing the physical effects of charge mismatch beyond simple size ratios.",
+      "formula": "",
+      "accuracy": 0.6162968515742129,
+      "metrics": {
+        "train_accuracy": 0.6478260869565218,
+        "test_accuracy": 0.6120689655172413,
+        "cv_accuracy": 0.6162968515742129,
+        "cv_std": 0.01897150737101688,
+        "cv_fold_scores": [
+          0.6293103448275862,
+          0.6173913043478261,
+          0.6434782608695652,
+          0.6,
+          0.591304347826087
+        ],
+        "false_positive_rate": 0.6768060836501901,
+        "per_anion_accuracy": {
+          "O": 0.6829268292682927,
+          "F": 0.8484848484848485,
+          "Cl": 0.4788732394366197,
+          "Br": 0.48148148148148145,
+          "I": 0.32558139534883723
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 64.1%\nTrain accuracy: 64.8%\nTest accuracy: 61.2%\nCV accuracy (5 fold): 61.6% \u00b1 1.9%  [62.9%, 61.7%, 64.3%, 60.0%, 59.1%]\nFalse positive rate: 67.7%\nDecision thresholds: [-0.1114]\nTP=284 FP=178 TN=85 FN=29\nPer-anion accuracy:\n  O: 68.3%\n  F: 84.8%\n  Cl: 47.9%\n  Br: 48.1%\n  I: 32.6%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/8bfb0a23.png",
+      "visit_count": 3,
+      "total_reward": 0.6599999999999999,
+      "children_ids": [
+        "63890bf2",
+        "17d6cbb2"
+      ],
+      "depth": 1
+    },
+    "9626b8a2": {
+      "id": "9626b8a2",
+      "parent_id": "d4fa3940",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA - nX * rX) - abs(nB * rB - nX * rX)) / (rA + rB + rX)",
+      "description": "This descriptor captures the charge-size coupling by considering the difference in size mismatch weighted by oxidation states between the A and X, and B and X sites. It reflects how well the charge-scaled sizes of the cations match the anion, addressing stability issues related to charge and size compatibility beyond simple size ratios. Larger differences suggest less optimal charge-size matching, thus reducing stability.",
+      "formula": "",
+      "accuracy": 0.6162968515742129,
+      "metrics": {
+        "train_accuracy": 0.6478260869565218,
+        "test_accuracy": 0.6120689655172413,
+        "cv_accuracy": 0.6162968515742129,
+        "cv_std": 0.01897150737101688,
+        "cv_fold_scores": [
+          0.6293103448275862,
+          0.6173913043478261,
+          0.6434782608695652,
+          0.6,
+          0.591304347826087
+        ],
+        "false_positive_rate": 0.6768060836501901,
+        "per_anion_accuracy": {
+          "O": 0.6829268292682927,
+          "F": 0.8484848484848485,
+          "Cl": 0.4788732394366197,
+          "Br": 0.48148148148148145,
+          "I": 0.32558139534883723
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 64.1%\nTrain accuracy: 64.8%\nTest accuracy: 61.2%\nCV accuracy (5 fold): 61.6% \u00b1 1.9%  [62.9%, 61.7%, 64.3%, 60.0%, 59.1%]\nFalse positive rate: 67.7%\nDecision thresholds: [-0.1114]\nTP=284 FP=178 TN=85 FN=29\nPer-anion accuracy:\n  O: 68.3%\n  F: 84.8%\n  Cl: 47.9%\n  Br: 48.1%\n  I: 32.6%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/9626b8a2.png",
+      "visit_count": 1,
+      "total_reward": 0.19999999999999996,
+      "children_ids": [],
+      "depth": 1
+    },
+    "7f03d563": {
+      "id": "7f03d563",
+      "parent_id": "ee6b9b1c",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA - abs(nX) * rX) / (abs(nB) * rB + 1)",
+      "description": "This descriptor combines ionic radii and oxidation states by emphasizing the charge coupling between A and X, which influences electrostatic attraction and bonding strength. The numerator captures how the A cation's size, weighted by its charge, compares to the X anion's size weighted by its charge, reflecting the electrostatic fit. The denominator accounts for the B cation's size and charge, balancing the overall electrostatic environment. This formulation aims to incorporate charge effects beyond simple size ratios, addressing variations in bonding strength and electrostatic stability that influence perovskite formation.",
+      "formula": "\\frac{\\left| n_A \\right| r_A - \\left| n_X \\right| r_X}{\\left| n_B \\right| r_B + 1}",
+      "accuracy": 0.7535082458770614,
+      "metrics": {
+        "train_accuracy": 0.7782608695652173,
+        "test_accuracy": 0.6724137931034483,
+        "cv_accuracy": 0.7535082458770614,
+        "cv_std": 0.015490702957948663,
+        "cv_fold_scores": [
+          0.7327586206896551,
+          0.7652173913043478,
+          0.7565217391304347,
+          0.7391304347826086,
+          0.7739130434782608
+        ],
+        "false_positive_rate": 0.4372623574144487,
+        "per_anion_accuracy": {
+          "O": 0.8075880758807588,
+          "F": 0.803030303030303,
+          "Cl": 0.4788732394366197,
+          "Br": 0.4444444444444444,
+          "I": 0.9069767441860465
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 75.7%\nTrain accuracy: 77.8%\nTest accuracy: 67.2%\nCV accuracy (5 fold): 75.4% \u00b1 1.5%  [73.3%, 76.5%, 75.7%, 73.9%, 77.4%]\nFalse positive rate: 43.7%\nDecision thresholds: [-0.1075]\nTP=288 FP=115 TN=148 FN=25\nPer-anion accuracy:\n  O: 80.8%\n  F: 80.3%\n  Cl: 47.9%\n  Br: 44.4%\n  I: 90.7%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/7f03d563.png",
+      "visit_count": 6,
+      "total_reward": 4.92,
+      "children_ids": [
+        "ce59d78c",
+        "20580b1a",
+        "816c9e9f"
+      ],
+      "depth": 1
+    },
+    "c4e42a05": {
+      "id": "c4e42a05",
+      "parent_id": "863de9b8",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA - abs(nX) * rX) / (abs(nB) * rB + abs(nX) * rX)",
+      "description": "This descriptor captures the balance between the electrostatic attraction of the A cation to X versus the B cation to X, considering both ionic radii and their charges. A higher value indicates a better electrostatic fit and bonding environment, which enhances perovskite stability beyond simple size ratios, accounting for charge interactions and bonding preferences.",
+      "formula": "\\frac{|n_A| \\cdot r_A - |n_X| \\cdot r_X}{|n_B| \\cdot r_B + |n_X| \\cdot r_X}",
+      "accuracy": 0.7690854572713642,
+      "metrics": {
+        "train_accuracy": 0.7891304347826087,
+        "test_accuracy": 0.7068965517241379,
+        "cv_accuracy": 0.7690854572713642,
+        "cv_std": 0.015314796713175281,
+        "cv_fold_scores": [
+          0.7758620689655172,
+          0.7565217391304347,
+          0.7739130434782608,
+          0.7478260869565218,
+          0.7913043478260869
+        ],
+        "false_positive_rate": 0.33079847908745247,
+        "per_anion_accuracy": {
+          "O": 0.8075880758807588,
+          "F": 0.803030303030303,
+          "Cl": 0.6197183098591549,
+          "Br": 0.5555555555555556,
+          "I": 0.813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 77.3%\nTrain accuracy: 78.9%\nTest accuracy: 70.7%\nCV accuracy (5 fold): 76.9% \u00b1 1.5%  [77.6%, 75.7%, 77.4%, 74.8%, 79.1%]\nFalse positive rate: 33.1%\nDecision thresholds: [-0.0261]\nTP=269 FP=87 TN=176 FN=44\nPer-anion accuracy:\n  O: 80.8%\n  F: 80.3%\n  Cl: 62.0%\n  Br: 55.6%\n  I: 81.4%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/c4e42a05.png",
+      "visit_count": 6,
+      "total_reward": 5.64,
+      "children_ids": [
+        "72ac1a07",
+        "0fbd2668",
+        "1ed656d7"
+      ],
+      "depth": 1
+    },
+    "4d4cec81": {
+      "id": "4d4cec81",
+      "parent_id": "ee6b9b1c",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA - abs(nX) * rX) / (abs(nB) * rB + abs(nX) * rX)",
+      "description": "This descriptor captures the charge coupling effect on stability by combining ionic radii scaled by the magnitude of oxidation states. The numerator emphasizes the A-site's charge-radius product versus the X anion's, reflecting how well the A cation's charge and size match the cage. The denominator balances B-site electrostatics and the X anion's size, addressing charge mismatch and coordination preferences beyond simple size ratios. This formulation aims to better distinguish stable perovskites across different anions by incorporating oxidation state magnitudes and size-charge interactions.",
+      "formula": "\\frac{|n_A| \\cdot r_A - |n_X| \\cdot r_X}{|n_B| \\cdot r_B + |n_X| \\cdot r_X}",
+      "accuracy": 0.7690854572713642,
+      "metrics": {
+        "train_accuracy": 0.7891304347826087,
+        "test_accuracy": 0.7068965517241379,
+        "cv_accuracy": 0.7690854572713642,
+        "cv_std": 0.015314796713175281,
+        "cv_fold_scores": [
+          0.7758620689655172,
+          0.7565217391304347,
+          0.7739130434782608,
+          0.7478260869565218,
+          0.7913043478260869
+        ],
+        "false_positive_rate": 0.33079847908745247,
+        "per_anion_accuracy": {
+          "O": 0.8075880758807588,
+          "F": 0.803030303030303,
+          "Cl": 0.6197183098591549,
+          "Br": 0.5555555555555556,
+          "I": 0.813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 77.3%\nTrain accuracy: 78.9%\nTest accuracy: 70.7%\nCV accuracy (5 fold): 76.9% \u00b1 1.5%  [77.6%, 75.7%, 77.4%, 74.8%, 79.1%]\nFalse positive rate: 33.1%\nDecision thresholds: [-0.0261]\nTP=269 FP=87 TN=176 FN=44\nPer-anion accuracy:\n  O: 80.8%\n  F: 80.3%\n  Cl: 62.0%\n  Br: 55.6%\n  I: 81.4%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/4d4cec81.png",
+      "visit_count": 8,
+      "total_reward": 7.36,
+      "children_ids": [
+        "1dd93aa1",
+        "7071bf0a",
+        "9e9d7083"
+      ],
+      "depth": 1
+    },
+    "4a63f377": {
+      "id": "4a63f377",
+      "parent_id": "bd658869",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (nA * rA - nB * rB) / (abs(nA) + abs(nB))",
+      "description": "This descriptor captures the charge-dependent size mismatch by combining ionic radii weighted by their oxidation states, reflecting how electrostatic interactions and bonding preferences influence stability. It emphasizes the difference in charge-scaled sizes between A and B cations, addressing effects beyond simple size ratios, such as charge compatibility and bonding strength within the lattice.",
+      "formula": "",
+      "accuracy": 0.5694302848575712,
+      "metrics": {
+        "train_accuracy": 0.6239130434782608,
+        "test_accuracy": 0.5517241379310345,
+        "cv_accuracy": 0.5694302848575712,
+        "cv_std": 0.018177716798449945,
+        "cv_fold_scores": [
+          0.5775862068965517,
+          0.5478260869565217,
+          0.591304347826087,
+          0.5478260869565217,
+          0.5826086956521739
+        ],
+        "false_positive_rate": 0.7452471482889734,
+        "per_anion_accuracy": {
+          "O": 0.6476964769647696,
+          "F": 0.8333333333333334,
+          "Cl": 0.43661971830985913,
+          "Br": 0.4444444444444444,
+          "I": 0.32558139534883723
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 60.9%\nTrain accuracy: 62.4%\nTest accuracy: 55.2%\nCV accuracy (5 fold): 56.9% \u00b1 1.8%  [57.8%, 54.8%, 59.1%, 54.8%, 58.3%]\nFalse positive rate: 74.5%\nDecision thresholds: [-0.1483]\nTP=284 FP=196 TN=67 FN=29\nPer-anion accuracy:\n  O: 64.8%\n  F: 83.3%\n  Cl: 43.7%\n  Br: 44.4%\n  I: 32.6%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/4a63f377.png",
+      "visit_count": 2,
+      "total_reward": 0.92,
+      "children_ids": [
+        "3022a9f5"
+      ],
+      "depth": 1
+    },
+    "34f383f7": {
+      "id": "34f383f7",
+      "parent_id": "976a4f4d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA - nB * rB) + abs(nX * rX - nA * rA))",
+      "description": "This descriptor captures the charge-dependent mismatch in ionic radii by considering the effective charge densities (oxidation state times radius) for both A and B, as well as the X ion's effective size relative to A. Larger differences indicate less optimal charge-size compatibility, reducing stability. Unlike simple size ratios, this incorporates charge effects that influence bonding and structural preference, addressing weaknesses seen in purely size-based descriptors.",
+      "formula": "",
+      "accuracy": 0.6405247376311844,
+      "metrics": {
+        "train_accuracy": 0.6717391304347826,
+        "test_accuracy": 0.5948275862068966,
+        "cv_accuracy": 0.6405247376311844,
+        "cv_std": 0.03279884246420886,
+        "cv_fold_scores": [
+          0.6982758620689655,
+          0.6434782608695652,
+          0.6434782608695652,
+          0.6086956521739131,
+          0.6086956521739131
+        ],
+        "false_positive_rate": 0.11026615969581749,
+        "per_anion_accuracy": {
+          "O": 0.6910569105691057,
+          "F": 0.22727272727272727,
+          "Cl": 0.7323943661971831,
+          "Br": 0.7407407407407407,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 65.6%\nTrain accuracy: 67.2%\nTest accuracy: 59.5%\nCV accuracy (5 fold): 64.1% \u00b1 3.3%  [69.8%, 64.3%, 64.3%, 60.9%, 60.9%]\nFalse positive rate: 11.0%\nDecision thresholds: [7.2350]\nTP=144 FP=29 TN=234 FN=169\nPer-anion accuracy:\n  O: 69.1%\n  F: 22.7%\n  Cl: 73.2%\n  Br: 74.1%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/34f383f7.png",
+      "visit_count": 2,
+      "total_reward": 0.8400000000000001,
+      "children_ids": [
+        "d54f78a8"
+      ],
+      "depth": 1
+    },
+    "b18d3196": {
+      "id": "b18d3196",
+      "parent_id": "863de9b8",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX) / (abs(nB) + abs(nX))",
+      "description": "This descriptor emphasizes the charge-dependent size compatibility by weighting ionic radii with the magnitude of their oxidation states, capturing the electrostatic and bonding effects beyond simple size ratios. Higher values suggest better charge-size matching and stronger electrostatic stabilization, thus correlating with increased stability of the perovskite structure.",
+      "formula": "",
+      "accuracy": 0.6458920539730135,
+      "metrics": {
+        "train_accuracy": 0.6478260869565218,
+        "test_accuracy": 0.6379310344827587,
+        "cv_accuracy": 0.6458920539730135,
+        "cv_std": 0.025696136742390994,
+        "cv_fold_scores": [
+          0.6120689655172413,
+          0.6695652173913044,
+          0.6173913043478261,
+          0.6695652173913044,
+          0.6608695652173913
+        ],
+        "false_positive_rate": 0.688212927756654,
+        "per_anion_accuracy": {
+          "O": 0.7804878048780488,
+          "F": 0.803030303030303,
+          "Cl": 0.2676056338028169,
+          "Br": 0.18518518518518517,
+          "I": 0.16279069767441862
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 64.6%\nTrain accuracy: 64.8%\nTest accuracy: 63.8%\nCV accuracy (5 fold): 64.6% \u00b1 2.6%  [61.2%, 67.0%, 61.7%, 67.0%, 66.1%]\nFalse positive rate: 68.8%\nDecision thresholds: [0.8600]\nTP=290 FP=181 TN=82 FN=23\nPer-anion accuracy:\n  O: 78.0%\n  F: 80.3%\n  Cl: 26.8%\n  Br: 18.5%\n  I: 16.3%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/b18d3196.png",
+      "visit_count": 2,
+      "total_reward": 0.96,
+      "children_ids": [
+        "2ad74435"
+      ],
+      "depth": 1
+    },
+    "1dd93aa1": {
+      "id": "1dd93aa1",
+      "parent_id": "4d4cec81",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA * nA + abs(nX) * rX * nX) / (abs(nB) * rB * nB + abs(nX) * rX * nX)",
+      "description": "This descriptor incorporates the coupling between ionic radius and oxidation state to account for charge-dependent bonding preferences and electrostatic interactions. It emphasizes the magnitude and sign of oxidation states, which influence bonding strength and stability beyond size considerations. By combining radius and oxidation state multiplicatively in numerator and denominator, it captures how charge mismatch and ionic size jointly affect perovskite stability, addressing limitations of simple size ratios.",
+      "formula": "",
+      "accuracy": 0.6667466266866567,
+      "metrics": {
+        "train_accuracy": 0.6978260869565217,
+        "test_accuracy": 0.5862068965517241,
+        "cv_accuracy": 0.6667466266866567,
+        "cv_std": 0.03586718310047125,
+        "cv_fold_scores": [
+          0.6206896551724138,
+          0.6260869565217392,
+          0.6869565217391305,
+          0.6956521739130435,
+          0.7043478260869566
+        ],
+        "false_positive_rate": 0.2585551330798479,
+        "per_anion_accuracy": {
+          "O": 0.6097560975609756,
+          "F": 0.8939393939393939,
+          "Cl": 0.6197183098591549,
+          "Br": 0.9259259259259259,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 67.5%\nTrain accuracy: 69.8%\nTest accuracy: 58.6%\nCV accuracy (5 fold): 66.7% \u00b1 3.6%  [62.1%, 62.6%, 68.7%, 69.6%, 70.4%]\nFalse positive rate: 25.9%\nDecision thresholds: [-0.0464]\nTP=194 FP=68 TN=195 FN=119\nPer-anion accuracy:\n  O: 61.0%\n  F: 89.4%\n  Cl: 62.0%\n  Br: 92.6%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/1dd93aa1.png",
+      "visit_count": 2,
+      "total_reward": 1.08,
+      "children_ids": [
+        "01dc1f99"
+      ],
+      "depth": 2
+    },
+    "7e6528f9": {
+      "id": "7e6528f9",
+      "parent_id": "bd658869",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (nA * rA + nX * rX) / (abs(nA) * abs(nX))",
+      "description": "This descriptor emphasizes the coupling between the ionic radii and oxidation states of the A and X ions, capturing the electrostatic and bonding influences that affect stability. It accounts for the charge-dependent interaction strength, which can influence the lattice's ability to accommodate the A cation within the cage, going beyond simple size ratios by incorporating charge effects directly.",
+      "formula": "\\frac{n_A \\cdot r_A + n_X \\cdot r_X}{|n_A| \\cdot |n_X|}",
+      "accuracy": 0.7707946026986507,
+      "metrics": {
+        "train_accuracy": 0.7847826086956522,
+        "test_accuracy": 0.7155172413793104,
+        "cv_accuracy": 0.7707946026986507,
+        "cv_std": 0.02644031646732929,
+        "cv_fold_scores": [
+          0.7931034482758621,
+          0.7391304347826086,
+          0.7478260869565218,
+          0.7652173913043478,
+          0.808695652173913
+        ],
+        "false_positive_rate": 0.33079847908745247,
+        "per_anion_accuracy": {
+          "O": 0.8075880758807588,
+          "F": 0.803030303030303,
+          "Cl": 0.6056338028169014,
+          "Br": 0.5555555555555556,
+          "I": 0.813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 77.1%\nTrain accuracy: 78.5%\nTest accuracy: 71.6%\nCV accuracy (5 fold): 77.1% \u00b1 2.6%  [79.3%, 73.9%, 74.8%, 76.5%, 80.9%]\nFalse positive rate: 33.1%\nDecision thresholds: [-0.0633]\nTP=268 FP=87 TN=176 FN=45\nPer-anion accuracy:\n  O: 80.8%\n  F: 80.3%\n  Cl: 60.6%\n  Br: 55.6%\n  I: 81.4%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/7e6528f9.png",
+      "visit_count": 6,
+      "total_reward": 5.76,
+      "children_ids": [
+        "a6797d52",
+        "3118c5c4",
+        "ebc05392"
+      ],
+      "depth": 1
+    },
+    "57b96ed6": {
+      "id": "57b96ed6",
+      "parent_id": "d4fa3940",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA - nX * rX) + abs(nB * rB - nX * rX)) / (nA + nB + 1)",
+      "description": "This descriptor captures the charge-radius coupling by examining how well the ionic sizes scaled by their oxidation states match the anion's charge-scaled size. It emphasizes the electrostatic and bonding compatibility between ions, addressing mismatches that simple size ratios overlook, which can influence the stabilization of the perovskite structure beyond geometric considerations.",
+      "formula": "",
+      "accuracy": 0.6840779610194903,
+      "metrics": {
+        "train_accuracy": 0.6739130434782609,
+        "test_accuracy": 0.7241379310344828,
+        "cv_accuracy": 0.6840779610194903,
+        "cv_std": 0.03363596199332345,
+        "cv_fold_scores": [
+          0.6551724137931034,
+          0.7478260869565218,
+          0.6695652173913044,
+          0.6869565217391305,
+          0.6608695652173913
+        ],
+        "false_positive_rate": 0.6425855513307985,
+        "per_anion_accuracy": {
+          "O": 0.8672086720867209,
+          "F": 0.6515151515151515,
+          "Cl": 0.2676056338028169,
+          "Br": 0.18518518518518517,
+          "I": 0.16279069767441862
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 68.4%\nTrain accuracy: 67.4%\nTest accuracy: 72.4%\nCV accuracy (5 fold): 68.4% \u00b1 3.4%  [65.5%, 74.8%, 67.0%, 68.7%, 66.1%]\nFalse positive rate: 64.3%\nDecision thresholds: [1.4013]\nTP=300 FP=169 TN=94 FN=13\nPer-anion accuracy:\n  O: 86.7%\n  F: 65.2%\n  Cl: 26.8%\n  Br: 18.5%\n  I: 16.3%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/57b96ed6.png",
+      "visit_count": 1,
+      "total_reward": 0.56,
+      "children_ids": [],
+      "depth": 1
+    },
+    "ce59d78c": {
+      "id": "ce59d78c",
+      "parent_id": "7f03d563",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX - abs(nB) * rB) / (abs(nA) + abs(nX) + abs(nB))",
+      "description": "This descriptor captures the combined electrostatic and bonding effects by weighting ionic radii with their charge magnitudes, reflecting the charge-driven fit between ions. The numerator emphasizes the net electrostatic attraction of A and X (which are positively and negatively charged), moderated by B's influence, while the denominator normalizes by the total charge magnitude. This formulation accounts for charge coupling effects beyond simple size ratios, addressing variations in electrostatic stability and bonding preferences that influence perovskite formation.",
+      "formula": "",
+      "accuracy": 0.6076611694152924,
+      "metrics": {
+        "train_accuracy": 0.5891304347826087,
+        "test_accuracy": 0.6982758620689655,
+        "cv_accuracy": 0.6076611694152924,
+        "cv_std": 0.01317195339608527,
+        "cv_fold_scores": [
+          0.5948275862068966,
+          0.591304347826087,
+          0.6086956521739131,
+          0.6260869565217392,
+          0.6173913043478261
+        ],
+        "false_positive_rate": 0.8250950570342205,
+        "per_anion_accuracy": {
+          "O": 0.6504065040650406,
+          "F": 0.8484848484848485,
+          "Cl": 0.4507042253521127,
+          "Br": 0.4444444444444444,
+          "I": 0.27906976744186046
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 61.1%\nTrain accuracy: 58.9%\nTest accuracy: 69.8%\nCV accuracy (5 fold): 60.8% \u00b1 1.3%  [59.5%, 59.1%, 60.9%, 62.6%, 61.7%]\nFalse positive rate: 82.5%\nDecision thresholds: [0.6362]\nTP=306 FP=217 TN=46 FN=7\nPer-anion accuracy:\n  O: 65.0%\n  F: 84.8%\n  Cl: 45.1%\n  Br: 44.4%\n  I: 27.9%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/ce59d78c.png",
+      "visit_count": 1,
+      "total_reward": 0.12,
+      "children_ids": [],
+      "depth": 2
+    },
+    "72ac1a07": {
+      "id": "72ac1a07",
+      "parent_id": "c4e42a05",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (nA * rA + nX * rX) / (abs(nB) * rB)",
+      "description": "This descriptor combines ionic radii with oxidation states to reflect the effective electrostatic and covalent bonding strength. It emphasizes the coupling between charge and size, capturing the influence of charge mismatch and coordination preferences beyond simple size ratios. A higher value suggests better charge-size compatibility, promoting stability.",
+      "formula": "",
+      "accuracy": 0.7517691154422789,
+      "metrics": {
+        "train_accuracy": 0.7847826086956522,
+        "test_accuracy": 0.6810344827586207,
+        "cv_accuracy": 0.7517691154422789,
+        "cv_std": 0.019041046397499452,
+        "cv_fold_scores": [
+          0.7327586206896551,
+          0.7565217391304347,
+          0.7565217391304347,
+          0.7304347826086957,
+          0.782608695652174
+        ],
+        "false_positive_rate": 0.4220532319391635,
+        "per_anion_accuracy": {
+          "O": 0.8130081300813008,
+          "F": 0.803030303030303,
+          "Cl": 0.49295774647887325,
+          "Br": 0.48148148148148145,
+          "I": 0.9069767441860465
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 76.4%\nTrain accuracy: 78.5%\nTest accuracy: 68.1%\nCV accuracy (5 fold): 75.2% \u00b1 1.9%  [73.3%, 75.7%, 75.7%, 73.0%, 78.3%]\nFalse positive rate: 42.2%\nDecision thresholds: [-0.1654]\nTP=288 FP=111 TN=152 FN=25\nPer-anion accuracy:\n  O: 81.3%\n  F: 80.3%\n  Cl: 49.3%\n  Br: 48.1%\n  I: 90.7%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/72ac1a07.png",
+      "visit_count": 2,
+      "total_reward": 1.48,
+      "children_ids": [
+        "36f88a6a"
+      ],
+      "depth": 2
+    },
+    "7071bf0a": {
+      "id": "7071bf0a",
+      "parent_id": "4d4cec81",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA * abs(nX) - abs(nX) * rX * abs(nB)) / (abs(nA) * rA + abs(nB) * rB)",
+      "description": "This descriptor incorporates the coupling between oxidation states and ionic sizes, emphasizing how the charge magnitudes modulate the effective fit of ions in the lattice. By multiplying ionic radii with the magnitude of oxidation states, it captures charge-driven bonding preferences and electrostatic compatibility beyond simple size ratios. The numerator assesses the charge-size interaction between A and X compared to B and X, reflecting the balance of electrostatic attraction and repulsion that influences stability. The denominator normalizes this interaction, ensuring the descriptor remains monotonic with respect to stability, especially accounting for charge effects that are critical for addressing the weaknesses observed in the previous size-only or charge-scaled ratios.",
+      "formula": "",
+      "accuracy": 0.7204797601199401,
+      "metrics": {
+        "train_accuracy": 0.7391304347826086,
+        "test_accuracy": 0.6551724137931034,
+        "cv_accuracy": 0.7204797601199401,
+        "cv_std": 0.022329793005968414,
+        "cv_fold_scores": [
+          0.7241379310344828,
+          0.7217391304347827,
+          0.7565217391304347,
+          0.6869565217391305,
+          0.7130434782608696
+        ],
+        "false_positive_rate": 0.19011406844106463,
+        "per_anion_accuracy": {
+          "O": 0.7452574525745257,
+          "F": 0.696969696969697,
+          "Cl": 0.6619718309859155,
+          "Br": 0.5185185185185185,
+          "I": 0.7906976744186046
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 72.2%\nTrain accuracy: 73.9%\nTest accuracy: 65.5%\nCV accuracy (5 fold): 72.0% \u00b1 2.2%  [72.4%, 72.2%, 75.7%, 68.7%, 71.3%]\nFalse positive rate: 19.0%\nDecision thresholds: [-0.4560]\nTP=203 FP=50 TN=213 FN=110\nPer-anion accuracy:\n  O: 74.5%\n  F: 69.7%\n  Cl: 66.2%\n  Br: 51.9%\n  I: 79.1%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/7071bf0a.png",
+      "visit_count": 2,
+      "total_reward": 1.28,
+      "children_ids": [
+        "0e54ace1"
+      ],
+      "depth": 2
+    },
+    "a6797d52": {
+      "id": "a6797d52",
+      "parent_id": "7e6528f9",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX) / (abs(nA) + abs(nX))",
+      "description": "This descriptor captures the combined effects of ionic radii and oxidation states, emphasizing the electrostatic and bonding interactions more strongly influenced by charge magnitude. It accounts for the fact that larger charges can enhance the bonding strength and stability, beyond just size matching. By weighting the ionic radii with the absolute value of their oxidation states, it incorporates both size and electrostatic effects that influence perovskite stability.",
+      "formula": "",
+      "accuracy": 0.6181109445277362,
+      "metrics": {
+        "train_accuracy": 0.65,
+        "test_accuracy": 0.6810344827586207,
+        "cv_accuracy": 0.6181109445277362,
+        "cv_std": 0.020879213334442183,
+        "cv_fold_scores": [
+          0.5862068965517241,
+          0.6173913043478261,
+          0.6521739130434783,
+          0.6173913043478261,
+          0.6173913043478261
+        ],
+        "false_positive_rate": 0.6083650190114068,
+        "per_anion_accuracy": {
+          "O": 0.6341463414634146,
+          "F": 0.696969696969697,
+          "Cl": 0.6056338028169014,
+          "Br": 0.7407407407407407,
+          "I": 0.813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 65.6%\nTrain accuracy: 65.0%\nTest accuracy: 68.1%\nCV accuracy (5 fold): 61.8% \u00b1 2.1%  [58.6%, 61.7%, 65.2%, 61.7%, 61.7%]\nFalse positive rate: 60.8%\nDecision thresholds: [1.5350]\nTP=275 FP=160 TN=103 FN=38\nPer-anion accuracy:\n  O: 63.4%\n  F: 69.7%\n  Cl: 60.6%\n  Br: 74.1%\n  I: 81.4%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/a6797d52.png",
+      "visit_count": 1,
+      "total_reward": 0.24,
+      "children_ids": [],
+      "depth": 2
+    },
+    "0ba3fd44": {
+      "id": "0ba3fd44",
+      "parent_id": "976a4f4d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA - nX * rX) - abs(nB * rB - nX * rX)) / (rA + rB + rX)",
+      "description": "This descriptor captures the charge-dependent size mismatch between each ion and the X anion, considering both ionic radius and oxidation state. The difference emphasizes the relative electrostatic 'fit' of A and B ions within the cage, addressing the physical effects of charge-size coupling beyond simple size ratios, especially important for varying anion types and their bonding preferences.",
+      "formula": "",
+      "accuracy": 0.6162968515742129,
+      "metrics": {
+        "train_accuracy": 0.6478260869565218,
+        "test_accuracy": 0.6120689655172413,
+        "cv_accuracy": 0.6162968515742129,
+        "cv_std": 0.01897150737101688,
+        "cv_fold_scores": [
+          0.6293103448275862,
+          0.6173913043478261,
+          0.6434782608695652,
+          0.6,
+          0.591304347826087
+        ],
+        "false_positive_rate": 0.6768060836501901,
+        "per_anion_accuracy": {
+          "O": 0.6829268292682927,
+          "F": 0.8484848484848485,
+          "Cl": 0.4788732394366197,
+          "Br": 0.48148148148148145,
+          "I": 0.32558139534883723
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 64.1%\nTrain accuracy: 64.8%\nTest accuracy: 61.2%\nCV accuracy (5 fold): 61.6% \u00b1 1.9%  [62.9%, 61.7%, 64.3%, 60.0%, 59.1%]\nFalse positive rate: 67.7%\nDecision thresholds: [-0.1114]\nTP=284 FP=178 TN=85 FN=29\nPer-anion accuracy:\n  O: 68.3%\n  F: 84.8%\n  Cl: 47.9%\n  Br: 48.1%\n  I: 32.6%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/0ba3fd44.png",
+      "visit_count": 1,
+      "total_reward": 0.18000000000000005,
+      "children_ids": [],
+      "depth": 1
+    },
+    "0fbd2668": {
+      "id": "0fbd2668",
+      "parent_id": "c4e42a05",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX) / (abs(nB) * rB * abs(nX) * rX)",
+      "description": "This descriptor combines ionic size and charge coupling to reflect the electrostatic and bonding environment more comprehensively than simple size ratios. It accounts for how the oxidation states modulate the effective ionic interactions and the fit of the A cation within the cage shaped by B and X, capturing effects like charge-driven bonding preferences that influence stability beyond geometric size considerations.",
+      "formula": "",
+      "accuracy": 0.6562818590704647,
+      "metrics": {
+        "train_accuracy": 0.6347826086956522,
+        "test_accuracy": 0.7586206896551724,
+        "cv_accuracy": 0.6562818590704647,
+        "cv_std": 0.014323797594551364,
+        "cv_fold_scores": [
+          0.6379310344827587,
+          0.6608695652173913,
+          0.6608695652173913,
+          0.6782608695652174,
+          0.6434782608695652
+        ],
+        "false_positive_rate": 0.7414448669201521,
+        "per_anion_accuracy": {
+          "O": 0.7289972899728997,
+          "F": 0.8636363636363636,
+          "Cl": 0.4647887323943662,
+          "Br": 0.4444444444444444,
+          "I": 0.20930232558139536
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 66.0%\nTrain accuracy: 63.5%\nTest accuracy: 75.9%\nCV accuracy (5 fold): 65.6% \u00b1 1.4%  [63.8%, 66.1%, 66.1%, 67.8%, 64.3%]\nFalse positive rate: 74.1%\nDecision thresholds: [1.8169]\nTP=312 FP=195 TN=68 FN=1\nPer-anion accuracy:\n  O: 72.9%\n  F: 86.4%\n  Cl: 46.5%\n  Br: 44.4%\n  I: 20.9%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/0fbd2668.png",
+      "visit_count": 2,
+      "total_reward": 1.04,
+      "children_ids": [
+        "e476bc37"
+      ],
+      "depth": 2
+    },
+    "20580b1a": {
+      "id": "20580b1a",
+      "parent_id": "7f03d563",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (rA * nA + rX * nX) / (rB * nB + 1)",
+      "description": "This descriptor incorporates charge coupling via oxidation states, emphasizing how the ionic radii weighted by their charge states influence stability. It accounts for electrostatic attraction between ions, capturing effects beyond simple size ratios, such as charge-driven bonding preferences and the electrostatic environment that affect perovskite formation. By combining radius and charge, it better distinguishes stable from unstable structures, especially considering variations in oxidation states and electronegativity mismatches.",
+      "formula": "",
+      "accuracy": 0.7535082458770614,
+      "metrics": {
+        "train_accuracy": 0.7782608695652173,
+        "test_accuracy": 0.6724137931034483,
+        "cv_accuracy": 0.7535082458770614,
+        "cv_std": 0.015490702957948663,
+        "cv_fold_scores": [
+          0.7327586206896551,
+          0.7652173913043478,
+          0.7565217391304347,
+          0.7391304347826086,
+          0.7739130434782608
+        ],
+        "false_positive_rate": 0.4372623574144487,
+        "per_anion_accuracy": {
+          "O": 0.8075880758807588,
+          "F": 0.803030303030303,
+          "Cl": 0.4788732394366197,
+          "Br": 0.4444444444444444,
+          "I": 0.9069767441860465
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 75.7%\nTrain accuracy: 77.8%\nTest accuracy: 67.2%\nCV accuracy (5 fold): 75.4% \u00b1 1.5%  [73.3%, 76.5%, 75.7%, 73.9%, 77.4%]\nFalse positive rate: 43.7%\nDecision thresholds: [-0.1075]\nTP=288 FP=115 TN=148 FN=25\nPer-anion accuracy:\n  O: 80.8%\n  F: 80.3%\n  Cl: 47.9%\n  Br: 44.4%\n  I: 90.7%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/20580b1a.png",
+      "visit_count": 2,
+      "total_reward": 1.6,
+      "children_ids": [
+        "eb43e037"
+      ],
+      "depth": 2
+    },
+    "9e9d7083": {
+      "id": "9e9d7083",
+      "parent_id": "4d4cec81",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA / abs(nX) - abs(nX) * rX / abs(nB))",
+      "description": "This descriptor captures the charge coupling effect on stability by combining ionic radii scaled by the magnitude of oxidation states, emphasizing the balance between A-site charge-radius and X anion size relative to B-site charge and size. It accounts for the influence of electrostatic interactions beyond simple size ratios, considering how charge magnitudes modulate bonding preferences and cage fit, thus improving the prediction of stability across different anion types.",
+      "formula": "",
+      "accuracy": 0.7466416791604198,
+      "metrics": {
+        "train_accuracy": 0.7717391304347826,
+        "test_accuracy": 0.6551724137931034,
+        "cv_accuracy": 0.7466416791604198,
+        "cv_std": 0.03432426911109873,
+        "cv_fold_scores": [
+          0.6810344827586207,
+          0.7739130434782608,
+          0.7565217391304347,
+          0.7478260869565218,
+          0.7739130434782608
+        ],
+        "false_positive_rate": 0.4296577946768061,
+        "per_anion_accuracy": {
+          "O": 0.8238482384823849,
+          "F": 0.8181818181818182,
+          "Cl": 0.49295774647887325,
+          "Br": 0.4074074074074074,
+          "I": 0.627906976744186
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 74.8%\nTrain accuracy: 77.2%\nTest accuracy: 65.5%\nCV accuracy (5 fold): 74.7% \u00b1 3.4%  [68.1%, 77.4%, 75.7%, 74.8%, 77.4%]\nFalse positive rate: 43.0%\nDecision thresholds: [0.6108]\nTP=281 FP=113 TN=150 FN=32\nPer-anion accuracy:\n  O: 82.4%\n  F: 81.8%\n  Cl: 49.3%\n  Br: 40.7%\n  I: 62.8%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/9e9d7083.png",
+      "visit_count": 3,
+      "total_reward": 2.04,
+      "children_ids": [
+        "28193f06",
+        "c520fc85"
+      ],
+      "depth": 2
+    },
+    "3118c5c4": {
+      "id": "3118c5c4",
+      "parent_id": "7e6528f9",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX) / (abs(nA) * abs(nX))",
+      "description": "This descriptor captures the charge-dependent coupling between the ionic radii and oxidation states, emphasizing how the electrostatic attraction or repulsion influences stability. By weighting the ionic radii with their absolute oxidation states, it accounts for variations in bonding strength and coordination preferences beyond simple size ratios, helping to better distinguish stable perovskite structures across different anion types.",
+      "formula": "",
+      "accuracy": 0.6405547226386806,
+      "metrics": {
+        "train_accuracy": 0.6565217391304348,
+        "test_accuracy": 0.5775862068965517,
+        "cv_accuracy": 0.6405547226386806,
+        "cv_std": 0.024622146501455455,
+        "cv_fold_scores": [
+          0.6810344827586207,
+          0.6086956521739131,
+          0.6347826086956522,
+          0.6521739130434783,
+          0.6260869565217392
+        ],
+        "false_positive_rate": 0.19391634980988592,
+        "per_anion_accuracy": {
+          "O": 0.6585365853658537,
+          "F": 0.22727272727272727,
+          "Cl": 0.7464788732394366,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 64.1%\nTrain accuracy: 65.7%\nTest accuracy: 57.8%\nCV accuracy (5 fold): 64.1% \u00b1 2.5%  [68.1%, 60.9%, 63.5%, 65.2%, 62.6%]\nFalse positive rate: 19.4%\nDecision thresholds: [1.1483]\nTP=157 FP=51 TN=212 FN=156\nPer-anion accuracy:\n  O: 65.9%\n  F: 22.7%\n  Cl: 74.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/3118c5c4.png",
+      "visit_count": 1,
+      "total_reward": 0.43999999999999995,
+      "children_ids": [],
+      "depth": 2
+    },
+    "2ad74435": {
+      "id": "2ad74435",
+      "parent_id": "b18d3196",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (rA * abs(nA) + rX * abs(nX)) / (rB * abs(nB))",
+      "description": "This descriptor accounts for electrostatic and bonding effects by combining ionic radii with the magnitude of oxidation states, reflecting charge-size coupling. Dividing by the B-site radius scaled by its charge captures the relative electrostatic stabilization, addressing deficiencies in size-only descriptors and better discriminating stability across different anion types.",
+      "formula": "",
+      "accuracy": 0.638920539730135,
+      "metrics": {
+        "train_accuracy": 0.6108695652173913,
+        "test_accuracy": 0.7327586206896551,
+        "cv_accuracy": 0.638920539730135,
+        "cv_std": 0.02039103973685069,
+        "cv_fold_scores": [
+          0.6206896551724138,
+          0.6608695652173913,
+          0.6521739130434783,
+          0.6521739130434783,
+          0.6086956521739131
+        ],
+        "false_positive_rate": 0.7984790874524715,
+        "per_anion_accuracy": {
+          "O": 0.7289972899728997,
+          "F": 0.803030303030303,
+          "Cl": 0.3380281690140845,
+          "Br": 0.4074074074074074,
+          "I": 0.20930232558139536
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 63.5%\nTrain accuracy: 61.1%\nTest accuracy: 73.3%\nCV accuracy (5 fold): 63.9% \u00b1 2.0%  [62.1%, 66.1%, 65.2%, 65.2%, 60.9%]\nFalse positive rate: 79.8%\nDecision thresholds: [4.7315]\nTP=313 FP=210 TN=53 FN=0\nPer-anion accuracy:\n  O: 72.9%\n  F: 80.3%\n  Cl: 33.8%\n  Br: 40.7%\n  I: 20.9%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/2ad74435.png",
+      "visit_count": 1,
+      "total_reward": 0.4,
+      "children_ids": [],
+      "depth": 2
+    },
+    "816c9e9f": {
+      "id": "816c9e9f",
+      "parent_id": "7f03d563",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA * nA + abs(nX) * rX * nX) / (abs(nB) * rB + 1)",
+      "description": "This descriptor incorporates the effect of oxidation states on electrostatic attraction and bonding strength, emphasizing the charge coupling between ions. By multiplying ionic radii by their respective oxidation states, it accounts for the influence of charge magnitude on the ion's effective size and bonding environment, beyond simple size ratios. The numerator captures the electrostatic contribution from A and X ions, while the denominator normalizes by B's size and charge, reflecting the overall electrostatic stability. This formulation aims to address the shortcomings of purely size-based descriptors by including charge effects, which are critical for stability especially across different anion types.",
+      "formula": "",
+      "accuracy": 0.7396251874062968,
+      "metrics": {
+        "train_accuracy": 0.7608695652173914,
+        "test_accuracy": 0.6724137931034483,
+        "cv_accuracy": 0.7396251874062968,
+        "cv_std": 0.013670631554955546,
+        "cv_fold_scores": [
+          0.7155172413793104,
+          0.7478260869565218,
+          0.7391304347826086,
+          0.7391304347826086,
+          0.7565217391304347
+        ],
+        "false_positive_rate": 0.467680608365019,
+        "per_anion_accuracy": {
+          "O": 0.7940379403794038,
+          "F": 0.803030303030303,
+          "Cl": 0.4507042253521127,
+          "Br": 0.4444444444444444,
+          "I": 0.8837209302325582
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 74.3%\nTrain accuracy: 76.1%\nTest accuracy: 67.2%\nCV accuracy (5 fold): 74.0% \u00b1 1.4%  [71.6%, 74.8%, 73.9%, 73.9%, 75.7%]\nFalse positive rate: 46.8%\nDecision thresholds: [-0.1165]\nTP=288 FP=123 TN=140 FN=25\nPer-anion accuracy:\n  O: 79.4%\n  F: 80.3%\n  Cl: 45.1%\n  Br: 44.4%\n  I: 88.4%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/816c9e9f.png",
+      "visit_count": 2,
+      "total_reward": 1.3199999999999998,
+      "children_ids": [
+        "e031269c"
+      ],
+      "depth": 2
+    },
+    "ebc05392": {
+      "id": "ebc05392",
+      "parent_id": "7e6528f9",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA - abs(nX) * rX) / (abs(nA) + abs(nX))",
+      "description": "This descriptor captures the charge-dependent size mismatch between the A and X ions, reflecting how the electrostatic attraction and bonding preferences influence stability. By combining the ionic radii weighted by their charge magnitudes, it accounts for the coupling between charge and size effects beyond simple size ratios, addressing the weaknesses of the previous descriptor especially for different anion types.",
+      "formula": "\\frac{\\left| n_A \\right| r_A - \\left| n_X \\right| r_X}{\\left| n_A \\right| + \\left| n_X \\right|}",
+      "accuracy": 0.7690704647676162,
+      "metrics": {
+        "train_accuracy": 0.7913043478260869,
+        "test_accuracy": 0.6982758620689655,
+        "cv_accuracy": 0.7690704647676162,
+        "cv_std": 0.0251804266762684,
+        "cv_fold_scores": [
+          0.7844827586206896,
+          0.7391304347826086,
+          0.7478260869565218,
+          0.7652173913043478,
+          0.808695652173913
+        ],
+        "false_positive_rate": 0.3155893536121673,
+        "per_anion_accuracy": {
+          "O": 0.8102981029810298,
+          "F": 0.803030303030303,
+          "Cl": 0.6056338028169014,
+          "Br": 0.5555555555555556,
+          "I": 0.813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 77.3%\nTrain accuracy: 79.1%\nTest accuracy: 69.8%\nCV accuracy (5 fold): 76.9% \u00b1 2.5%  [78.4%, 73.9%, 74.8%, 76.5%, 80.9%]\nFalse positive rate: 31.6%\nDecision thresholds: [-0.0390]\nTP=265 FP=83 TN=180 FN=48\nPer-anion accuracy:\n  O: 81.0%\n  F: 80.3%\n  Cl: 60.6%\n  Br: 55.6%\n  I: 81.4%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/ebc05392.png",
+      "visit_count": 3,
+      "total_reward": 2.7,
+      "children_ids": [
+        "b264510c",
+        "4691e8c5"
+      ],
+      "depth": 2
+    },
+    "28193f06": {
+      "id": "28193f06",
+      "parent_id": "9e9d7083",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX) / (abs(nB) * rB)",
+      "description": "This descriptor captures the electrostatic balance by combining ionic radii scaled by the magnitude of their oxidation states, emphasizing how charge coupling influences the fit and stability of the A and X ions relative to the B site. Unlike simple size ratios, it accounts for charge effects on bonding preferences, addressing the weaknesses seen with overlap and anion-specific inaccuracies.",
+      "formula": "",
+      "accuracy": 0.638920539730135,
+      "metrics": {
+        "train_accuracy": 0.6108695652173913,
+        "test_accuracy": 0.7327586206896551,
+        "cv_accuracy": 0.638920539730135,
+        "cv_std": 0.02039103973685069,
+        "cv_fold_scores": [
+          0.6206896551724138,
+          0.6608695652173913,
+          0.6521739130434783,
+          0.6521739130434783,
+          0.6086956521739131
+        ],
+        "false_positive_rate": 0.7984790874524715,
+        "per_anion_accuracy": {
+          "O": 0.7289972899728997,
+          "F": 0.803030303030303,
+          "Cl": 0.3380281690140845,
+          "Br": 0.4074074074074074,
+          "I": 0.20930232558139536
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 63.5%\nTrain accuracy: 61.1%\nTest accuracy: 73.3%\nCV accuracy (5 fold): 63.9% \u00b1 2.0%  [62.1%, 66.1%, 65.2%, 65.2%, 60.9%]\nFalse positive rate: 79.8%\nDecision thresholds: [4.7315]\nTP=313 FP=210 TN=53 FN=0\nPer-anion accuracy:\n  O: 72.9%\n  F: 80.3%\n  Cl: 33.8%\n  Br: 40.7%\n  I: 20.9%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/28193f06.png",
+      "visit_count": 1,
+      "total_reward": 0.38,
+      "children_ids": [],
+      "depth": 3
+    },
+    "1ed656d7": {
+      "id": "1ed656d7",
+      "parent_id": "c4e42a05",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX - abs(nB) * rB) / (abs(nA) * rA + abs(nX) * rX)",
+      "description": "This descriptor combines ionic radii and oxidation states to account for charge-driven bonding preferences and the electrostatic environment, beyond simple size matching. The numerator reflects the electrostatic attraction of A and X ions, while the denominator normalizes by the A-X electrostatic contribution, capturing how charge and size coupling influence stability. It emphasizes the balance of electrostatic forces that are key to stabilizing perovskite structures, especially addressing weaknesses in the simple size-ratio approach.",
+      "formula": "",
+      "accuracy": 0.638920539730135,
+      "metrics": {
+        "train_accuracy": 0.6108695652173913,
+        "test_accuracy": 0.7327586206896551,
+        "cv_accuracy": 0.638920539730135,
+        "cv_std": 0.02039103973685069,
+        "cv_fold_scores": [
+          0.6206896551724138,
+          0.6608695652173913,
+          0.6521739130434783,
+          0.6521739130434783,
+          0.6086956521739131
+        ],
+        "false_positive_rate": 0.7984790874524715,
+        "per_anion_accuracy": {
+          "O": 0.7289972899728997,
+          "F": 0.803030303030303,
+          "Cl": 0.3380281690140845,
+          "Br": 0.4074074074074074,
+          "I": 0.20930232558139536
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 63.5%\nTrain accuracy: 61.1%\nTest accuracy: 73.3%\nCV accuracy (5 fold): 63.9% \u00b1 2.0%  [62.1%, 66.1%, 65.2%, 65.2%, 60.9%]\nFalse positive rate: 79.8%\nDecision thresholds: [0.7886]\nTP=313 FP=210 TN=53 FN=0\nPer-anion accuracy:\n  O: 72.9%\n  F: 80.3%\n  Cl: 33.8%\n  Br: 40.7%\n  I: 20.9%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/1ed656d7.png",
+      "visit_count": 1,
+      "total_reward": 0.36,
+      "children_ids": [],
+      "depth": 2
+    },
+    "d54f78a8": {
+      "id": "d54f78a8",
+      "parent_id": "34f383f7",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA - nB * rB) / (abs(nX) * rX))",
+      "description": "This descriptor captures the charge-size coupling by considering the ionic radii scaled by their oxidation states, reflecting how well the charge density and size match between A and B relative to the X ion. It addresses limitations of pure size ratios by integrating charge effects, which influence bonding strength and structural stability beyond simple geometric fit.",
+      "formula": "",
+      "accuracy": 0.5555322338830584,
+      "metrics": {
+        "train_accuracy": 0.5739130434782609,
+        "test_accuracy": 0.6724137931034483,
+        "cv_accuracy": 0.5555322338830584,
+        "cv_std": 0.030118384023127324,
+        "cv_fold_scores": [
+          0.5689655172413793,
+          0.5826086956521739,
+          0.5826086956521739,
+          0.5391304347826087,
+          0.5043478260869565
+        ],
+        "false_positive_rate": 0.8326996197718631,
+        "per_anion_accuracy": {
+          "O": 0.6476964769647696,
+          "F": 0.8636363636363636,
+          "Cl": 0.36619718309859156,
+          "Br": 0.4444444444444444,
+          "I": 0.18604651162790697
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 59.4%\nTrain accuracy: 57.4%\nTest accuracy: 67.2%\nCV accuracy (5 fold): 55.6% \u00b1 3.0%  [56.9%, 58.3%, 58.3%, 53.9%, 50.4%]\nFalse positive rate: 83.3%\nDecision thresholds: [0.8107]\nTP=298 FP=219 TN=44 FN=15\nPer-anion accuracy:\n  O: 64.8%\n  F: 86.4%\n  Cl: 36.6%\n  Br: 44.4%\n  I: 18.6%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/d54f78a8.png",
+      "visit_count": 1,
+      "total_reward": 0.020000000000000018,
+      "children_ids": [],
+      "depth": 2
+    },
+    "f7e52970": {
+      "id": "f7e52970",
+      "parent_id": "61d71c24",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA) - abs(nX * rX)) / (abs(nB * rB) + 1)",
+      "description": "This descriptor captures the charge-driven effects on stability by balancing the electrostatic attraction of the A cation to the X anion against the influence of the B cation size and charge. Incorporating oxidation states directly addresses charge mismatch effects beyond simple size ratios, reflecting how charge coupling influences lattice stability. The added 1 in the denominator prevents division by zero and maintains simplicity.",
+      "formula": "",
+      "accuracy": 0.7535082458770614,
+      "metrics": {
+        "train_accuracy": 0.7782608695652173,
+        "test_accuracy": 0.6724137931034483,
+        "cv_accuracy": 0.7535082458770614,
+        "cv_std": 0.015490702957948663,
+        "cv_fold_scores": [
+          0.7327586206896551,
+          0.7652173913043478,
+          0.7565217391304347,
+          0.7391304347826086,
+          0.7739130434782608
+        ],
+        "false_positive_rate": 0.4372623574144487,
+        "per_anion_accuracy": {
+          "O": 0.8075880758807588,
+          "F": 0.803030303030303,
+          "Cl": 0.4788732394366197,
+          "Br": 0.4444444444444444,
+          "I": 0.9069767441860465
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 75.7%\nTrain accuracy: 77.8%\nTest accuracy: 67.2%\nCV accuracy (5 fold): 75.4% \u00b1 1.5%  [73.3%, 76.5%, 75.7%, 73.9%, 77.4%]\nFalse positive rate: 43.7%\nDecision thresholds: [-0.1075]\nTP=288 FP=115 TN=148 FN=25\nPer-anion accuracy:\n  O: 80.8%\n  F: 80.3%\n  Cl: 47.9%\n  Br: 44.4%\n  I: 90.7%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/f7e52970.png",
+      "visit_count": 1,
+      "total_reward": 0.78,
+      "children_ids": [],
+      "depth": 2
+    },
+    "b3e1534c": {
+      "id": "b3e1534c",
+      "parent_id": "d63b6d0b",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX) / (abs(nB) * rB + abs(nX))",
+      "description": "This descriptor combines ionic radius and charge coupling by weighting the radii with the absolute oxidation states, capturing how well the A-site cation fits the cage considering both size and electrostatics, and balancing the B-site's size and charge. It addresses limitations in size-only descriptors by incorporating charge effects that influence bonding strength and stability beyond geometric considerations.",
+      "formula": "",
+      "accuracy": 0.6111544227886057,
+      "metrics": {
+        "train_accuracy": 0.591304347826087,
+        "test_accuracy": 0.7155172413793104,
+        "cv_accuracy": 0.6111544227886057,
+        "cv_std": 0.015694967550478982,
+        "cv_fold_scores": [
+          0.5862068965517241,
+          0.6086956521739131,
+          0.6173913043478261,
+          0.6347826086956522,
+          0.6086956521739131
+        ],
+        "false_positive_rate": 0.8250950570342205,
+        "per_anion_accuracy": {
+          "O": 0.6747967479674797,
+          "F": 0.8484848484848485,
+          "Cl": 0.4084507042253521,
+          "Br": 0.4444444444444444,
+          "I": 0.20930232558139536
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 61.6%\nTrain accuracy: 59.1%\nTest accuracy: 71.6%\nCV accuracy (5 fold): 61.1% \u00b1 1.6%  [58.6%, 60.9%, 61.7%, 63.5%, 60.9%]\nFalse positive rate: 82.5%\nDecision thresholds: [1.9100]\nTP=309 FP=217 TN=46 FN=4\nPer-anion accuracy:\n  O: 67.5%\n  F: 84.8%\n  Cl: 40.8%\n  Br: 44.4%\n  I: 20.9%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/b3e1534c.png",
+      "visit_count": 1,
+      "total_reward": 0.14,
+      "children_ids": [],
+      "depth": 2
+    },
+    "5a982898": {
+      "id": "5a982898",
+      "parent_id": "d4fa3940",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA - nX * rX) + abs(nB * rB - nX * rX)) / (abs(nA) + abs(nB) + abs(nX))",
+      "description": "This descriptor captures the charge-size coupling by comparing the scaled ionic radii (size adjusted by oxidation state) of the cations and anions. It reflects how well the charge-scaled sizes of A and B match the negative charge of X, addressing effects like charge-driven bonding preferences and electronegativity mismatches that influence stability beyond simple size ratios.",
+      "formula": "",
+      "accuracy": 0.7014242878560719,
+      "metrics": {
+        "train_accuracy": 0.7195652173913043,
+        "test_accuracy": 0.6982758620689655,
+        "cv_accuracy": 0.7014242878560719,
+        "cv_std": 0.0359841953358756,
+        "cv_fold_scores": [
+          0.6810344827586207,
+          0.7565217391304347,
+          0.6782608695652174,
+          0.7304347826086957,
+          0.6608695652173913
+        ],
+        "false_positive_rate": 0.5817490494296578,
+        "per_anion_accuracy": {
+          "O": 0.8915989159891599,
+          "F": 0.803030303030303,
+          "Cl": 0.2535211267605634,
+          "Br": 0.18518518518518517,
+          "I": 0.16279069767441862
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 71.5%\nTrain accuracy: 72.0%\nTest accuracy: 69.8%\nCV accuracy (5 fold): 70.1% \u00b1 3.6%  [68.1%, 75.7%, 67.8%, 73.0%, 66.1%]\nFalse positive rate: 58.2%\nDecision thresholds: [1.2912]\nTP=302 FP=153 TN=110 FN=11\nPer-anion accuracy:\n  O: 89.2%\n  F: 80.3%\n  Cl: 25.4%\n  Br: 18.5%\n  I: 16.3%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/5a982898.png",
+      "visit_count": 1,
+      "total_reward": 0.5800000000000001,
+      "children_ids": [],
+      "depth": 1
+    },
+    "eb43e037": {
+      "id": "eb43e037",
+      "parent_id": "20580b1a",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (nA * rA + nB * rB) / (abs(nX) * rX)",
+      "description": "This descriptor captures the electrostatic influence of oxidation states on ionic size compatibility. By weighting the radii with their respective cation/anion charges, it reflects how charge-driven electrostatic attractions or repulsions influence perovskite stability beyond simple size ratios. Higher values suggest better electrostatic fit and potentially greater stability, addressing the weaknesses where purely size-based descriptors fail to discriminate stability influenced by charge interactions.",
+      "formula": "\\frac{n_A \\, r_A + n_B \\, r_B}{|n_X| \\, r_X}",
+      "accuracy": 0.805592203898051,
+      "metrics": {
+        "train_accuracy": 0.8239130434782609,
+        "test_accuracy": 0.7413793103448276,
+        "cv_accuracy": 0.805592203898051,
+        "cv_std": 0.014611008352079766,
+        "cv_fold_scores": [
+          0.7844827586206896,
+          0.8260869565217391,
+          0.8,
+          0.8173913043478261,
+          0.8
+        ],
+        "false_positive_rate": 0.38022813688212925,
+        "per_anion_accuracy": {
+          "O": 0.8915989159891599,
+          "F": 0.7727272727272727,
+          "Cl": 0.4788732394366197,
+          "Br": 0.48148148148148145,
+          "I": 0.8837209302325582
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 80.7%\nTrain accuracy: 82.4%\nTest accuracy: 74.1%\nCV accuracy (5 fold): 80.6% \u00b1 1.5%  [78.4%, 82.6%, 80.0%, 81.7%, 80.0%]\nFalse positive rate: 38.0%\nDecision thresholds: [1.6919]\nTP=302 FP=100 TN=163 FN=11\nPer-anion accuracy:\n  O: 89.2%\n  F: 77.3%\n  Cl: 47.9%\n  Br: 48.1%\n  I: 88.4%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/eb43e037.png",
+      "visit_count": 1,
+      "total_reward": 0.98,
+      "children_ids": [],
+      "depth": 3
+    },
+    "374fa21f": {
+      "id": "374fa21f",
+      "parent_id": "f6975dd2",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nB) * rB + abs(nX) * rX) / (abs(nA) + abs(nB) + abs(nX))",
+      "description": "This descriptor combines ionic radii weighted by the absolute oxidation states of all three ions, capturing the overall electrostatic and covalent bonding effects that influence perovskite stability. By including the B-site oxidation state, it accounts for the charge-driven bonding preferences and coordination tendencies beyond simple size ratios, addressing weaknesses related to anion type and charge mismatch.",
+      "formula": "",
+      "accuracy": 0.7083808095952024,
+      "metrics": {
+        "train_accuracy": 0.7195652173913043,
+        "test_accuracy": 0.7068965517241379,
+        "cv_accuracy": 0.7083808095952024,
+        "cv_std": 0.035023605473970966,
+        "cv_fold_scores": [
+          0.6810344827586207,
+          0.7652173913043478,
+          0.6956521739130435,
+          0.7304347826086957,
+          0.6695652173913044
+        ],
+        "false_positive_rate": 0.5779467680608364,
+        "per_anion_accuracy": {
+          "O": 0.8915989159891599,
+          "F": 0.803030303030303,
+          "Cl": 0.2676056338028169,
+          "Br": 0.18518518518518517,
+          "I": 0.16279069767441862
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 71.7%\nTrain accuracy: 72.0%\nTest accuracy: 70.7%\nCV accuracy (5 fold): 70.8% \u00b1 3.5%  [68.1%, 76.5%, 69.6%, 73.0%, 67.0%]\nFalse positive rate: 57.8%\nDecision thresholds: [0.9412]\nTP=302 FP=152 TN=111 FN=11\nPer-anion accuracy:\n  O: 89.2%\n  F: 80.3%\n  Cl: 26.8%\n  Br: 18.5%\n  I: 16.3%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/374fa21f.png",
+      "visit_count": 1,
+      "total_reward": 0.62,
+      "children_ids": [],
+      "depth": 2
+    },
+    "b264510c": {
+      "id": "b264510c",
+      "parent_id": "ebc05392",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (rA * abs(nA) + rB * abs(nB) + rX * abs(nX)) / (abs(nA) + abs(nB) + abs(nX))",
+      "description": "This descriptor combines ionic radii weighted by the absolute value of their oxidation states, capturing charge-dependent effects on bonding and stability beyond simple size ratios. It reflects how the size and charge coupling influences the fit and electrostatic interactions within the perovskite cage, addressing limitations of purely size-based factors.",
+      "formula": "",
+      "accuracy": 0.7083808095952024,
+      "metrics": {
+        "train_accuracy": 0.7195652173913043,
+        "test_accuracy": 0.7068965517241379,
+        "cv_accuracy": 0.7083808095952024,
+        "cv_std": 0.035023605473970966,
+        "cv_fold_scores": [
+          0.6810344827586207,
+          0.7652173913043478,
+          0.6956521739130435,
+          0.7304347826086957,
+          0.6695652173913044
+        ],
+        "false_positive_rate": 0.5779467680608364,
+        "per_anion_accuracy": {
+          "O": 0.8915989159891599,
+          "F": 0.803030303030303,
+          "Cl": 0.2676056338028169,
+          "Br": 0.18518518518518517,
+          "I": 0.16279069767441862
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 71.7%\nTrain accuracy: 72.0%\nTest accuracy: 70.7%\nCV accuracy (5 fold): 70.8% \u00b1 3.5%  [68.1%, 76.5%, 69.6%, 73.0%, 67.0%]\nFalse positive rate: 57.8%\nDecision thresholds: [0.9412]\nTP=302 FP=152 TN=111 FN=11\nPer-anion accuracy:\n  O: 89.2%\n  F: 80.3%\n  Cl: 26.8%\n  Br: 18.5%\n  I: 16.3%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/b264510c.png",
+      "visit_count": 1,
+      "total_reward": 0.6,
+      "children_ids": [],
+      "depth": 3
+    },
+    "0e54ace1": {
+      "id": "0e54ace1",
+      "parent_id": "7071bf0a",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX) / (abs(nB) * rB + abs(nX) * rX)",
+      "description": "This descriptor captures the electrostatic balance by combining ionic sizes with the magnitudes of oxidation states, emphasizing charge-driven interactions. It assesses how well the A site (with its charge) and the X anion (also charge-dependent) fit relative to the B cation, accounting for bonding preferences influenced by charge magnitude. This approach addresses limitations of size-only ratios by integrating charge effects, which are critical for stabilizing or destabilizing perovskite structures, especially across different anion types.",
+      "formula": "",
+      "accuracy": 0.5937781109445277,
+      "metrics": {
+        "train_accuracy": 0.6369565217391304,
+        "test_accuracy": 0.5775862068965517,
+        "cv_accuracy": 0.5937781109445277,
+        "cv_std": 0.01785644331100513,
+        "cv_fold_scores": [
+          0.5775862068965517,
+          0.5826086956521739,
+          0.6,
+          0.5826086956521739,
+          0.6260869565217392
+        ],
+        "false_positive_rate": 0.7262357414448669,
+        "per_anion_accuracy": {
+          "O": 0.6639566395663956,
+          "F": 0.8333333333333334,
+          "Cl": 0.4788732394366197,
+          "Br": 0.48148148148148145,
+          "I": 0.3023255813953488
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 62.5%\nTrain accuracy: 63.7%\nTest accuracy: 57.8%\nCV accuracy (5 fold): 59.4% \u00b1 1.8%  [57.8%, 58.3%, 60.0%, 58.3%, 62.6%]\nFalse positive rate: 72.6%\nDecision thresholds: [0.8720]\nTP=288 FP=191 TN=72 FN=25\nPer-anion accuracy:\n  O: 66.4%\n  F: 83.3%\n  Cl: 47.9%\n  Br: 48.1%\n  I: 30.2%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/0e54ace1.png",
+      "visit_count": 1,
+      "total_reward": 0.09999999999999998,
+      "children_ids": [],
+      "depth": 3
+    },
+    "36f88a6a": {
+      "id": "36f88a6a",
+      "parent_id": "72ac1a07",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX) / (abs(nB) * rB)",
+      "description": "This descriptor incorporates the magnitude of oxidation states to reflect electrostatic interactions and bonding preferences, coupled with ionic radii to account for size compatibility. By emphasizing the effective charge coupling through absolute values, it captures the charge-size interplay influencing stability beyond simple size ratios, addressing charge mismatch and bonding effects critical for perovskite formation.",
+      "formula": "",
+      "accuracy": 0.638920539730135,
+      "metrics": {
+        "train_accuracy": 0.6108695652173913,
+        "test_accuracy": 0.7327586206896551,
+        "cv_accuracy": 0.638920539730135,
+        "cv_std": 0.02039103973685069,
+        "cv_fold_scores": [
+          0.6206896551724138,
+          0.6608695652173913,
+          0.6521739130434783,
+          0.6521739130434783,
+          0.6086956521739131
+        ],
+        "false_positive_rate": 0.7984790874524715,
+        "per_anion_accuracy": {
+          "O": 0.7289972899728997,
+          "F": 0.803030303030303,
+          "Cl": 0.3380281690140845,
+          "Br": 0.4074074074074074,
+          "I": 0.20930232558139536
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 63.5%\nTrain accuracy: 61.1%\nTest accuracy: 73.3%\nCV accuracy (5 fold): 63.9% \u00b1 2.0%  [62.1%, 66.1%, 65.2%, 65.2%, 60.9%]\nFalse positive rate: 79.8%\nDecision thresholds: [4.7315]\nTP=313 FP=210 TN=53 FN=0\nPer-anion accuracy:\n  O: 72.9%\n  F: 80.3%\n  Cl: 33.8%\n  Br: 40.7%\n  I: 20.9%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/36f88a6a.png",
+      "visit_count": 1,
+      "total_reward": 0.33999999999999997,
+      "children_ids": [],
+      "depth": 3
+    },
+    "01dc1f99": {
+      "id": "01dc1f99",
+      "parent_id": "1dd93aa1",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA / abs(nA) + abs(nX) * rX / abs(nX)) / (abs(nB) * rB / abs(nB) + abs(nX) * rX / abs(nX))",
+      "description": "This descriptor incorporates the coupling between ionic size and oxidation state magnitudes, reflecting charge-dependent bonding preferences and electrostatic interactions. By normalizing the radii with the magnitude of their oxidation states, it captures how charge mismatch and ionic size jointly influence stability beyond simple size ratios. This addresses the deficiencies seen with purely size-based descriptors, especially for different anion types with varying electronegativities and bonding behaviors.",
+      "formula": "",
+      "accuracy": 0.6423838080959521,
+      "metrics": {
+        "train_accuracy": 0.6521739130434783,
+        "test_accuracy": 0.6982758620689655,
+        "cv_accuracy": 0.6423838080959521,
+        "cv_std": 0.033356740693333345,
+        "cv_fold_scores": [
+          0.6293103448275862,
+          0.6695652173913044,
+          0.6347826086956522,
+          0.591304347826087,
+          0.6869565217391305
+        ],
+        "false_positive_rate": 0.688212927756654,
+        "per_anion_accuracy": {
+          "O": 0.7018970189701897,
+          "F": 0.8636363636363636,
+          "Cl": 0.49295774647887325,
+          "Br": 0.5555555555555556,
+          "I": 0.3488372093023256
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 66.1%\nTrain accuracy: 65.2%\nTest accuracy: 69.8%\nCV accuracy (5 fold): 64.2% \u00b1 3.3%  [62.9%, 67.0%, 63.5%, 59.1%, 68.7%]\nFalse positive rate: 68.8%\nDecision thresholds: [1.1723]\nTP=299 FP=181 TN=82 FN=14\nPer-anion accuracy:\n  O: 70.2%\n  F: 86.4%\n  Cl: 49.3%\n  Br: 55.6%\n  I: 34.9%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/01dc1f99.png",
+      "visit_count": 1,
+      "total_reward": 0.45999999999999996,
+      "children_ids": [],
+      "depth": 3
+    },
+    "63890bf2": {
+      "id": "63890bf2",
+      "parent_id": "8bfb0a23",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA / (abs(nX) + 1) - rX) + abs(nB * rB / (abs(nX) + 1) - rX)) / (rA + rB + rX)",
+      "description": "This descriptor accounts for charge-dependent effective size mismatches by scaling ionic radii with their oxidation states, normalized by the magnitude of the anion's charge. It captures how well the A and B cations' effective charge-radius coupling aligns with the anion size, addressing physical effects like charge polarization and bonding preferences that influence perovskite stability beyond simple size ratios.",
+      "formula": "\\frac{\\left| \\frac{n_A r_A}{|n_X| + 1} - r_X \\right| + \\left| \\frac{n_B r_B}{|n_X| + 1} - r_X \\right|}{r_A + r_B + r_X}",
+      "accuracy": 0.8489505247376312,
+      "metrics": {
+        "train_accuracy": 0.8456521739130435,
+        "test_accuracy": 0.8620689655172413,
+        "cv_accuracy": 0.8489505247376312,
+        "cv_std": 0.03143317051746718,
+        "cv_fold_scores": [
+          0.853448275862069,
+          0.8869565217391304,
+          0.8608695652173913,
+          0.8521739130434782,
+          0.7913043478260869
+        ],
+        "false_positive_rate": 0.2585551330798479,
+        "per_anion_accuracy": {
+          "O": 0.8861788617886179,
+          "F": 0.8181818181818182,
+          "Cl": 0.7323943661971831,
+          "Br": 0.7407407407407407,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 84.9%\nTrain accuracy: 84.6%\nTest accuracy: 86.2%\nCV accuracy (5 fold): 84.9% \u00b1 3.1%  [85.3%, 88.7%, 86.1%, 85.2%, 79.1%]\nFalse positive rate: 25.9%\nDecision thresholds: [0.4140]\nTP=294 FP=68 TN=195 FN=19\nPer-anion accuracy:\n  O: 88.6%\n  F: 81.8%\n  Cl: 73.2%\n  Br: 74.1%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/63890bf2.png",
+      "visit_count": 1,
+      "total_reward": 1.0,
+      "children_ids": [],
+      "depth": 2
+    },
+    "17d6cbb2": {
+      "id": "17d6cbb2",
+      "parent_id": "8bfb0a23",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA * rA / nX) - abs(nB * rB / nX))",
+      "description": "This descriptor captures the charge-coupled size mismatch between the A and B ions by incorporating oxidation states directly into the size ratio, reflecting how charge influences bonding preferences and lattice stability beyond simple size considerations. A better fit between the charge-scaled sizes of A and B suggests increased likelihood of stable perovskite formation, addressing deficiencies where purely size-based descriptors fail, especially across different anion types.",
+      "formula": "",
+      "accuracy": 0.5694302848575712,
+      "metrics": {
+        "train_accuracy": 0.6239130434782608,
+        "test_accuracy": 0.5517241379310345,
+        "cv_accuracy": 0.5694302848575712,
+        "cv_std": 0.018177716798449945,
+        "cv_fold_scores": [
+          0.5775862068965517,
+          0.5478260869565217,
+          0.591304347826087,
+          0.5478260869565217,
+          0.5826086956521739
+        ],
+        "false_positive_rate": 0.7452471482889734,
+        "per_anion_accuracy": {
+          "O": 0.6476964769647696,
+          "F": 0.8333333333333334,
+          "Cl": 0.43661971830985913,
+          "Br": 0.4444444444444444,
+          "I": 0.32558139534883723
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 60.9%\nTrain accuracy: 62.4%\nTest accuracy: 55.2%\nCV accuracy (5 fold): 56.9% \u00b1 1.8%  [57.8%, 54.8%, 59.1%, 54.8%, 58.3%]\nFalse positive rate: 74.5%\nDecision thresholds: [-0.4450]\nTP=284 FP=196 TN=67 FN=29\nPer-anion accuracy:\n  O: 64.8%\n  F: 83.3%\n  Cl: 43.7%\n  Br: 44.4%\n  I: 32.6%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/17d6cbb2.png",
+      "visit_count": 1,
+      "total_reward": 0.040000000000000036,
+      "children_ids": [],
+      "depth": 2
+    },
+    "4691e8c5": {
+      "id": "4691e8c5",
+      "parent_id": "ebc05392",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (nA * rA + nX * rX) / (abs(nA) + abs(nX))",
+      "description": "This descriptor combines the ionic radii weighted by their oxidation states, capturing how the electrostatic attraction and bonding preferences depend on both size and charge coupling. It reflects the effective size of the A-site environment modulated by its charge, providing a measure beyond simple size ratios and addressing the influence of charge mismatch on stability.",
+      "formula": "\\frac{n_A r_A + n_X r_X}{|n_A| + |n_X|}",
+      "accuracy": 0.7690704647676162,
+      "metrics": {
+        "train_accuracy": 0.7913043478260869,
+        "test_accuracy": 0.6982758620689655,
+        "cv_accuracy": 0.7690704647676162,
+        "cv_std": 0.0251804266762684,
+        "cv_fold_scores": [
+          0.7844827586206896,
+          0.7391304347826086,
+          0.7478260869565218,
+          0.7652173913043478,
+          0.808695652173913
+        ],
+        "false_positive_rate": 0.3155893536121673,
+        "per_anion_accuracy": {
+          "O": 0.8102981029810298,
+          "F": 0.803030303030303,
+          "Cl": 0.6056338028169014,
+          "Br": 0.5555555555555556,
+          "I": 0.813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 77.3%\nTrain accuracy: 79.1%\nTest accuracy: 69.8%\nCV accuracy (5 fold): 76.9% \u00b1 2.5%  [78.4%, 73.9%, 74.8%, 76.5%, 80.9%]\nFalse positive rate: 31.6%\nDecision thresholds: [-0.0390]\nTP=265 FP=83 TN=180 FN=48\nPer-anion accuracy:\n  O: 81.0%\n  F: 80.3%\n  Cl: 60.6%\n  Br: 55.6%\n  I: 81.4%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/4691e8c5.png",
+      "visit_count": 1,
+      "total_reward": 0.88,
+      "children_ids": [],
+      "depth": 3
+    },
+    "e476bc37": {
+      "id": "e476bc37",
+      "parent_id": "0fbd2668",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX) / (abs(nB) * rB + abs(nX) * rX)",
+      "description": "This descriptor combines ionic size and charge coupling to incorporate the electrostatic environment and charge-driven bonding effects influencing stability. The numerator emphasizes the influence of A and X charges and sizes, while the denominator reflects B size and charge, capturing how charge mismatch and ionic sizes collectively affect the cage fit and bonding environment beyond simple size ratios.",
+      "formula": "",
+      "accuracy": 0.5937781109445277,
+      "metrics": {
+        "train_accuracy": 0.6369565217391304,
+        "test_accuracy": 0.5775862068965517,
+        "cv_accuracy": 0.5937781109445277,
+        "cv_std": 0.01785644331100513,
+        "cv_fold_scores": [
+          0.5775862068965517,
+          0.5826086956521739,
+          0.6,
+          0.5826086956521739,
+          0.6260869565217392
+        ],
+        "false_positive_rate": 0.7262357414448669,
+        "per_anion_accuracy": {
+          "O": 0.6639566395663956,
+          "F": 0.8333333333333334,
+          "Cl": 0.4788732394366197,
+          "Br": 0.48148148148148145,
+          "I": 0.3023255813953488
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 62.5%\nTrain accuracy: 63.7%\nTest accuracy: 57.8%\nCV accuracy (5 fold): 59.4% \u00b1 1.8%  [57.8%, 58.3%, 60.0%, 58.3%, 62.6%]\nFalse positive rate: 72.6%\nDecision thresholds: [0.8720]\nTP=288 FP=191 TN=72 FN=25\nPer-anion accuracy:\n  O: 66.4%\n  F: 83.3%\n  Cl: 47.9%\n  Br: 48.1%\n  I: 30.2%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/e476bc37.png",
+      "visit_count": 1,
+      "total_reward": 0.07999999999999996,
+      "children_ids": [],
+      "depth": 3
+    },
+    "e031269c": {
+      "id": "e031269c",
+      "parent_id": "816c9e9f",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (rA * nA + rX * nX) / (rB * nB + 1)",
+      "description": "This descriptor incorporates charge effects by multiplying ionic radii with their oxidation states, capturing electrostatic attraction strength and bonding preferences beyond mere size ratios. The numerator reflects the electrostatic pull between the A and X ions, while the denominator normalizes by the B ion's size and charge, emphasizing the balance of electrostatic interactions that influence structural stability. This approach addresses weaknesses in size-only descriptors by including the influence of charge magnitude and bonding preferences, which are critical for perovskite stability across different anion types.",
+      "formula": "",
+      "accuracy": 0.7535082458770614,
+      "metrics": {
+        "train_accuracy": 0.7782608695652173,
+        "test_accuracy": 0.6724137931034483,
+        "cv_accuracy": 0.7535082458770614,
+        "cv_std": 0.015490702957948663,
+        "cv_fold_scores": [
+          0.7327586206896551,
+          0.7652173913043478,
+          0.7565217391304347,
+          0.7391304347826086,
+          0.7739130434782608
+        ],
+        "false_positive_rate": 0.4372623574144487,
+        "per_anion_accuracy": {
+          "O": 0.8075880758807588,
+          "F": 0.803030303030303,
+          "Cl": 0.4788732394366197,
+          "Br": 0.4444444444444444,
+          "I": 0.9069767441860465
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 75.7%\nTrain accuracy: 77.8%\nTest accuracy: 67.2%\nCV accuracy (5 fold): 75.4% \u00b1 1.5%  [73.3%, 76.5%, 75.7%, 73.9%, 77.4%]\nFalse positive rate: 43.7%\nDecision thresholds: [-0.1075]\nTP=288 FP=115 TN=148 FN=25\nPer-anion accuracy:\n  O: 80.8%\n  F: 80.3%\n  Cl: 47.9%\n  Br: 44.4%\n  I: 90.7%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/e031269c.png",
+      "visit_count": 1,
+      "total_reward": 0.76,
+      "children_ids": [],
+      "depth": 3
+    },
+    "c520fc85": {
+      "id": "c520fc85",
+      "parent_id": "9e9d7083",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA + abs(nX) * rX) / (abs(nB) * rB)",
+      "description": "This descriptor combines ionic radii with the magnitudes of oxidation states to account for electrostatic bonding and charge-driven effects that influence cage fit and stability. It emphasizes the balance between the A-site's charge-scaled size and the X anion's size relative to the B cation's charge-scaled size, capturing beyond simple size compatibility by incorporating charge effects that impact bonding strength and structural stability.",
+      "formula": "",
+      "accuracy": 0.638920539730135,
+      "metrics": {
+        "train_accuracy": 0.6108695652173913,
+        "test_accuracy": 0.7327586206896551,
+        "cv_accuracy": 0.638920539730135,
+        "cv_std": 0.02039103973685069,
+        "cv_fold_scores": [
+          0.6206896551724138,
+          0.6608695652173913,
+          0.6521739130434783,
+          0.6521739130434783,
+          0.6086956521739131
+        ],
+        "false_positive_rate": 0.7984790874524715,
+        "per_anion_accuracy": {
+          "O": 0.7289972899728997,
+          "F": 0.803030303030303,
+          "Cl": 0.3380281690140845,
+          "Br": 0.4074074074074074,
+          "I": 0.20930232558139536
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 63.5%\nTrain accuracy: 61.1%\nTest accuracy: 73.3%\nCV accuracy (5 fold): 63.9% \u00b1 2.0%  [62.1%, 66.1%, 65.2%, 65.2%, 60.9%]\nFalse positive rate: 79.8%\nDecision thresholds: [4.7315]\nTP=313 FP=210 TN=53 FN=0\nPer-anion accuracy:\n  O: 72.9%\n  F: 80.3%\n  Cl: 33.8%\n  Br: 40.7%\n  I: 20.9%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/c520fc85.png",
+      "visit_count": 1,
+      "total_reward": 0.31999999999999995,
+      "children_ids": [],
+      "depth": 3
+    },
+    "3022a9f5": {
+      "id": "3022a9f5",
+      "parent_id": "4a63f377",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    return (abs(nA) * rA - abs(nX) * rX) / (abs(nA) + abs(nX))",
+      "description": "This descriptor combines ionic radii weighted by their absolute oxidation states to account for charge-dependent bonding effects. It captures the relative size and charge compatibility between the A-site cation and the X-site anion, addressing the influence of electrostatic attraction and bonding preferences beyond simple size ratios. By emphasizing the charge-scaled size difference between A and X, it better discriminates stable perovskite formation, especially across different anion types with variable electronegativities.",
+      "formula": "\\frac{|n_A| \\cdot r_A - |n_X| \\cdot r_X}{|n_A| + |n_X|}",
+      "accuracy": 0.7690704647676162,
+      "metrics": {
+        "train_accuracy": 0.7913043478260869,
+        "test_accuracy": 0.6982758620689655,
+        "cv_accuracy": 0.7690704647676162,
+        "cv_std": 0.0251804266762684,
+        "cv_fold_scores": [
+          0.7844827586206896,
+          0.7391304347826086,
+          0.7478260869565218,
+          0.7652173913043478,
+          0.808695652173913
+        ],
+        "false_positive_rate": 0.3155893536121673,
+        "per_anion_accuracy": {
+          "O": 0.8102981029810298,
+          "F": 0.803030303030303,
+          "Cl": 0.6056338028169014,
+          "Br": 0.5555555555555556,
+          "I": 0.813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 77.3%\nTrain accuracy: 79.1%\nTest accuracy: 69.8%\nCV accuracy (5 fold): 76.9% \u00b1 2.5%  [78.4%, 73.9%, 74.8%, 76.5%, 80.9%]\nFalse positive rate: 31.6%\nDecision thresholds: [-0.0390]\nTP=265 FP=83 TN=180 FN=48\nPer-anion accuracy:\n  O: 81.0%\n  F: 80.3%\n  Cl: 60.6%\n  Br: 55.6%\n  I: 81.4%"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/20260319_121756/plots/3022a9f5.png",
+      "visit_count": 1,
+      "total_reward": 0.86,
+      "children_ids": [],
+      "depth": 2
+    }
+  },
+  "root_children": [
+    "976a4f4d",
+    "ee6b9b1c",
+    "d4fa3940",
+    "863de9b8",
+    "bd658869"
+  ],
+  "budget_used": 50,
+  "total_llm_calls": 50,
+  "debug_calls": 0
+}

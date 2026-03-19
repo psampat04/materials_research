@@ -8,6 +8,7 @@ from llm_client import LLMClient
 from prompts import (
     IMPROVEMENT_PROMPT_TEMPLATE,
     INITIAL_PROMPT_TEMPLATE,
+    LATEX_PROMPT_TEMPLATE,
     PROBLEM_DESCRIPTION,
     SYSTEM_PROMPT,
 )
@@ -25,21 +26,15 @@ class Proposal:
 
 
 def _build_proposal(data: dict) -> Proposal:
-    # Be strict about the essential fields needed to run the search,
-    # but treat the LaTeX formula as optional so occasional LLM mistakes
-    # do not crash the entire run.
     missing_required = [k for k in ("function", "explanation") if k not in data]
     if missing_required:
         raise ValueError(
             f"LLM JSON missing required keys: {missing_required}; got: {list(data.keys())}"
         )
-    if "formula" not in data:
-        log.warning("LLM JSON missing optional key 'formula'; defaulting to empty string.")
-        data["formula"] = ""
     return Proposal(
         function=data["function"],
         explanation=data["explanation"],
-        formula=data["formula"],
+        formula="",  # derived post-hoc via derive_latex()
     )
 
 
@@ -53,10 +48,19 @@ def propose_initial(client: LLMClient) -> Proposal:
     return _build_proposal(data)
 
 
+def derive_latex(client: LLMClient, code: str) -> str:
+    """Ask the LLM to produce an exact LaTeX formula from the Python code."""
+    prompt = LATEX_PROMPT_TEMPLATE.format(code=code)
+    messages = [
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": prompt},
+    ]
+    return client.query_text(messages).strip().strip("$")
+
+
 def propose_improvement(
     client: LLMClient,
     parent_code: str,
-    parent_formula: str,
     parent_explanation: str,
     metrics_summary: str,
     plot_image: Path,
@@ -64,7 +68,6 @@ def propose_improvement(
     prompt = IMPROVEMENT_PROMPT_TEMPLATE.format(
         problem_desc=PROBLEM_DESCRIPTION,
         parent_code=parent_code,
-        parent_formula=parent_formula,
         parent_explanation=parent_explanation,
         metrics_summary=metrics_summary,
     )

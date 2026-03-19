@@ -172,7 +172,6 @@ def expand_child(
     proposal = propose_improvement(
         client,
         parent.code,
-        parent.formula,
         parent.description,
         parent.metrics["metrics_summary"],
         Path(parent.plot_path),

@@ -96,6 +96,11 @@ class LLMClient:
             raw = self.query_with_images(messages, images) if images else self.query_text(messages)
             return self._parse_json(raw)
 
+    @staticmethod
+    def _fix_backslashes(text: str) -> str:
+        """Escape lone backslashes that aren't valid JSON escape sequences."""
+        return re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', text)
+
     def _parse_json(self, response: str) -> dict:
         match = re.search(r"```(?:json)?\s*(.*?)```", response, re.DOTALL)
         raw = match.group(1).strip() if match else response.strip()
