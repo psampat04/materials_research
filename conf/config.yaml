@@ -1,14 +1,14 @@
 llm:
   model: "gpt-4.1-nano"
   temperature: 0.7
-  max_tokens: 2048
+  max_tokens: 3000
 
 mcts:
-  budget: 50
-  initial_samples: 5
-  ucb_constant: 1.0575
-  max_depth: 10
-  max_children_per_node: 10
+  budget: 100
+  initial_samples: 8
+  ucb_constant: 1.41
+  max_depth: 8
+  max_children_per_node: 4
 
 eval:
   data_path: "perovskite-stability/TableS1.csv"

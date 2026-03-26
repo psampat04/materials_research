@@ -43,9 +43,16 @@ INITIAL_PROMPT_TEMPLATE = """
 
 Propose a novel descriptor formula. Be creative and try something genuinely new.
 
+Before choosing your final descriptor, first brainstorm 10 new candidate descriptor
+expressions similar in spirit to the paper, using only (r_A, r_B, r_X, n_A, n_B, n_X).
+Each candidate should be representable as a raw LaTeX string (for example:
+r"\\frac{{r_X}}{{r_B}} - n_A \\cdot (n_A - \\frac{{r_A/r_B}}{{\\ln(r_A/r_B)}})").
+Do this brainstorming internally and then select the single best candidate for output.
+
 STRICT RULES — violating any of these will make your answer invalid:
 - Do NOT reproduce the classical Goldschmidt tolerance factor: t = (rA + rX) / (sqrt(2) * (rB + rX))
 - Do NOT reproduce the Bartel tau factor: tau = (rX / rB) - nA * (nA - (rA / rB) / ln(rA / rB))
+- Do NOT output any formula that is t or tau, including simple rescalings/rearrangements of them.
 - Your descriptor must use a meaningfully different functional form from both of the above.
 
 Output ONLY the JSON, no other text.
@@ -74,9 +81,15 @@ Analyze what the previous descriptor gets wrong:
 
 Propose an IMPROVED descriptor that addresses these weaknesses.
 
+Before choosing the improved descriptor, first brainstorm 10 new candidate descriptor
+expressions similar in spirit to the paper, using only (r_A, r_B, r_X, n_A, n_B, n_X).
+Each candidate should be representable as a raw LaTeX string. Do this brainstorming
+internally and then pick the single best candidate for output.
+
 STRICT RULES — violating any of these will make your answer invalid:
 - Do NOT reproduce the classical Goldschmidt tolerance factor: t = (rA + rX) / (sqrt(2) * (rB + rX))
 - Do NOT reproduce the Bartel tau factor: tau = (rX / rB) - nA * (nA - (rA / rB) / ln(rA / rB))
+- Do NOT output any formula that is t or tau, including simple rescalings/rearrangements of them.
 - Your new descriptor must have a DIFFERENT functional form from the parent descriptor shown above — different mathematical structure, not just rescaled or rearranged versions of it.
 - Do NOT simply rename variables or add a constant offset/scaling to the parent formula.
 - Make a genuinely meaningful change: introduce new physical terms, combine variables in a new way, or use a completely different physical rationale.

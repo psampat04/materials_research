@@ -19,14 +19,24 @@ def truncate(text: str, max_len: int = 60) -> str:
 
 def accuracy_color(test_acc: float) -> str:
     if test_acc >= 0.80:
-        return "#00AA44"  # vivid green
+        return "#2C7BB6"  # deep blue
     if test_acc >= 0.75:
-        return "#66CC55"  # bright lime-green
+        return "#00A6CA"  # cyan
     if test_acc >= 0.70:
-        return "#FFD700"  # gold yellow
+        return "#F9D057"  # yellow
     if test_acc >= 0.65:
-        return "#FF8800"  # bright orange
-    return "#DD1100"      # strong red
+        return "#F29E2E"  # orange
+    return "#D1495B"  # red
+
+
+def text_color_for_fill(fill_hex: str) -> str:
+    """Pick black/white text based on fill luminance for readability."""
+    fill_hex = fill_hex.lstrip("#")
+    r = int(fill_hex[0:2], 16)
+    g = int(fill_hex[2:4], 16)
+    b = int(fill_hex[4:6], 16)
+    luminance = 0.299 * r + 0.587 * g + 0.114 * b
+    return "black" if luminance >= 145 else "white"
 
 
 def build_tree(state_path: str, output_path: str | None = None):
@@ -70,7 +80,7 @@ def build_tree(state_path: str, output_path: str | None = None):
         )
 
         color = accuracy_color(test_acc)
-        fontcolor = "white" if test_acc >= 0.80 or test_acc < 0.65 else "black"
+        fontcolor = text_color_for_fill(color)
         dot.node(nid, label, fillcolor=color, fontcolor=fontcolor)
 
     for rid in root_children:
