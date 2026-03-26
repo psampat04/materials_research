@@ -1,0 +1,1820 @@
+{
+  "nodes": {
+    "eea9be49": {
+      "id": "eea9be49",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Novel descriptor based on the ratio of ionic radii and oxidation states\n    ratio_size = (rA + rX) / (rB + rX)\n    charge_balance = (nA * nX) / (nB * nX)\n    # Combine both features non-linearly to emphasize size match and charge compatibility\n    value = (ratio_size ** 2) + abs(charge_balance) * 0.5\n    return float(value)",
+      "description": "This descriptor combines a non-linear transformation of the ionic size ratio with a measure of charge balance, emphasizing the compatibility of ionic sizes and oxidation states for stable perovskite formation. A good fit in both size and charge domains suggests higher stability, and the non-linear combination captures complex interactions beyond linear models.",
+      "formula": "D = \\left( \\frac{r_A + r_X}{r_B + r_X} \\right)^2 + \\frac{|n_A n_X|}{|n_B n_X|} \\times 0.5",
+      "accuracy": 0.7673163418290855,
+      "metrics": {
+        "train_accuracy": 0.7782608695652173,
+        "test_accuracy": 0.8103448275862069,
+        "cv_accuracy": 0.7673163418290855,
+        "cv_std": 0.03810102294071492,
+        "cv_fold_scores": [
+          0.7931034482758621,
+          0.8173913043478261,
+          0.7043478260869566,
+          0.7652173913043478,
+          0.7565217391304347
+        ],
+        "false_positive_rate": 0.41825095057034223,
+        "per_anion_accuracy": {
+          "O": 0.8644986449864499,
+          "F": 0.8787878787878788,
+          "Cl": 0.5915492957746479,
+          "Br": 0.5555555555555556,
+          "I": 0.4186046511627907
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 78.5%\nTrain accuracy: 77.8%\nTest accuracy: 81.0%\nCV accuracy (5 fold): 76.7% \u00b1 3.8%  [79.3%, 81.7%, 70.4%, 76.5%, 75.7%]\nFalse positive rate: 41.8%\nDecision thresholds: [1.6774, 1.7628, 2.5398]\nTP=299 FP=110 TN=153 FN=14\nPer-anion accuracy:\n  O: 86.4%\n  F: 87.9%\n  Cl: 59.2%\n  Br: 55.6%\n  I: 41.9%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/eea9be49.png",
+      "visit_count": 14,
+      "total_reward": 12.6,
+      "children_ids": [
+        "6af86bd4",
+        "2de163df",
+        "bcee1f54",
+        "466df8ef",
+        "92fb8406",
+        "3e12b22f",
+        "e24b9f64",
+        "1501259e",
+        "28206b00",
+        "39ba33d5"
+      ],
+      "depth": 0
+    },
+    "6b1a8807": {
+      "id": "6b1a8807",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Novel descriptor: combines ionic size mismatch with oxidation states.\n    # It assesses the relative size difference modulated by the charge balance.\n    size_ratio_A_B = rA / rB\n    size_diff_A_B = abs(rA - rB)\n    charge_product = nA * nB\n    # Incorporate a nonlinear penalty for size mismatch and charge imbalance.\n    stability_score = (1 / (1 + abs(size_ratio_A_B - 1))) + 0.1 * charge_product / (size_diff_A_B + 1e-6)\n    # Return a monotonic function (e.g., a scaled sigmoid) for stability prediction.\n    import math\n    return 1 / (1 + math.exp(-stability_score + 0.5))",
+      "description": "This descriptor assesses stability based on the relative ionic size compatibility between A and B cations, emphasizing size matching (size_ratio_A_B near 1) with an additional consideration of charge balance through the product of oxidation states. The nonlinear sigmoid function ensures a smooth, monotonic increase in the descriptor value with improved stability, capturing the interplay between size fit and electrostatic considerations in a way that differs from classical ratios or purely size-based metrics.",
+      "formula": "S = \\frac{1}{1 + \\exp\\left(-\\left(\\frac{1}{1 + |\\frac{r_A}{r_B} - 1|} + 0.1 \\times \\frac{n_A \\times n_B}{|r_A - r_B| + 10^{-6}} - 0.5 \\right) \\right)}",
+      "accuracy": 0.6389655172413793,
+      "metrics": {
+        "train_accuracy": 0.6978260869565217,
+        "test_accuracy": 0.6293103448275862,
+        "cv_accuracy": 0.6389655172413793,
+        "cv_std": 0.03366811658735814,
+        "cv_fold_scores": [
+          0.5948275862068966,
+          0.6956521739130435,
+          0.6173913043478261,
+          0.6434782608695652,
+          0.6434782608695652
+        ],
+        "false_positive_rate": 0.20532319391634982,
+        "per_anion_accuracy": {
+          "O": 0.7669376693766937,
+          "F": 0.16666666666666666,
+          "Cl": 0.6619718309859155,
+          "Br": 0.7037037037037037,
+          "I": 0.7906976744186046
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 68.4%\nTrain accuracy: 69.8%\nTest accuracy: 62.9%\nCV accuracy (5 fold): 63.9% \u00b1 3.4%  [59.5%, 69.6%, 61.7%, 64.3%, 64.3%]\nFalse positive rate: 20.5%\nDecision thresholds: [0.5306, 0.7110, 0.9341]\nTP=185 FP=54 TN=209 FN=128\nPer-anion accuracy:\n  O: 76.7%\n  F: 16.7%\n  Cl: 66.2%\n  Br: 70.4%\n  I: 79.1%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/6b1a8807.png",
+      "visit_count": 5,
+      "total_reward": 0.9000000000000002,
+      "children_ids": [
+        "baf2f193",
+        "d86498f2",
+        "7e363c3f",
+        "e5ca4127"
+      ],
+      "depth": 0
+    },
+    "ec4d1d8e": {
+      "id": "ec4d1d8e",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the relative size mismatch between A and the B-X cage\n    size_ratio = rA / ((rB + rX) / 2)\n    # Incorporate oxidation states to account for electrostatic compatibility\n    charge_factor = abs(nA) / (abs(nB) + abs(nX))\n    # Combine size and charge considerations with a nonlinear exponential penalty\n    stability_score = (size_ratio - 1) ** 2 + 0.5 * (charge_factor - 1) ** 2\n    # Invert to make higher values correspond to higher stability\n    descriptor_value = 1 / (1 + stability_score)\n    return descriptor_value",
+      "description": "This descriptor quantifies the mismatch between the A-site cation size and the average B-X cage size, penalized quadratically to emphasize deviations from ideal fit. Additionally, it incorporates the ratio of A's oxidation state to the combined B and X oxidation states, capturing electrostatic compatibility. By combining these factors nonlinearly, the descriptor emphasizes configurations with well-matched sizes and charges, which are more likely to form stable perovskites.",
+      "formula": "descriptor = \\frac{1}{1 + \\left( \\left( \\frac{r_A}{\\frac{r_B + r_X}{2}} - 1 \\right)^2 + 0.5 \\left( \\frac{|n_A|}{|n_B| + |n_X|} - 1 \\right)^2 \\right)}",
+      "accuracy": 0.668455772113943,
+      "metrics": {
+        "train_accuracy": 0.6739130434782609,
+        "test_accuracy": 0.7241379310344828,
+        "cv_accuracy": 0.668455772113943,
+        "cv_std": 0.02698544059196655,
+        "cv_fold_scores": [
+          0.6379310344827587,
+          0.6434782608695652,
+          0.6695652173913044,
+          0.6782608695652174,
+          0.7130434782608696
+        ],
+        "false_positive_rate": 0.5665399239543726,
+        "per_anion_accuracy": {
+          "O": 0.6612466124661247,
+          "F": 0.8787878787878788,
+          "Cl": 0.6338028169014085,
+          "Br": 0.7037037037037037,
+          "I": 0.6511627906976745
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 68.4%\nTrain accuracy: 67.4%\nTest accuracy: 72.4%\nCV accuracy (5 fold): 66.8% \u00b1 2.7%  [63.8%, 64.3%, 67.0%, 67.8%, 71.3%]\nFalse positive rate: 56.7%\nDecision thresholds: [0.8009, 0.8724, 0.9260]\nTP=280 FP=149 TN=114 FN=33\nPer-anion accuracy:\n  O: 66.1%\n  F: 87.9%\n  Cl: 63.4%\n  Br: 70.4%\n  I: 65.1%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/ec4d1d8e.png",
+      "visit_count": 6,
+      "total_reward": 2.76,
+      "children_ids": [
+        "4a1f0c77",
+        "f0718814",
+        "a1103609",
+        "e7560dea",
+        "3519e291"
+      ],
+      "depth": 0
+    },
+    "b7b8644d": {
+      "id": "b7b8644d",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the size mismatch ratio between A and the octahedral cage formed by B and X\n    cage_factor = (rB + rX) / (rA + rX)\n    # Incorporate oxidation states to account for electrostatics and bonding preferences\n    electrostatic_factor = abs(nA) / (abs(nB) + 1e-6)  # avoid division by zero\n    # Combine size mismatch and oxidation difference into a single descriptor\n    stability_indicator = (cage_factor - 1) * electrostatic_factor\n    # Return a monotonic function: as mismatch increases, stability decreases\n    return 1.0 / (1.0 + abs(stability_indicator))",
+      "description": "This descriptor quantifies the mismatch between the A-site cation size and the effective cage size created by B and X ions, modulated by the electrostatic balance indicated by their oxidation states. A smaller mismatch (closer to 1) suggests better fit and higher stability, while larger mismatch indicates potential instability. This approach integrates size compatibility and electrostatics into a single, monotonic measure that favors stable perovskite formation.",
+      "formula": "D = \\frac{1}{1 + \\left|\\left(\\frac{r_B + r_X}{r_A + r_X} - 1\\right) \\times \\frac{|n_A|}{|n_B| + \\varepsilon}\\right|}",
+      "accuracy": 0.7465367316341829,
+      "metrics": {
+        "train_accuracy": 0.7565217391304347,
+        "test_accuracy": 0.7241379310344828,
+        "cv_accuracy": 0.7465367316341829,
+        "cv_std": 0.022149078889626937,
+        "cv_fold_scores": [
+          0.7413793103448276,
+          0.7478260869565218,
+          0.7130434782608696,
+          0.7478260869565218,
+          0.782608695652174
+        ],
+        "false_positive_rate": 0.4372623574144487,
+        "per_anion_accuracy": {
+          "O": 0.7859078590785907,
+          "F": 0.9090909090909091,
+          "Cl": 0.6619718309859155,
+          "Br": 0.6296296296296297,
+          "I": 0.4186046511627907
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 75.0%\nTrain accuracy: 75.7%\nTest accuracy: 72.4%\nCV accuracy (5 fold): 74.7% \u00b1 2.2%  [74.1%, 74.8%, 71.3%, 74.8%, 78.3%]\nFalse positive rate: 43.7%\nDecision thresholds: [0.7647, 0.9154, 0.9571]\nTP=284 FP=115 TN=148 FN=29\nPer-anion accuracy:\n  O: 78.6%\n  F: 90.9%\n  Cl: 66.2%\n  Br: 63.0%\n  I: 41.9%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/b7b8644d.png",
+      "visit_count": 12,
+      "total_reward": 9.520000000000001,
+      "children_ids": [
+        "5d527422",
+        "b47bd00d",
+        "ac07b602",
+        "74c6d886",
+        "d22155cf",
+        "0b765acc",
+        "534e7fb3",
+        "af4b46ad",
+        "3f6c96cf",
+        "7d55b23f"
+      ],
+      "depth": 0
+    },
+    "71542192": {
+      "id": "71542192",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute a normalized size mismatch metric for A and B relative to the X site.\n    # Incorporate charge considerations to emphasize electrostatic fit.\n    # Use a hyperbolic tangent to smoothly scale the mismatch.\n    size_mismatch_A = abs(rA - (rB + rX) * 0.8)\n    size_mismatch_B = abs(rB - rA * 0.7)\n    charge_factor = 1 + abs(nA + nX) / (abs(nB) + 1)\n    # Combine the mismatches and charge factor into a single descriptor.\n    result = (size_mismatch_A + size_mismatch_B) * charge_factor\n    return result",
+      "description": "This descriptor quantifies the size mismatch between A, B, and X ions, emphasizing how well the A cation fits into the cage formed by BX6 octahedra, while also accounting for electrostatic compatibility via oxidation states. Unlike the classical tolerance factor, it directly measures size deviations with a nonlinear scaling, reflecting the idea that larger mismatches reduce stability. The inclusion of charge factors ensures that ionic charge compatibility influences the predicted stability, capturing both geometric and electrostatic considerations in a single monotonic function.",
+      "formula": "D = (|r_A - 0.8 \\times (r_B + r_X)| + |r_B - 0.7 \\times r_A|) \\times \\left(1 + \\frac{|n_A + n_X|}{|n_B| + 1}\\right)",
+      "accuracy": 0.7621739130434783,
+      "metrics": {
+        "train_accuracy": 0.7673913043478261,
+        "test_accuracy": 0.7844827586206896,
+        "cv_accuracy": 0.7621739130434783,
+        "cv_std": 0.03121969229741956,
+        "cv_fold_scores": [
+          0.75,
+          0.7565217391304347,
+          0.8,
+          0.7130434782608696,
+          0.7913043478260869
+        ],
+        "false_positive_rate": 0.4220532319391635,
+        "per_anion_accuracy": {
+          "O": 0.7777777777777778,
+          "F": 0.803030303030303,
+          "Cl": 0.6197183098591549,
+          "Br": 0.8888888888888888,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 77.1%\nTrain accuracy: 76.7%\nTest accuracy: 78.4%\nCV accuracy (5 fold): 76.2% \u00b1 3.1%  [75.0%, 75.7%, 80.0%, 71.3%, 79.1%]\nFalse positive rate: 42.2%\nDecision thresholds: [0.6050, 0.8635, 1.0390]\nTP=292 FP=111 TN=152 FN=21\nPer-anion accuracy:\n  O: 77.8%\n  F: 80.3%\n  Cl: 62.0%\n  Br: 88.9%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/71542192.png",
+      "visit_count": 13,
+      "total_reward": 11.44,
+      "children_ids": [
+        "f1d56b78",
+        "fd3eb216",
+        "5a04df25",
+        "753aa18a",
+        "2e9b2293",
+        "33248ada",
+        "f7ec3695",
+        "fa2af015",
+        "62adad62",
+        "204d17af"
+      ],
+      "depth": 0
+    },
+    "6af86bd4": {
+      "id": "6af86bd4",
+      "parent_id": "eea9be49",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # New descriptor focusing on ionic size ratios and charge differences\n    size_ratio_A = rA / rX\n    size_ratio_B = rB / rX\n    charge_diff_A = abs(nA - nX)\n    charge_diff_B = abs(nB - nX)\n    # Combine size ratios and charge differences in a multiplicative form\n    value = (size_ratio_A * size_ratio_B) / (charge_diff_A + charge_diff_B + 1)\n    return float(value)",
+      "description": "This descriptor emphasizes the relative fit of the A and B cations within the octahedral framework by considering size ratios normalized to the anion size, which reduces overlap issues seen in the previous size mismatch metric. Additionally, it incorporates the differences in oxidation states between each cation and the anion, reflecting charge compatibility. The multiplicative combination captures synergistic effects of size and charge balance, which are critical for stable perovskite formation. By penalizing large charge differences and emphasizing size ratios, it aims to better discriminate between stable and unstable structures, especially across different anion types.",
+      "formula": "D = \\frac{\\left( \\frac{r_A}{r_X} \\times \\frac{r_B}{r_X} \\right)}{( |n_A - n_X| + |n_B - n_X| + 1)}",
+      "accuracy": 0.6823688155922039,
+      "metrics": {
+        "train_accuracy": 0.691304347826087,
+        "test_accuracy": 0.7155172413793104,
+        "cv_accuracy": 0.6823688155922039,
+        "cv_std": 0.04284663472123029,
+        "cv_fold_scores": [
+          0.6379310344827587,
+          0.7565217391304347,
+          0.6782608695652174,
+          0.6956521739130435,
+          0.6434782608695652
+        ],
+        "false_positive_rate": 0.6083650190114068,
+        "per_anion_accuracy": {
+          "O": 0.8536585365853658,
+          "F": 0.7727272727272727,
+          "Cl": 0.28169014084507044,
+          "Br": 0.2222222222222222,
+          "I": 0.20930232558139536
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 69.6%\nTrain accuracy: 69.1%\nTest accuracy: 71.6%\nCV accuracy (5 fold): 68.2% \u00b1 4.3%  [63.8%, 75.7%, 67.8%, 69.6%, 64.3%]\nFalse positive rate: 60.8%\nDecision thresholds: [0.0248, 0.0292, 0.0389]\nTP=298 FP=160 TN=103 FN=15\nPer-anion accuracy:\n  O: 85.4%\n  F: 77.3%\n  Cl: 28.2%\n  Br: 22.2%\n  I: 20.9%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/6af86bd4.png",
+      "visit_count": 1,
+      "total_reward": 0.5800000000000001,
+      "children_ids": [],
+      "depth": 1
+    },
+    "f1d56b78": {
+      "id": "f1d56b78",
+      "parent_id": "71542192",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the geometric mean of A and B ionic radii to capture size compatibility.\n    size_geo_mean = (rA * rB) ** 0.5\n    # Define a combined electrostatic term representing charge balance.\n    electrostatic_score = abs(nA * nX) / (abs(nB) * (rA + rB + rX))\n    # Incorporate ion polarizability via an empirical constant (assuming known or set as 0.5 for generality).\n    polarizability_effect = 0.5 / (rX + 0.1)\n    # Compute the final descriptor as a weighted sum emphasizing size and electrostatics, with an adjustment for polarizability.\n    result = size_geo_mean * (1 + electrostatic_score) * (1 + polarizability_effect)\n    return result",
+      "description": "This descriptor emphasizes the geometric mean of A and B ionic radii to better reflect size compatibility, which is critical for stable perovskite formation. It introduces an electrostatic score based on oxidation states and ionic radii to account for charge balance and electrostatic interactions, which are crucial especially for different anion types that affect stability differently. Additionally, it incorporates ion polarizability effects, indirectly related to the X anion's size, to address discrepancies observed with halide ions like Cl and I. The combination of these factors aims to produce a monotonic and physically meaningful measure of stability that better discriminates between perovskite and nonperovskite structures across diverse compositions.",
+      "formula": "D = (\\sqrt{r_A r_B}) \\times \\left( 1 + \\frac{|n_A n_X|}{|n_B|(r_A + r_B + r_X)} \\right) \\times \\left( 1 + \\frac{0.5}{r_X + 0.1} \\right)",
+      "accuracy": 0.7379160419790105,
+      "metrics": {
+        "train_accuracy": 0.7760869565217391,
+        "test_accuracy": 0.6896551724137931,
+        "cv_accuracy": 0.7379160419790105,
+        "cv_std": 0.020568950204545064,
+        "cv_fold_scores": [
+          0.6982758620689655,
+          0.7478260869565218,
+          0.7478260869565218,
+          0.7565217391304347,
+          0.7391304347826086
+        ],
+        "false_positive_rate": 0.34980988593155893,
+        "per_anion_accuracy": {
+          "O": 0.8563685636856369,
+          "F": 0.6060606060606061,
+          "Cl": 0.5774647887323944,
+          "Br": 0.48148148148148145,
+          "I": 0.627906976744186
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 75.9%\nTrain accuracy: 77.6%\nTest accuracy: 69.0%\nCV accuracy (5 fold): 73.8% \u00b1 2.1%  [69.8%, 74.8%, 74.8%, 75.7%, 73.9%]\nFalse positive rate: 35.0%\nDecision thresholds: [1.4065, 1.6168, 1.9758]\nTP=266 FP=92 TN=171 FN=47\nPer-anion accuracy:\n  O: 85.6%\n  F: 60.6%\n  Cl: 57.7%\n  Br: 48.1%\n  I: 62.8%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/f1d56b78.png",
+      "visit_count": 1,
+      "total_reward": 0.8,
+      "children_ids": [],
+      "depth": 1
+    },
+    "5d527422": {
+      "id": "5d527422",
+      "parent_id": "b7b8644d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the ratio of the ionic radii differences to account for the mismatch in cage fit\n    size_mismatch = abs(rA - (rB + rX) / 2)\n    # Incorporate the oxidation states to consider electrostatic stability\n    electrostatic_balance = abs(nA) * abs(nX) / (abs(nB) + 1e-6)  # avoid division by zero\n    # Combine size mismatch and electrostatic balance in a multiplicative way to penalize large mismatches\n    combined_score = size_mismatch * electrostatic_balance\n    # Use an exponential decay to ensure monotonic decrease with worsening fit\n    import math\n    return math.exp(-combined_score)",
+      "description": "This descriptor models the stability of ABX3 perovskites by explicitly quantifying the mismatch between the A-site cation size and the average B-X cage size, emphasizing size compatibility. It also incorporates electrostatic considerations through the product of oxidation states of A and X, which influence bonding and charge balance. By combining these factors multiplicatively and applying an exponential decay, the descriptor is monotonic with respect to stability: smaller size mismatch and favorable charge balance lead to higher stability values. This approach addresses previous shortcomings by capturing size mismatch more directly, considering electrostatics more explicitly, and ensuring a smooth, monotonic relationship.",
+      "formula": "D = \\exp\\left(-\\left| r_A - \\frac{r_B + r_X}{2} \\right| \\times \\frac{|n_A| \\times |n_X|}{|n_B| + \\varepsilon} \\right)",
+      "accuracy": 0.6562668665667166,
+      "metrics": {
+        "train_accuracy": 0.6543478260869565,
+        "test_accuracy": 0.6896551724137931,
+        "cv_accuracy": 0.6562668665667166,
+        "cv_std": 0.024069931316188568,
+        "cv_fold_scores": [
+          0.646551724137931,
+          0.6260869565217392,
+          0.6956521739130435,
+          0.6695652173913044,
+          0.6434782608695652
+        ],
+        "false_positive_rate": 0.5893536121673004,
+        "per_anion_accuracy": {
+          "O": 0.6558265582655827,
+          "F": 0.8333333333333334,
+          "Cl": 0.5915492957746479,
+          "Br": 0.5185185185185185,
+          "I": 0.6511627906976745
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 66.1%\nTrain accuracy: 65.4%\nTest accuracy: 69.0%\nCV accuracy (5 fold): 65.6% \u00b1 2.4%  [64.7%, 62.6%, 69.6%, 67.0%, 64.3%]\nFalse positive rate: 58.9%\nDecision thresholds: [0.4494, 0.8903, 0.9008]\nTP=273 FP=155 TN=108 FN=40\nPer-anion accuracy:\n  O: 65.6%\n  F: 83.3%\n  Cl: 59.2%\n  Br: 51.9%\n  I: 65.1%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/5d527422.png",
+      "visit_count": 1,
+      "total_reward": 0.31999999999999995,
+      "children_ids": [],
+      "depth": 1
+    },
+    "2de163df": {
+      "id": "2de163df",
+      "parent_id": "eea9be49",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # New descriptor incorporating ionic size mismatch and charge difference\n    size_mismatch = abs(rA - rX) / rX + abs(rB - rX) / rX\n    charge_difference = abs(nA - nX) + abs(nB - nX)\n    # Combining size and charge factors multiplicatively to reflect their joint influence\n    value = size_mismatch * charge_difference\n    return float(value)",
+      "description": "This descriptor captures the physical intuition that both size mismatch and charge disparity between ions influence perovskite stability. Larger size mismatches lead to structural strain, while significant charge differences impact electrostatic compatibility. By multiplying these factors, the descriptor emphasizes scenarios where both mismatch and charge issues co-occur, which are more likely to destabilize the structure. This approach addresses the previous model's overlap problem by incorporating a different, physically motivated combination of size and charge effects, improving discrimination especially across different anion types.",
+      "formula": "D = \\left( \\frac{|r_A - r_X|}{r_X} + \\frac{|r_B - r_X|}{r_X} \\right) \\times (|n_A - n_X| + |n_B - n_X|)",
+      "accuracy": 0.7135232383808097,
+      "metrics": {
+        "train_accuracy": 0.7282608695652174,
+        "test_accuracy": 0.7241379310344828,
+        "cv_accuracy": 0.7135232383808097,
+        "cv_std": 0.023530571047134654,
+        "cv_fold_scores": [
+          0.7241379310344828,
+          0.7217391304347827,
+          0.6695652173913044,
+          0.7130434782608696,
+          0.7391304347826086
+        ],
+        "false_positive_rate": 0.21292775665399238,
+        "per_anion_accuracy": {
+          "O": 0.8265582655826558,
+          "F": 0.24242424242424243,
+          "Cl": 0.647887323943662,
+          "Br": 0.7407407407407407,
+          "I": 0.7441860465116279
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 72.7%\nTrain accuracy: 72.8%\nTest accuracy: 72.4%\nCV accuracy (5 fold): 71.4% \u00b1 2.4%  [72.4%, 72.2%, 67.0%, 71.3%, 73.9%]\nFalse positive rate: 21.3%\nDecision thresholds: [4.7801, 8.7857, 9.4286]\nTP=212 FP=56 TN=207 FN=101\nPer-anion accuracy:\n  O: 82.7%\n  F: 24.2%\n  Cl: 64.8%\n  Br: 74.1%\n  I: 74.4%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/2de163df.png",
+      "visit_count": 2,
+      "total_reward": 1.4,
+      "children_ids": [
+        "1ba8a88f"
+      ],
+      "depth": 1
+    },
+    "4a1f0c77": {
+      "id": "4a1f0c77",
+      "parent_id": "ec4d1d8e",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the geometric mean radius of B and X to capture the cage size\n    r_bx_mean = (rB * rX) ** 0.5\n    # Compute the size mismatch term as the squared difference between A radius and cage size\n    size_mismatch = (rA - r_bx_mean) ** 2\n    # Calculate the electrostatic stability component based on the product of charges\n    charge_product = abs(nA * nX)\n    # Include a penalty for large charge imbalance, scaled nonlinearly\n    charge_imbalance = (abs(nA) - abs(nB) - abs(nX)) ** 2\n    # Combine geometric and electrostatic factors with nonlinear weighting\n    stability_score = size_mismatch * (1 + 0.5 * charge_product) + 0.3 * charge_imbalance\n    # Invert the combined score for stability (higher = more stable)\n    descriptor_value = 1 / (1 + stability_score)\n    return descriptor_value",
+      "description": "This descriptor integrates a geometric measure of how well the A cation fits into the B-X cage, represented by the squared difference between the A ionic radius and the geometric mean of B and X radii. It also accounts for electrostatic considerations through the product of the A and X oxidation states, emphasizing charge interactions that influence stability. Additionally, it penalizes large charge imbalances among the ions, which can destabilize the structure. By combining these factors nonlinearly, this descriptor better captures the physical principles governing perovskite stability, especially addressing issues with different anion types and size mismatches that the previous quadratic form missed.",
+      "formula": "\\text{descriptor} = \\frac{1}{1 + \\left[ (r_A - \\sqrt{r_B r_X})^2 \\times \\left(1 + 0.5 |n_A n_X|\\right) + 0.3 (|n_A| - |n_B| - |n_X|)^2 \\right]}",
+      "accuracy": 0.6649925037481259,
+      "metrics": {
+        "train_accuracy": 0.691304347826087,
+        "test_accuracy": 0.6637931034482759,
+        "cv_accuracy": 0.6649925037481259,
+        "cv_std": 0.030632367252483573,
+        "cv_fold_scores": [
+          0.6293103448275862,
+          0.7130434782608696,
+          0.6695652173913044,
+          0.6782608695652174,
+          0.6347826086956522
+        ],
+        "false_positive_rate": 0.5779467680608364,
+        "per_anion_accuracy": {
+          "O": 0.7398373983739838,
+          "F": 0.8939393939393939,
+          "Cl": 0.4788732394366197,
+          "Br": 0.6296296296296297,
+          "I": 0.27906976744186046
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 68.6%\nTrain accuracy: 69.1%\nTest accuracy: 66.4%\nCV accuracy (5 fold): 66.5% \u00b1 3.1%  [62.9%, 71.3%, 67.0%, 67.8%, 63.5%]\nFalse positive rate: 57.8%\nDecision thresholds: [0.0841, 0.1365, 0.4517]\nTP=284 FP=152 TN=111 FN=29\nPer-anion accuracy:\n  O: 74.0%\n  F: 89.4%\n  Cl: 47.9%\n  Br: 63.0%\n  I: 27.9%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/4a1f0c77.png",
+      "visit_count": 1,
+      "total_reward": 0.42000000000000004,
+      "children_ids": [],
+      "depth": 1
+    },
+    "fd3eb216": {
+      "id": "fd3eb216",
+      "parent_id": "71542192",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the electrostatic stabilization term based on oxidation states.\n    electrostatic_term = (abs(nA) * abs(nX)) / (abs(nB) + 1)\n    # Compute geometric strain as the deviation of ionic radii ratios from ideal values.\n    ratio_A = rA / rX\n    ratio_B = rB / rX\n    geometric_strain = abs(ratio_A - 1.0) + abs(ratio_B - 1.0)\n    # Combine effects: lower geometric strain and optimal electrostatic stabilization favor stability.\n    # Use an exponential decay to emphasize these effects.\n    value = geometric_strain * (1 / (1 + electrostatic_term))\n    return value",
+      "description": "This descriptor incorporates both geometric mismatch and electrostatic stabilization, addressing the limitations of size-only metrics. By explicitly modeling electrostatic effects through oxidation states and ionic size ratios, it captures key factors influencing perovskite stability. The exponential decay emphasizes that smaller geometric strain and stronger electrostatic interactions (higher |nA|*|nX|) promote stability, providing a more nuanced and physically meaningful measure that improves discrimination across diverse anion types.",
+      "formula": "D = \\left( |\\frac{r_A}{r_X} - 1| + |\\frac{r_B}{r_X} - 1| \\right) \\times \\frac{1}{1 + \\frac{|n_A| \\times |n_X|}{|n_B| + 1}}",
+      "accuracy": 0.7707946026986507,
+      "metrics": {
+        "train_accuracy": 0.7891304347826087,
+        "test_accuracy": 0.7672413793103449,
+        "cv_accuracy": 0.7707946026986507,
+        "cv_std": 0.03611101312245271,
+        "cv_fold_scores": [
+          0.7931034482758621,
+          0.808695652173913,
+          0.7043478260869566,
+          0.782608695652174,
+          0.7652173913043478
+        ],
+        "false_positive_rate": 0.22433460076045628,
+        "per_anion_accuracy": {
+          "O": 0.8780487804878049,
+          "F": 0.3939393939393939,
+          "Cl": 0.676056338028169,
+          "Br": 0.6666666666666666,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 78.5%\nTrain accuracy: 78.9%\nTest accuracy: 76.7%\nCV accuracy (5 fold): 77.1% \u00b1 3.6%  [79.3%, 80.9%, 70.4%, 78.3%, 76.5%]\nFalse positive rate: 22.4%\nDecision thresholds: [0.2200, 0.4024, 0.5632]\nTP=248 FP=59 TN=204 FN=65\nPer-anion accuracy:\n  O: 87.8%\n  F: 39.4%\n  Cl: 67.6%\n  Br: 66.7%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/fd3eb216.png",
+      "visit_count": 2,
+      "total_reward": 1.84,
+      "children_ids": [
+        "a46d87ab"
+      ],
+      "depth": 1
+    },
+    "baf2f193": {
+      "id": "baf2f193",
+      "parent_id": "6b1a8807",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import math\n    # Improved descriptor: emphasizes electrostatic stability and ionic size mismatch.\n    # Incorporates the electrostatic interaction term and a modified size mismatch term.\n    size_diff = abs(rA - rX) / (rA + rX + 1e-6)  # Normalized size mismatch between A and X.\n    electrostatic_term = (nA * nX) / (rA + rX + 1e-6)  # Charge balance weighted by size.\n    bond_stability = math.exp(-size_diff) + 0.5 * electrostatic_term\n    # Use a sigmoid to map combined effect to a stability score.\n    return 1 / (1 + math.exp(-bond_stability + 1.0))",
+      "description": "This descriptor combines a normalized size mismatch between the A cation and the anion with an electrostatic interaction term that accounts for charge balance and ionic sizes. Smaller size differences and favorable electrostatic interactions enhance stability, especially addressing the weaknesses in the previous size-only ratio. The exponential and sigmoid functions ensure a smooth, monotonic response aligned with stability trends, capturing effects like ion size mismatch and electrostatic attraction/repulsion more comprehensively, including considerations relevant for different anions.",
+      "formula": "S = \\frac{1}{1 + \\exp(-\\left( \\exp(-\\frac{|r_A - r_X|}{r_A + r_X + 10^{-6}}) + 0.5 \\times \\frac{n_A \\times n_X}{r_A + r_X + 10^{-6}} \\right) + 1.0)}",
+      "accuracy": 0.664887556221889,
+      "metrics": {
+        "train_accuracy": 0.6891304347826087,
+        "test_accuracy": 0.5775862068965517,
+        "cv_accuracy": 0.664887556221889,
+        "cv_std": 0.017774408328441668,
+        "cv_fold_scores": [
+          0.6896551724137931,
+          0.6608695652173913,
+          0.6695652173913044,
+          0.6347826086956522,
+          0.6695652173913044
+        ],
+        "false_positive_rate": 0.09505703422053231,
+        "per_anion_accuracy": {
+          "O": 0.6991869918699187,
+          "F": 0.22727272727272727,
+          "Cl": 0.7464788732394366,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 66.7%\nTrain accuracy: 68.9%\nTest accuracy: 57.8%\nCV accuracy (5 fold): 66.5% \u00b1 1.8%  [69.0%, 66.1%, 67.0%, 63.5%, 67.0%]\nFalse positive rate: 9.5%\nDecision thresholds: [0.1980, 0.2522, 0.3184]\nTP=146 FP=25 TN=238 FN=167\nPer-anion accuracy:\n  O: 69.9%\n  F: 22.7%\n  Cl: 74.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/baf2f193.png",
+      "visit_count": 1,
+      "total_reward": 0.4,
+      "children_ids": [],
+      "depth": 1
+    },
+    "b47bd00d": {
+      "id": "b47bd00d",
+      "parent_id": "b7b8644d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the electrostatic mismatch considering oxidation states and ionic sizes\n    electrostatic_mismatch = abs(nA / nX) - abs(nB / nX)\n    # Calculate the geometric size ratio difference from ideal\n    size_ratio = (rA * abs(nA) + rX * abs(nX)) / (rB * abs(nB) + rX * abs(nX))\n    # Define the combined stability metric with a different mathematical form (product of mismatch and size difference)\n    stability_score = size_ratio * electrostatic_mismatch\n    # Return a monotonic measure: higher indicates more stable (positive mismatch and closer to ideal size)\n    return 1.0 / (1.0 + abs(stability_score))",
+      "description": "This descriptor integrates both ionic size compatibility and electrostatic balance by combining the size ratio difference with the electrostatic mismatch between A and B cations relative to the X anion. Unlike the previous ratio-based measure, it uses a product to emphasize scenarios where both size and charge mismatches are simultaneously small, which correlates with higher perovskite stability. This approach captures the physical intuition that stability is enhanced when ionic sizes and electrostatic conditions are optimally balanced, addressing weaknesses related to anion diversity and noncubic structures.",
+      "formula": "D = \\frac{1}{1 + \\left| \\left( \\frac{r_A \\times |n_A| + r_X \\times |n_X|}{r_B \\times |n_B| + r_X \\times |n_X|} \\right) \\times \\left( \\frac{|n_A|}{|n_X|} - \\frac{|n_B|}{|n_X|} \\right) \\right|}",
+      "accuracy": 0.6614092953523238,
+      "metrics": {
+        "train_accuracy": 0.6717391304347826,
+        "test_accuracy": 0.6206896551724138,
+        "cv_accuracy": 0.6614092953523238,
+        "cv_std": 0.016470915006037295,
+        "cv_fold_scores": [
+          0.6896551724137931,
+          0.6695652173913044,
+          0.6521739130434783,
+          0.6434782608695652,
+          0.6521739130434783
+        ],
+        "false_positive_rate": 0.11787072243346007,
+        "per_anion_accuracy": {
+          "O": 0.6910569105691057,
+          "F": 0.22727272727272727,
+          "Cl": 0.7464788732394366,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 66.1%\nTrain accuracy: 67.2%\nTest accuracy: 62.1%\nCV accuracy (5 fold): 66.1% \u00b1 1.6%  [69.0%, 67.0%, 65.2%, 64.3%, 65.2%]\nFalse positive rate: 11.8%\nDecision thresholds: [0.3969, 0.7879]\nTP=149 FP=31 TN=232 FN=164\nPer-anion accuracy:\n  O: 69.1%\n  F: 22.7%\n  Cl: 74.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/b47bd00d.png",
+      "visit_count": 1,
+      "total_reward": 0.33999999999999997,
+      "children_ids": [],
+      "depth": 1
+    },
+    "bcee1f54": {
+      "id": "bcee1f54",
+      "parent_id": "eea9be49",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the ionic size mismatch relative to the average of B and X\n    size_diff = abs(rA - 0.5 * (rB + rX))\n    # Incorporate electrostatic considerations: larger difference in oxidation states\n    charge_diff = abs(nA + nX)\n    # Combine size mismatch and charge disparity with a nonlinear transformation\n    value = size_diff ** 1.5 + (charge_diff ** 2) * 0.2\n    return float(value)",
+      "description": "This descriptor emphasizes the deviation of the A cation's size from the average B\u2013X cage size, capturing how well the A fits into the lattice. It also accounts for the electrostatic mismatch between the A and X ions through their oxidation states, which influences stability. By combining these factors non-linearly, it captures the complex interplay between ionic size compatibility and charge balance, addressing the weaknesses observed in the previous size ratio-based descriptor and improving discrimination across different anion types.",
+      "formula": "D = \\left| r_A - \\frac{r_B + r_X}{2} \\right|^{1.5} + 0.2 \\times |n_A + n_X|^{2}",
+      "accuracy": 0.6927736131934034,
+      "metrics": {
+        "train_accuracy": 0.691304347826087,
+        "test_accuracy": 0.6293103448275862,
+        "cv_accuracy": 0.6927736131934034,
+        "cv_std": 0.0325646568845393,
+        "cv_fold_scores": [
+          0.6551724137931034,
+          0.7130434782608696,
+          0.6521739130434783,
+          0.7304347826086957,
+          0.7130434782608696
+        ],
+        "false_positive_rate": 0.34600760456273766,
+        "per_anion_accuracy": {
+          "O": 0.7398373983739838,
+          "F": 0.4090909090909091,
+          "Cl": 0.676056338028169,
+          "Br": 0.48148148148148145,
+          "I": 0.6976744186046512
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 67.9%\nTrain accuracy: 69.1%\nTest accuracy: 62.9%\nCV accuracy (5 fold): 69.3% \u00b1 3.3%  [65.5%, 71.3%, 65.2%, 73.0%, 71.3%]\nFalse positive rate: 34.6%\nDecision thresholds: [0.0483, 0.1176, 0.3436]\nTP=219 FP=91 TN=172 FN=94\nPer-anion accuracy:\n  O: 74.0%\n  F: 40.9%\n  Cl: 67.6%\n  Br: 48.1%\n  I: 69.8%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/bcee1f54.png",
+      "visit_count": 1,
+      "total_reward": 0.6,
+      "children_ids": [],
+      "depth": 1
+    },
+    "5a04df25": {
+      "id": "5a04df25",
+      "parent_id": "71542192",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Physical reasoning: Incorporate electrostatic charge considerations and ionic size differences.\n    # Instead of a simple size mismatch, use a ratio-based measure of how well A and B fit relative to X,\n    # and include electrostatic attraction/repulsion effects via oxidation states.\n    size_ratio_A = rA / rX\n    size_ratio_B = rB / rX\n    charge_effect = abs(nA * nX) / (abs(nB) + 1)\n    size_diff = abs(size_ratio_A - size_ratio_B)\n    # The overall descriptor combines size disparity and electrostatics with a non-linear transformation.\n    return (size_diff ** 2 + charge_effect) ** 0.5",
+      "description": "This descriptor captures the balance between the ionic size ratios of A and B relative to X, emphasizing how well the A cation fits into the cage and how electrostatic interactions influence stability. By squaring the size ratio difference and combining it with the electrostatic charge effect in a root-sum-of-squares manner, it accounts for both size mismatch and charge compatibility in a nonlinear, monotonic way, addressing previous overlaps and low accuracy for certain anion types.",
+      "formula": "D = \\sqrt{\\left(\\frac{r_A}{r_X} - \\frac{r_B}{r_X} \\right)^2 + \\frac{|n_A \\times n_X|}{|n_B| + 1}}",
+      "accuracy": 0.6718140929535232,
+      "metrics": {
+        "train_accuracy": 0.6891304347826087,
+        "test_accuracy": 0.6293103448275862,
+        "cv_accuracy": 0.6718140929535232,
+        "cv_std": 0.023038166381040878,
+        "cv_fold_scores": [
+          0.7068965517241379,
+          0.6869565217391305,
+          0.6521739130434783,
+          0.6434782608695652,
+          0.6695652173913044
+        ],
+        "false_positive_rate": 0.049429657794676805,
+        "per_anion_accuracy": {
+          "O": 0.7154471544715447,
+          "F": 0.22727272727272727,
+          "Cl": 0.7464788732394366,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 67.7%\nTrain accuracy: 68.9%\nTest accuracy: 62.9%\nCV accuracy (5 fold): 67.2% \u00b1 2.3%  [70.7%, 68.7%, 65.2%, 64.3%, 67.0%]\nFalse positive rate: 4.9%\nDecision thresholds: [0.6560, 1.2507, 1.3426]\nTP=140 FP=13 TN=250 FN=173\nPer-anion accuracy:\n  O: 71.5%\n  F: 22.7%\n  Cl: 74.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/5a04df25.png",
+      "visit_count": 1,
+      "total_reward": 0.48,
+      "children_ids": [],
+      "depth": 1
+    },
+    "ac07b602": {
+      "id": "ac07b602",
+      "parent_id": "b7b8644d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the electrostatic size mismatch between the A cation and the B-X octahedral cage\n    size_ratio = (rA / rX) / (rB / rX)\n    # Incorporate the effective ion charge balance, emphasizing the electrostatic influence on stability\n    charge_balance = (abs(nA) * abs(nX)) / (abs(nB) + 1e-6)\n    # Combine size mismatch and electrostatics with a nonlinear exponential to emphasize deviations\n    stability_score = (size_ratio - 1) * charge_balance\n    # Use an exponential decay to produce a monotonic decreasing function for instability\n    return 1.0 / (1.0 + 2 * abs(stability_score) ** 2)\n",
+      "description": "This descriptor captures the mismatch in ionic sizes through the ratio of A to B and X ions, scaled to emphasize deviations from ideal fit. It also incorporates charge balance by multiplying the absolute oxidation states of A and X, which influences electrostatic stability. The use of an exponential decay function ensures the descriptor varies monotonically, with larger mismatches and charge imbalances decreasing stability, thus addressing the limitations of previous linear or ratio-based measures. This formulation better accounts for the physical effects influencing perovskite stability, including ionic size compatibility and electrostatic interactions, which vary with different anion types and local bonding environments.",
+      "formula": "D = \\frac{1}{1 + 2 \\left|\\left( \\frac{r_A / r_X}{r_B / r_X} - 1 \\right) \\times \\left( |n_A| \\times |n_X| \\right) \\right|^{2}}",
+      "accuracy": 0.6822938530734632,
+      "metrics": {
+        "train_accuracy": 0.6782608695652174,
+        "test_accuracy": 0.7241379310344828,
+        "cv_accuracy": 0.6822938530734632,
+        "cv_std": 0.016046350060944844,
+        "cv_fold_scores": [
+          0.6810344827586207,
+          0.6608695652173913,
+          0.7043478260869566,
+          0.6695652173913044,
+          0.6956521739130435
+        ],
+        "false_positive_rate": 0.6768060836501901,
+        "per_anion_accuracy": {
+          "O": 0.7452574525745257,
+          "F": 0.8636363636363636,
+          "Cl": 0.5211267605633803,
+          "Br": 0.48148148148148145,
+          "I": 0.32558139534883723
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 68.8%\nTrain accuracy: 67.8%\nTest accuracy: 72.4%\nCV accuracy (5 fold): 68.2% \u00b1 1.6%  [68.1%, 66.1%, 70.4%, 67.0%, 69.6%]\nFalse positive rate: 67.7%\nDecision thresholds: [0.0449, 0.8784, 0.9370]\nTP=311 FP=178 TN=85 FN=2\nPer-anion accuracy:\n  O: 74.5%\n  F: 86.4%\n  Cl: 52.1%\n  Br: 48.1%\n  I: 32.6%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/ac07b602.png",
+      "visit_count": 1,
+      "total_reward": 0.56,
+      "children_ids": [],
+      "depth": 1
+    },
+    "466df8ef": {
+      "id": "466df8ef",
+      "parent_id": "eea9be49",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # New descriptor based on the variance of ionic radii and electrostatic interaction\n    import math\n    # Physical rationale: high stability favors balanced ionic sizes and strong electrostatic attraction\n    size_variance = abs(rA - rX) + abs(rB - rX)\n    electrostatic = (abs(nA) * abs(nX) + abs(nB) * abs(nX)) / (rA + rB + rX)\n    # Combine terms to reflect size mismatch and electrostatic stabilization\n    value = size_variance * electrostatic\n    return float(value)",
+      "description": "This descriptor emphasizes the importance of size compatibility and electrostatic interactions for perovskite stability. By combining the sum of size mismatches with a measure of electrostatic attraction, it captures the physical effects of size balance and Coulombic stabilization. Larger variance indicates potential instability, while stronger electrostatic interaction suggests higher stability, addressing issues in the previous descriptor related to anion type and size mismatch.",
+      "formula": "D = \\left( |r_A - r_X| + |r_B - r_X| \\right) \\times \\frac{ |n_A| \\times |n_X| + |n_B| \\times |n_X| }{r_A + r_B + r_X}",
+      "accuracy": 0.7343778110944528,
+      "metrics": {
+        "train_accuracy": 0.741304347826087,
+        "test_accuracy": 0.7586206896551724,
+        "cv_accuracy": 0.7343778110944528,
+        "cv_std": 0.016054416565937677,
+        "cv_fold_scores": [
+          0.7327586206896551,
+          0.7478260869565218,
+          0.7130434782608696,
+          0.7217391304347827,
+          0.7565217391304347
+        ],
+        "false_positive_rate": 0.21673003802281368,
+        "per_anion_accuracy": {
+          "O": 0.8346883468834688,
+          "F": 0.22727272727272727,
+          "Cl": 0.7183098591549296,
+          "Br": 0.7777777777777778,
+          "I": 0.7906976744186046
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 74.5%\nTrain accuracy: 74.1%\nTest accuracy: 75.9%\nCV accuracy (5 fold): 73.4% \u00b1 1.6%  [73.3%, 74.8%, 71.3%, 72.2%, 75.7%]\nFalse positive rate: 21.7%\nDecision thresholds: [1.8786, 4.9228, 5.4642]\nTP=223 FP=57 TN=206 FN=90\nPer-anion accuracy:\n  O: 83.5%\n  F: 22.7%\n  Cl: 71.8%\n  Br: 77.8%\n  I: 79.1%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/466df8ef.png",
+      "visit_count": 2,
+      "total_reward": 1.52,
+      "children_ids": [
+        "7cc51e88"
+      ],
+      "depth": 1
+    },
+    "753aa18a": {
+      "id": "753aa18a",
+      "parent_id": "71542192",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the difference between ionic radii to capture size mismatch in a different form.\n    size_diff_A = abs(rA - rX / nA)\n    size_diff_B = abs(rB - rX / nB)\n    # Incorporate ion electronegativity or oxidation state asymmetry as a proxy for electrostatic compatibility.\n    electrostatic_asymmetry = abs(nA / nX + nB / nX)\n    # Use an exponential decay function to emphasize mismatches, making the descriptor sensitive to deviations.\n    mismatch_score = (np.exp(size_diff_A) - 1) + (np.exp(size_diff_B) - 1)\n    # Combine size mismatches with electrostatic asymmetry, scaled to produce a single monotonic score.\n    result = mismatch_score * (1 + electrostatic_asymmetry)\n    return result",
+      "description": "This new descriptor emphasizes the size mismatch by calculating the absolute difference between the A and B ionic radii and scaled ionic radius of X, normalized by their oxidation states. It also incorporates electrostatic asymmetry via ratios of oxidation states, capturing charge imbalance effects that influence stability. Using exponential functions accentuates larger mismatches, making the descriptor more sensitive to deviations that destabilize the perovskite structure. This form is different from the classical tolerance factor, integrating size and charge asymmetry multiplicatively, which better captures the complex interplay of size and electrostatics affecting stability.",
+      "formula": "D = \\left( (e^{|r_A - \\frac{r_X}{n_A}|} - 1) + (e^{|r_B - \\frac{r_X}{n_B}|} - 1) \\right) \\times \\left( 1 + \\left| \\frac{n_A}{n_X} + \\frac{n_B}{n_X} \\right| \\right)",
+      "accuracy": 0.6822788605697151,
+      "metrics": {
+        "train_accuracy": 0.7065217391304348,
+        "test_accuracy": 0.6896551724137931,
+        "cv_accuracy": 0.6822788605697151,
+        "cv_std": 0.02794795728513105,
+        "cv_fold_scores": [
+          0.6896551724137931,
+          0.7130434782608696,
+          0.6347826086956522,
+          0.7043478260869566,
+          0.6695652173913044
+        ],
+        "false_positive_rate": 0.25475285171102663,
+        "per_anion_accuracy": {
+          "O": 0.7398373983739838,
+          "F": 0.45454545454545453,
+          "Cl": 0.8169014084507042,
+          "Br": 0.8148148148148148,
+          "I": 0.5116279069767442
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 70.3%\nTrain accuracy: 70.7%\nTest accuracy: 69.0%\nCV accuracy (5 fold): 68.2% \u00b1 2.8%  [69.0%, 71.3%, 63.5%, 70.4%, 67.0%]\nFalse positive rate: 25.5%\nDecision thresholds: [0.8211, 3.6586, 6.5501]\nTP=209 FP=67 TN=196 FN=104\nPer-anion accuracy:\n  O: 74.0%\n  F: 45.5%\n  Cl: 81.7%\n  Br: 81.5%\n  I: 51.2%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/753aa18a.png",
+      "visit_count": 1,
+      "total_reward": 0.54,
+      "children_ids": [],
+      "depth": 1
+    },
+    "74c6d886": {
+      "id": "74c6d886",
+      "parent_id": "b7b8644d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the ionic size mismatch relative to the geometric mean of the cation and anion radii\n    size_diff = abs(rA - (rB + rX) / 2)\n    # Incorporate the oxidation states to account for electrostatic stability\n    electrostatic_balance = abs(nA) - abs(nX) * 0.5\n    # Evaluate the geometric mean of the ionic radii as a reference\n    radius_mean = (rA * rX * rB) ** (1/3)\n    # Combine size difference and electrostatic parameters\n    combined_factor = size_diff / (radius_mean + 1e-6) + electrostatic_balance\n    # Return a decreasing function of the combined factor, favoring smaller mismatch and balanced oxidation states\n    return 1.0 / (1.0 + combined_factor ** 2)",
+      "description": "This descriptor assesses the fit of the A cation within the octahedral cage formed by B and X ions by measuring the absolute size mismatch relative to their geometric mean, which captures the overall size compatibility. It also incorporates the electrostatic balance via the difference in oxidation states, emphasizing that stable perovskites typically have a balanced charge distribution. The quadratic form penalizes larger mismatches and charge imbalances more strongly, improving discrimination especially for compounds with varied anion types and addressing the overlap in stability distributions observed in previous models.",
+      "formula": "D = \\frac{1}{1 + \\left( \\frac{|r_A - \\frac{r_B + r_X}{2}|}{(r_A r_B r_X)^{1/3} + \\varepsilon} + |n_A| - \\frac{|n_X|}{2} \\right)^2}",
+      "accuracy": 0.6509895052473762,
+      "metrics": {
+        "train_accuracy": 0.6717391304347826,
+        "test_accuracy": 0.6206896551724138,
+        "cv_accuracy": 0.6509895052473762,
+        "cv_std": 0.01599752840612157,
+        "cv_fold_scores": [
+          0.6810344827586207,
+          0.6521739130434783,
+          0.6434782608695652,
+          0.6347826086956522,
+          0.6434782608695652
+        ],
+        "false_positive_rate": 0.1444866920152091,
+        "per_anion_accuracy": {
+          "O": 0.6910569105691057,
+          "F": 0.22727272727272727,
+          "Cl": 0.7464788732394366,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 66.1%\nTrain accuracy: 67.2%\nTest accuracy: 62.1%\nCV accuracy (5 fold): 65.1% \u00b1 1.6%  [68.1%, 65.2%, 64.3%, 63.5%, 64.3%]\nFalse positive rate: 14.4%\nDecision thresholds: [0.1637, 0.2011, 0.6967]\nTP=156 FP=38 TN=225 FN=157\nPer-anion accuracy:\n  O: 69.1%\n  F: 22.7%\n  Cl: 74.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/74c6d886.png",
+      "visit_count": 1,
+      "total_reward": 0.30000000000000004,
+      "children_ids": [],
+      "depth": 1
+    },
+    "f0718814": {
+      "id": "f0718814",
+      "parent_id": "ec4d1d8e",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the geometric mean of B and X ionic radii\n    rBX_mean = (rB * rX) ** 0.5\n    # Evaluate the electrostatic compatibility factor based on oxidation states\n    electrostatic_factor = abs(nA) / (abs(nB) + abs(nX))\n    # Calculate the ionic radius ratio of A to B-X mean\n    radius_ratio = rA / rBX_mean\n    # Incorporate the ionic radius ratio and electrostatic factor with a sigmoid transformation\n    ratio_score = 1 / (1 + (abs(radius_ratio - 1) * 10))  # emphasizes deviations from ideal fit\n    electrostatic_score = 1 / (1 + abs(electrostatic_factor - 1))  # favors charge balance\n    # Combine the two scores multiplicatively, then transform to a finite scale\n    combined_score = ratio_score * electrostatic_score\n    # Apply a nonlinear transformation to enhance sensitivity to deviations\n    descriptor_value = (1 - combined_score) ** 2\n    return descriptor_value",
+      "description": "This descriptor assesses stability by combining a geometric mean of B and X ionic radii to better capture the cage size relevant for A-site fit, with a sigmoid-based emphasis on deviations from ideal size matching. It also incorporates electrostatic compatibility via oxidation states, emphasizing charge balance. The nonlinear combination amplifies the impact of mismatches, addressing cases where size or charge incompatibilities lead to instability. This approach improves discrimination especially for compounds with different anions and charge configurations, reducing overlap between stable and unstable distributions.",
+      "formula": " \n\\text{descriptor} = \\left( 1 - \\left( \\frac{1}{1 + | \\frac{r_A}{\\sqrt{r_B r_X}} - 1 | \\times 10 \\right) \\times \\frac{1}{1 + | \\frac{|n_A|}{|n_B| + |n_X|} - 1 | } \\right)^2",
+      "accuracy": 0.6650074962518742,
+      "metrics": {
+        "train_accuracy": 0.6760869565217391,
+        "test_accuracy": 0.7241379310344828,
+        "cv_accuracy": 0.6650074962518742,
+        "cv_std": 0.03631797179326036,
+        "cv_fold_scores": [
+          0.6206896551724138,
+          0.7304347826086957,
+          0.6695652173913044,
+          0.6521739130434783,
+          0.6521739130434783
+        ],
+        "false_positive_rate": 0.5627376425855514,
+        "per_anion_accuracy": {
+          "O": 0.7642276422764228,
+          "F": 0.803030303030303,
+          "Cl": 0.4507042253521127,
+          "Br": 0.5555555555555556,
+          "I": 0.3023255813953488
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 68.6%\nTrain accuracy: 67.6%\nTest accuracy: 72.4%\nCV accuracy (5 fold): 66.5% \u00b1 3.6%  [62.1%, 73.0%, 67.0%, 65.2%, 65.2%]\nFalse positive rate: 56.3%\nDecision thresholds: [0.4441, 0.8753, 0.8861]\nTP=280 FP=148 TN=115 FN=33\nPer-anion accuracy:\n  O: 76.4%\n  F: 80.3%\n  Cl: 45.1%\n  Br: 55.6%\n  I: 30.2%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/f0718814.png",
+      "visit_count": 1,
+      "total_reward": 0.43999999999999995,
+      "children_ids": [],
+      "depth": 1
+    },
+    "92fb8406": {
+      "id": "92fb8406",
+      "parent_id": "eea9be49",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the average ionic radius for A-site cations and X-site anions\n    R_avg_A = rA\n    R_avg_X = rX\n    # Calculate the ratio of the sum of ionic radii, emphasizing size compatibility\n    size_ratio_diff = abs((rA + rX) - (rB + rX)) / (rA + rX + rB + rX)\n    # Measure the deviation from ideal oxidation state charge neutrality\n    charge_deviation = abs(nA * nX + nB * nX) / (abs(nA * nX) + abs(nB * nX) + 1e-8)\n    # Combine size mismatch and charge mismatch using a multiplicative form\n    value = size_ratio_diff * charge_deviation\n    return float(value)",
+      "description": "This descriptor captures the stability by quantifying how closely the sum of ionic radii matches between A and B sites, reflecting size compatibility critical for perovskite formation. Additionally, it assesses charge neutrality deviations, addressing the influence of oxidation states on stability. Combining these factors multiplicatively emphasizes the importance of both size fit and charge balance, which are key determinants often missed by simple size ratios alone. This approach better discriminates stable perovskite structures across various anion types, especially those with low accuracy in previous models.",
+      "formula": "D = \\left|\\frac{(r_A + r_X) - (r_B + r_X)}{r_A + r_X + r_B + r_X}\\right| \\times \\left|\\frac{n_A n_X + n_B n_X}{|n_A n_X| + |n_B n_X| + \\varepsilon}\\right|",
+      "accuracy": 0.7153073463268367,
+      "metrics": {
+        "train_accuracy": 0.741304347826087,
+        "test_accuracy": 0.75,
+        "cv_accuracy": 0.7153073463268367,
+        "cv_std": 0.04070182854606528,
+        "cv_fold_scores": [
+          0.6982758620689655,
+          0.7913043478260869,
+          0.6869565217391305,
+          0.6782608695652174,
+          0.7217391304347827
+        ],
+        "false_positive_rate": 0.4866920152091255,
+        "per_anion_accuracy": {
+          "O": 0.8238482384823849,
+          "F": 0.8484848484848485,
+          "Cl": 0.5352112676056338,
+          "Br": 0.5555555555555556,
+          "I": 0.3488372093023256
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 74.3%\nTrain accuracy: 74.1%\nTest accuracy: 75.0%\nCV accuracy (5 fold): 71.5% \u00b1 4.1%  [69.8%, 79.1%, 68.7%, 67.8%, 72.2%]\nFalse positive rate: 48.7%\nDecision thresholds: [0.0710, 0.0793, 0.1996]\nTP=293 FP=128 TN=135 FN=20\nPer-anion accuracy:\n  O: 82.4%\n  F: 84.8%\n  Cl: 53.5%\n  Br: 55.6%\n  I: 34.9%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/92fb8406.png",
+      "visit_count": 2,
+      "total_reward": 1.48,
+      "children_ids": [
+        "18e3448d"
+      ],
+      "depth": 1
+    },
+    "2e9b2293": {
+      "id": "2e9b2293",
+      "parent_id": "71542192",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the electrostatic potential difference scaled by ionic sizes.\n    # This captures the charge distribution influence on stability.\n    electrostatic_diff = abs(nA * rA - nX * rX) + abs(nB * rB - nX * rX)\n    # Incorporate the geometric mismatch between the A and B sites.\n    size_mismatch = abs(rA - rB) / (rA + rB)\n    # Combine electrostatic and size mismatch factors using a multiplicative form.\n    # This emphasizes cases where both factors simultaneously favor stability.\n    stability_score = 1 / (1 + electrostatic_diff * size_mismatch)\n    return stability_score",
+      "description": "This descriptor combines electrostatic potential differences with geometric mismatch in a multiplicative way, emphasizing the combined effect of charge distribution and ionic size compatibility on perovskite stability. By inversely scaling with the product of electrostatic and size mismatch terms, it assigns higher values to compositions with favorable electrostatic interactions and well-matched ionic sizes, addressing weaknesses related to specific anion effects and overlooked electrostatic contributions.",
+      "formula": "D = \\frac{1}{1 + \\left| n_A r_A - n_X r_X \\right| \\times \\frac{|r_A - r_B|}{r_A + r_B}}",
+      "accuracy": 0.715247376311844,
+      "metrics": {
+        "train_accuracy": 0.7239130434782609,
+        "test_accuracy": 0.7586206896551724,
+        "cv_accuracy": 0.715247376311844,
+        "cv_std": 0.012185834739895743,
+        "cv_fold_scores": [
+          0.7327586206896551,
+          0.7217391304347827,
+          0.6956521739130435,
+          0.7130434782608696,
+          0.7130434782608696
+        ],
+        "false_positive_rate": 0.5551330798479087,
+        "per_anion_accuracy": {
+          "O": 0.8102981029810298,
+          "F": 0.8484848484848485,
+          "Cl": 0.5492957746478874,
+          "Br": 0.5555555555555556,
+          "I": 0.27906976744186046
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 73.1%\nTrain accuracy: 72.4%\nTest accuracy: 75.9%\nCV accuracy (5 fold): 71.5% \u00b1 1.2%  [73.3%, 72.2%, 69.6%, 71.3%, 71.3%]\nFalse positive rate: 55.5%\nDecision thresholds: [0.1630, 0.4039, 0.5012]\nTP=304 FP=146 TN=117 FN=9\nPer-anion accuracy:\n  O: 81.0%\n  F: 84.8%\n  Cl: 54.9%\n  Br: 55.6%\n  I: 27.9%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/2e9b2293.png",
+      "visit_count": 1,
+      "total_reward": 0.72,
+      "children_ids": [],
+      "depth": 1
+    },
+    "d22155cf": {
+      "id": "d22155cf",
+      "parent_id": "b7b8644d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the electrostatic mismatch considering oxidation states and ionic radii\n    electrostatic_ratio = (abs(nA) * rX) / (abs(nB) * rA + 1e-6)  # avoid division by zero\n    # Calculate the geometric ratio for size compatibility\n    size_ratio = rA / (rB + rX + 1e-6)\n    # Combine the electrostatic and size factors with a nonlinear transformation\n    combined_score = (electrostatic_ratio - 1) ** 2 + (size_ratio - 1) ** 2\n    # Use an exponential decay to emphasize deviations from ideality\n    return 1 - np.exp(-combined_score)\n",
+      "description": "This descriptor integrates electrostatic considerations via the ratio of A and B oxidation states scaled by ionic radii, capturing charge-balance influences on stability. It also considers size compatibility through the ratio of A to the sum of B and X radii. Combining these factors with a nonlinear exponential function emphasizes deviations from ideal stability conditions, addressing the overlap issues observed in the previous linear approach and improving discrimination especially for diverse anions and noncubic structures.",
+      "formula": "D = 1 - \\exp\\left(-\\left(\\left(\\frac{|n_A| r_X}{|n_B| r_A + \\varepsilon} - 1\\right)^2 + \\left(\\frac{r_A}{r_B + r_X + \\varepsilon} - 1\\right)^2\\right)\\right)",
+      "accuracy": 0.6441829085457271,
+      "metrics": {
+        "train_accuracy": 0.658695652173913,
+        "test_accuracy": 0.6120689655172413,
+        "cv_accuracy": 0.6441829085457271,
+        "cv_std": 0.02784490200373776,
+        "cv_fold_scores": [
+          0.5948275862068966,
+          0.6434782608695652,
+          0.6608695652173913,
+          0.6434782608695652,
+          0.6782608695652174
+        ],
+        "false_positive_rate": 0.6425855513307985,
+        "per_anion_accuracy": {
+          "O": 0.7181571815718157,
+          "F": 0.8636363636363636,
+          "Cl": 0.4225352112676056,
+          "Br": 0.4444444444444444,
+          "I": 0.23255813953488372
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 64.9%\nTrain accuracy: 65.9%\nTest accuracy: 61.2%\nCV accuracy (5 fold): 64.4% \u00b1 2.8%  [59.5%, 64.3%, 66.1%, 64.3%, 67.8%]\nFalse positive rate: 64.3%\nDecision thresholds: [0.2413, 0.3715, 0.5159]\nTP=280 FP=169 TN=94 FN=33\nPer-anion accuracy:\n  O: 71.8%\n  F: 86.4%\n  Cl: 42.3%\n  Br: 44.4%\n  I: 23.3%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/d22155cf.png",
+      "visit_count": 1,
+      "total_reward": 0.21999999999999997,
+      "children_ids": [],
+      "depth": 1
+    },
+    "3e12b22f": {
+      "id": "3e12b22f",
+      "parent_id": "eea9be49",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    size_ratio = rA / rX\n    charge_ratio = abs(nA / nX)\n    size_difference = abs(rA - rB) / rX\n    stability_indicator = (size_ratio * (1 - size_difference)) / (charge_ratio + 1e-6)\n    return float(stability_indicator)",
+      "description": "This descriptor emphasizes the relative size compatibility between A and X ions (size_ratio and size_difference), which influence the cage fit, while incorporating the charge ratio to account for electrostatic stability. By combining these in a multiplicative manner, it captures the physical interplay where good size match and charge balance collectively favor perovskite formation. Including size difference helps address cases where A and B size mismatch might destabilize the structure, especially across different anion types.",
+      "formula": "D = \\frac{\\left( \\frac{r_A}{r_X} \\right) \\times \\left( 1 - \\frac{|r_A - r_B|}{r_X} \\right)}{\\left| \\frac{n_A}{n_X} \\right| + 1e-6}",
+      "accuracy": 0.6388605697151425,
+      "metrics": {
+        "train_accuracy": 0.6847826086956522,
+        "test_accuracy": 0.5862068965517241,
+        "cv_accuracy": 0.6388605697151425,
+        "cv_std": 0.014756279943308373,
+        "cv_fold_scores": [
+          0.6551724137931034,
+          0.6434782608695652,
+          0.6521739130434783,
+          0.6260869565217392,
+          0.6173913043478261
+        ],
+        "false_positive_rate": 0.1444866920152091,
+        "per_anion_accuracy": {
+          "O": 0.7181571815718157,
+          "F": 0.3181818181818182,
+          "Cl": 0.5915492957746479,
+          "Br": 0.7407407407407407,
+          "I": 0.813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 66.5%\nTrain accuracy: 68.5%\nTest accuracy: 58.6%\nCV accuracy (5 fold): 63.9% \u00b1 1.5%  [65.5%, 64.3%, 65.2%, 62.6%, 61.7%]\nFalse positive rate: 14.4%\nDecision thresholds: [0.2664, 0.2951, 0.3909]\nTP=158 FP=38 TN=225 FN=155\nPer-anion accuracy:\n  O: 71.8%\n  F: 31.8%\n  Cl: 59.2%\n  Br: 74.1%\n  I: 81.4%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/3e12b22f.png",
+      "visit_count": 1,
+      "total_reward": 0.16000000000000003,
+      "children_ids": [],
+      "depth": 1
+    },
+    "33248ada": {
+      "id": "33248ada",
+      "parent_id": "71542192",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute electrostatic charge difference scaled by ionic radii mismatch.\n    charge_diff = abs(nA / rA - nB / rB)\n    size_disparity = abs(rA - rX) + abs(rB - rX)\n    # Combine scaled charge difference and size disparity with a nonlinear exponential decay.\n    result = size_disparity * (1 - 1 / (1 + np.exp(-charge_diff)))\n    return result",
+      "description": "This descriptor captures the electrostatic mismatch between ions by considering the ratio of oxidation states to ionic radii, reflecting charge density differences that influence electrostatic stability. It also measures the size disparity between the A and B cations relative to the anion, which impacts cage fit. The nonlinear exponential term emphasizes significant charge mismatch effects while reducing the influence of minor disparities, addressing weaknesses in size overlap and anion type variations that previously caused misclassification.",
+      "formula": "D = \\left( |r_A - r_X| + |r_B - r_X| \\right) \\times \\left( 1 - \\frac{1}{1 + e^{-\\left| \\frac{n_A}{r_A} - \\frac{n_B}{r_B} \\right|}} \\right)",
+      "accuracy": 0.7586506746626688,
+      "metrics": {
+        "train_accuracy": 0.7739130434782608,
+        "test_accuracy": 0.7758620689655172,
+        "cv_accuracy": 0.7586506746626688,
+        "cv_std": 0.0395909303549839,
+        "cv_fold_scores": [
+          0.7758620689655172,
+          0.7130434782608696,
+          0.8260869565217391,
+          0.7304347826086957,
+          0.7478260869565218
+        ],
+        "false_positive_rate": 0.3688212927756654,
+        "per_anion_accuracy": {
+          "O": 0.7940379403794038,
+          "F": 0.8484848484848485,
+          "Cl": 0.647887323943662,
+          "Br": 0.6296296296296297,
+          "I": 0.7906976744186046
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 77.4%\nTrain accuracy: 77.4%\nTest accuracy: 77.6%\nCV accuracy (5 fold): 75.9% \u00b1 4.0%  [77.6%, 71.3%, 82.6%, 73.0%, 74.8%]\nFalse positive rate: 36.9%\nDecision thresholds: [0.0002, 0.0006, 0.1763]\nTP=280 FP=97 TN=166 FN=33\nPer-anion accuracy:\n  O: 79.4%\n  F: 84.8%\n  Cl: 64.8%\n  Br: 63.0%\n  I: 79.1%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/33248ada.png",
+      "visit_count": 2,
+      "total_reward": 1.72,
+      "children_ids": [
+        "f2fe84f7"
+      ],
+      "depth": 1
+    },
+    "e24b9f64": {
+      "id": "e24b9f64",
+      "parent_id": "eea9be49",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # New descriptor incorporating ionic size mismatch and electrostatic interaction\n    size_mismatch = abs(rA - rB) / (rA + rB)\n    charge_product = nA * nX\n    # The difference in oxidation states influences electrostatic stability\n    electrostatic_term = abs(charge_product - nB * nX)\n    # Combine size mismatch and electrostatic effects with a nonlinear transformation\n    value = (size_mismatch ** 2) + (electrostatic_term ** 0.5) * 0.8\n    return float(value)",
+      "description": "This descriptor emphasizes the size mismatch between A and B ions, which affects the cage fit, and the electrostatic interaction between the ions, which influences stability. By combining a nonlinear size mismatch term with a root-transformed electrostatic term, it captures the physical effects that are critical for stable perovskite formation, especially addressing issues with varying anion types that influence electrostatics and lattice strain.",
+      "formula": "D = \\left( \\frac{|r_A - r_B|}{r_A + r_B} \\right)^2 + \\sqrt{|n_A n_X - n_B n_X|} \\times 0.8",
+      "accuracy": 0.6822488755622189,
+      "metrics": {
+        "train_accuracy": 0.7065217391304348,
+        "test_accuracy": 0.6637931034482759,
+        "cv_accuracy": 0.6822488755622189,
+        "cv_std": 0.021579541398599623,
+        "cv_fold_scores": [
+          0.7068965517241379,
+          0.6956521739130435,
+          0.6869565217391305,
+          0.6434782608695652,
+          0.6782608695652174
+        ],
+        "false_positive_rate": 0.026615969581749048,
+        "per_anion_accuracy": {
+          "O": 0.7479674796747967,
+          "F": 0.22727272727272727,
+          "Cl": 0.7464788732394366,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 69.8%\nTrain accuracy: 70.7%\nTest accuracy: 66.4%\nCV accuracy (5 fold): 68.2% \u00b1 2.2%  [70.7%, 69.6%, 68.7%, 64.3%, 67.8%]\nFalse positive rate: 2.7%\nDecision thresholds: [0.0340, 0.2111, 0.8425]\nTP=146 FP=7 TN=256 FN=167\nPer-anion accuracy:\n  O: 74.8%\n  F: 22.7%\n  Cl: 74.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/e24b9f64.png",
+      "visit_count": 1,
+      "total_reward": 0.52,
+      "children_ids": [],
+      "depth": 1
+    },
+    "0b765acc": {
+      "id": "0b765acc",
+      "parent_id": "b7b8644d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the ratio of ionic radii between B and X\n    r_ratio = rB / rX\n    # Include a measure of electrostatic stability based on oxidation states\n    electrostatic_score = 1 / (abs(nA) + abs(nX) + 1e-6)  # small epsilon to prevent division by zero\n    # Combine size ratio and electrostatic score to capture the likelihood of stable perovskite formation\n    # Use exponential decay to emphasize deviations from ideal ratios\n    size_factor = 1 - abs(r_ratio - 0.75)  # 0.75 as an empirically chosen target ratio for stability\n    # Final descriptor as a product to reflect the combined effects\n    return max(0.0, size_factor * electrostatic_score)",
+      "description": "This descriptor emphasizes the B-X ionic radius ratio, which influences the octahedral tilting and structural fit, a crucial factor for perovskite stability. It also incorporates electrostatic considerations via oxidation states, recognizing that stable perovskites require a balanced electrostatic environment. By combining these factors multiplicatively and using a decay function on the size ratio, it captures the physical interplay between size compatibility and electrostatic stability, addressing the weaknesses of the previous overlap and anion-specific inaccuracies.",
+      "formula": "D = \\max\\left(0, \\left(1 - \\left|\\frac{r_B}{r_X} - 0.75\\right|\\right) \\times \\frac{1}{|n_A| + |n_X| + 1e-6}\\right)",
+      "accuracy": 0.6405247376311844,
+      "metrics": {
+        "train_accuracy": 0.6521739130434783,
+        "test_accuracy": 0.6120689655172413,
+        "cv_accuracy": 0.6405247376311844,
+        "cv_std": 0.032334475723291387,
+        "cv_fold_scores": [
+          0.6982758620689655,
+          0.6347826086956522,
+          0.6,
+          0.6434782608695652,
+          0.6260869565217392
+        ],
+        "false_positive_rate": 0.09505703422053231,
+        "per_anion_accuracy": {
+          "O": 0.6639566395663956,
+          "F": 0.22727272727272727,
+          "Cl": 0.7464788732394366,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 64.4%\nTrain accuracy: 65.2%\nTest accuracy: 61.2%\nCV accuracy (5 fold): 64.1% \u00b1 3.2%  [69.8%, 63.5%, 60.0%, 64.3%, 62.6%]\nFalse positive rate: 9.5%\nDecision thresholds: [0.1207, 0.1495]\nTP=133 FP=25 TN=238 FN=180\nPer-anion accuracy:\n  O: 66.4%\n  F: 22.7%\n  Cl: 74.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/0b765acc.png",
+      "visit_count": 1,
+      "total_reward": 0.19999999999999996,
+      "children_ids": [],
+      "depth": 1
+    },
+    "f7ec3695": {
+      "id": "f7ec3695",
+      "parent_id": "71542192",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the ionic radius ratio between A and B\n    radius_ratio = rA / rB\n    # Calculate the electrostatic stabilization factor based on oxidation states\n    electrostatic_factor = (abs(nA) * abs(nX)) / (abs(nB) * (abs(nA) + abs(nX)))\n    # Incorporate the size ratio and electrostatic factor with a nonlinear transformation\n    # Use exponential decay to emphasize deviations from ideal ratios\n    size_stability = 1 - abs(radius_ratio - 1) * 0.5\n    electrostatic_stability = 1 - electrostatic_factor\n    # Combine factors multiplicatively to reflect joint influence\n    stability_descriptor = size_stability * electrostatic_stability\n    # Scale to a positive value, ensuring monotonicity\n    return max(0.0, 1 / (stability_descriptor + 1e-6))",
+      "description": "This descriptor integrates the size ratio of A to B ions and their electrostatic stabilization, capturing how well the A cation fits into the BX6 octahedral cage while considering charge balance. The nonlinear exponential decay emphasizes deviations from ideal size and charge conditions, addressing weaknesses in the previous size mismatch approach. By combining size and electrostatic factors multiplicatively, it reflects the joint influence on stability: larger deviations or unfavorable charge ratios reduce stability. The design ensures a monotonic relation where higher values indicate lower stability, aligning with the goal to predict perovskite formation likelihood.",
+      "formula": "S = \\frac{1}{(1 - \\frac{|r_A / r_B - 1|}{2}) \\times \\left(1 - \\frac{|n_A| \\times |n_X|}{|n_B| \\times (|n_A| + |n_X|)} \\right) + \\varepsilon}",
+      "accuracy": 0.7499850074962517,
+      "metrics": {
+        "train_accuracy": 0.7652173913043478,
+        "test_accuracy": 0.8103448275862069,
+        "cv_accuracy": 0.7499850074962517,
+        "cv_std": 0.015177746157798747,
+        "cv_fold_scores": [
+          0.7586206896551724,
+          0.7478260869565218,
+          0.7304347826086957,
+          0.7391304347826086,
+          0.7739130434782608
+        ],
+        "false_positive_rate": 0.24334600760456274,
+        "per_anion_accuracy": {
+          "O": 0.7723577235772358,
+          "F": 0.8181818181818182,
+          "Cl": 0.8450704225352113,
+          "Br": 0.8518518518518519,
+          "I": 0.5581395348837209
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 77.4%\nTrain accuracy: 76.5%\nTest accuracy: 81.0%\nCV accuracy (5 fold): 75.0% \u00b1 1.5%  [75.9%, 74.8%, 73.0%, 73.9%, 77.4%]\nFalse positive rate: 24.3%\nDecision thresholds: [1.7823, 1.8254, 3.5116]\nTP=247 FP=64 TN=199 FN=66\nPer-anion accuracy:\n  O: 77.2%\n  F: 81.8%\n  Cl: 84.5%\n  Br: 85.2%\n  I: 55.8%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/f7ec3695.png",
+      "visit_count": 1,
+      "total_reward": 0.84,
+      "children_ids": [],
+      "depth": 1
+    },
+    "d86498f2": {
+      "id": "d86498f2",
+      "parent_id": "6b1a8807",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Improved descriptor: combines size mismatch with electrostatic stability and considers ionic polarization.\n    # Incorporates the difference in ionic radii scaled by their oxidation states.\n    size_mismatch = abs(rA / rX - rB / rX)\n    charge_balance = (nA * nX + nB * nX) / 2  # approximate electrostatic stabilization\n    polarization_factor = abs(nA - nB) / (rA + rB + rX + 1e-6)  # ionic polarization effect\n    # Nonlinear combination emphasizing size mismatch and polarization, modulated by charge balance.\n    stability_index = size_mismatch * (1 + polarization_factor) - 0.5 * charge_balance\n    import math\n    # Use a sigmoid to map the index to a stability score; higher values indicate more stability.\n    return 1 / (1 + math.exp(-stability_index + 0.3))",
+      "description": "This descriptor captures the stability of ABX3 perovskites by integrating the ionic size mismatch scaled by ionic polarization effects and electrostatic charge balance. It emphasizes how well the A and B cations fit within the lattice considering their size disparity and charge interactions, with polarization accounting for ionic displacement tendencies. The nonlinear sigmoid ensures a smooth, monotonic relationship where better size compatibility and electrostatic interactions increase the stability score, addressing weaknesses related to overlooked polarization effects and specific ionic size discrepancies that influence perovskite formation.",
+      "formula": "D = \\frac{1}{1 + \\exp\\left(-\\left[|\\frac{r_A}{r_X} - \\frac{r_B}{r_X}| \\times (1 + |n_A - n_B| / (r_A + r_B + r_X + 10^{-6})) - 0.5 \\times \\frac{n_A n_X + n_B n_X}{2} \\right) + 0.3\\right)}",
+      "accuracy": 0.6961769115442278,
+      "metrics": {
+        "train_accuracy": 0.7195652173913043,
+        "test_accuracy": 0.6724137931034483,
+        "cv_accuracy": 0.6961769115442278,
+        "cv_std": 0.022023472600756402,
+        "cv_fold_scores": [
+          0.6982758620689655,
+          0.6608695652173913,
+          0.7304347826086957,
+          0.6956521739130435,
+          0.6956521739130435
+        ],
+        "false_positive_rate": 0.5665399239543726,
+        "per_anion_accuracy": {
+          "O": 0.7154471544715447,
+          "F": 0.8787878787878788,
+          "Cl": 0.6619718309859155,
+          "Br": 0.6666666666666666,
+          "I": 0.5116279069767442
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 71.0%\nTrain accuracy: 72.0%\nTest accuracy: 67.2%\nCV accuracy (5 fold): 69.6% \u00b1 2.2%  [69.8%, 66.1%, 73.0%, 69.6%, 69.6%]\nFalse positive rate: 56.7%\nDecision thresholds: [0.6906, 0.7072, 0.9786]\nTP=295 FP=149 TN=114 FN=18\nPer-anion accuracy:\n  O: 71.5%\n  F: 87.9%\n  Cl: 66.2%\n  Br: 66.7%\n  I: 51.2%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/d86498f2.png",
+      "visit_count": 1,
+      "total_reward": 0.62,
+      "children_ids": [],
+      "depth": 1
+    },
+    "1501259e": {
+      "id": "1501259e",
+      "parent_id": "eea9be49",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # New descriptor based on the ratio of ionic radii and the difference in oxidation states\n    size_ratio = (rA + rX) / (rB + rX)\n    oxidation_diff = abs(nA - nB)\n    # Combine size and oxidation differences non-linearly to emphasize their roles in stability\n    value = size_ratio * (1 + oxidation_diff / max(abs(nA), abs(nB), 1)) ** 0.5\n    return float(value)",
+      "description": "This descriptor introduces a non-linear interaction between ionic size compatibility and the difference in oxidation states, acknowledging that both size fit and charge imbalance critically influence perovskite stability. Larger size mismatch increases instability, while greater oxidation state differences can destabilize the structure. Combining these factors in a multiplicative and square-root form captures the physical effects more comprehensively, especially addressing the weaknesses observed for different anion types and non-ideal structures.",
+      "formula": "D = \\left( \\frac{r_A + r_X}{r_B + r_X} \\right) \\times \\sqrt{1 + \\frac{|n_A - n_B|}{\\max(|n_A|, |n_B|, 1)}}",
+      "accuracy": 0.6302998500749626,
+      "metrics": {
+        "train_accuracy": 0.6521739130434783,
+        "test_accuracy": 0.5862068965517241,
+        "cv_accuracy": 0.6302998500749626,
+        "cv_std": 0.03604992341354738,
+        "cv_fold_scores": [
+          0.5775862068965517,
+          0.6782608695652174,
+          0.6260869565217392,
+          0.6086956521739131,
+          0.6608695652173913
+        ],
+        "false_positive_rate": 0.04182509505703422,
+        "per_anion_accuracy": {
+          "O": 0.6693766937669376,
+          "F": 0.22727272727272727,
+          "Cl": 0.676056338028169,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 63.9%\nTrain accuracy: 65.2%\nTest accuracy: 58.6%\nCV accuracy (5 fold): 63.0% \u00b1 3.6%  [57.8%, 67.8%, 62.6%, 60.9%, 66.1%]\nFalse positive rate: 4.2%\nDecision thresholds: [1.1674, 1.3022, 1.8670]\nTP=116 FP=11 TN=252 FN=197\nPer-anion accuracy:\n  O: 66.9%\n  F: 22.7%\n  Cl: 67.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/1501259e.png",
+      "visit_count": 1,
+      "total_reward": 0.12,
+      "children_ids": [],
+      "depth": 1
+    },
+    "a1103609": {
+      "id": "a1103609",
+      "parent_id": "ec4d1d8e",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the electrostatic mismatch as a normalized charge-to-radius ratio difference\n    electrostatic_term = abs(nA / rA - nB / rB - nX / rX)\n    # Calculate the geometric mismatch based on the deviation of B-X from an ideal ionic radius ratio\n    ideal_ratio = 0.5  # Hypothetical ideal ratio for B-X in stable perovskites\n    radius_ratio = rB / rX\n    geometric_mismatch = abs(radius_ratio - ideal_ratio)\n    # Combine electrostatic and geometric mismatches with a nonlinear weighting\n    combined_mismatch = electrostatic_term ** 2 + geometric_mismatch ** 2\n    # Transform to a stability score that decreases with mismatch\n    stability_score = 1 / (1 + combined_mismatch)\n    return stability_score",
+      "description": "This descriptor captures stability by integrating electrostatic compatibility \u2014 through the ratio of the oxidation state to ionic radius, reflecting charge density and electrostatic attraction \u2014 with geometric fit, represented by the deviation of the B-X radius ratio from an ideal value. Combining these factors nonlinearizes the relationship, addressing inaccuracies related to anion type variations and complex size-charge interactions that affect perovskite formation stability.",
+      "formula": "f(r_A, r_B, r_X, n_A, n_B, n_X) = \\frac{1}{1 + \\left( \\left| \\frac{n_A}{r_A} - \\frac{n_B}{r_B} - \\frac{n_X}{r_X} \\right|^2 + \\left| \\frac{r_B}{r_X} - 0.5 \\right|^2 \\right)}",
+      "accuracy": 0.6475712143928036,
+      "metrics": {
+        "train_accuracy": 0.6673913043478261,
+        "test_accuracy": 0.6724137931034483,
+        "cv_accuracy": 0.6475712143928036,
+        "cv_std": 0.04277998965583289,
+        "cv_fold_scores": [
+          0.646551724137931,
+          0.6695652173913044,
+          0.6782608695652174,
+          0.6782608695652174,
+          0.5652173913043478
+        ],
+        "false_positive_rate": 0.6806083650190115,
+        "per_anion_accuracy": {
+          "O": 0.8238482384823849,
+          "F": 0.7727272727272727,
+          "Cl": 0.2535211267605634,
+          "Br": 0.18518518518518517,
+          "I": 0.16279069767441862
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 66.8%\nTrain accuracy: 66.7%\nTest accuracy: 67.2%\nCV accuracy (5 fold): 64.8% \u00b1 4.3%  [64.7%, 67.0%, 67.8%, 67.8%, 56.5%]\nFalse positive rate: 68.1%\nDecision thresholds: [0.0288, 0.0416, 0.3909]\nTP=301 FP=179 TN=84 FN=12\nPer-anion accuracy:\n  O: 82.4%\n  F: 77.3%\n  Cl: 25.4%\n  Br: 18.5%\n  I: 16.3%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/a1103609.png",
+      "visit_count": 1,
+      "total_reward": 0.26,
+      "children_ids": [],
+      "depth": 1
+    },
+    "fa2af015": {
+      "id": "fa2af015",
+      "parent_id": "71542192",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the average ionic radius of B and X to assess size compatibility.\n    r_avg_BX = (rB + rX) / 2\n    # Calculate the deviation of A's radius from the average of B and X, emphasizing the fit within the cage.\n    size_discrepancy = abs(rA - r_avg_BX)\n    # Include the impact of oxidation states by evaluating the electrostatic energy component.\n    electrostatic_contribution = (abs(nA) * abs(nX)) / (abs(nB) + 1)\n    # Incorporate an ion-specific weighting factor based on the nature of the anion (X), penalizing mismatched chemistry.\n    # Assign X-specific weights based on known stability trends (e.g., O and F more favorable).\n    ion_weight = {\n        8: 0.8,  # O\n        9: 0.9,  # F\n        17: 1.0, # Cl\n        35: 1.2, # Br\n        53: 1.4  # I\n    }.get(round(rX), 1.0)\n    # Final descriptor combines size mismatch, electrostatics, and ion-specific factors.\n    return size_discrepancy * electrostatic_contribution * ion_weight",
+      "description": "This descriptor captures the geometric compatibility by measuring how closely the A cation's radius matches the average size of the B and X ions, recognizing that better size fit promotes stability. It also explicitly considers electrostatic interactions via oxidation states, which influence ionic bonding strength. Additionally, by introducing ion-specific weights based on the anion type, it accounts for chemical effects known to influence perovskite stability, such as the higher stability of oxides and fluorides. This holistic approach addresses previous shortcomings by integrating size, charge, and chemistry in a multiplicative manner, leading to a physically meaningful, monotonic stability predictor.",
+      "formula": "D = \\left| r_A - \\frac{r_B + r_X}{2} \\right| \\times \\frac{|n_A| \\times |n_X|}{|n_B| + 1} \\times w_{X}",
+      "accuracy": 0.6371814092953524,
+      "metrics": {
+        "train_accuracy": 0.6521739130434783,
+        "test_accuracy": 0.6637931034482759,
+        "cv_accuracy": 0.6371814092953524,
+        "cv_std": 0.03834893729099156,
+        "cv_fold_scores": [
+          0.6206896551724138,
+          0.6086956521739131,
+          0.6869565217391305,
+          0.6782608695652174,
+          0.591304347826087
+        ],
+        "false_positive_rate": 0.5209125475285171,
+        "per_anion_accuracy": {
+          "O": 0.6368563685636857,
+          "F": 0.8333333333333334,
+          "Cl": 0.5915492957746479,
+          "Br": 0.5925925925925926,
+          "I": 0.6744186046511628
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 65.5%\nTrain accuracy: 65.2%\nTest accuracy: 66.4%\nCV accuracy (5 fold): 63.7% \u00b1 3.8%  [62.1%, 60.9%, 68.7%, 67.8%, 59.1%]\nFalse positive rate: 52.1%\nDecision thresholds: [0.0592, 0.0808, 0.4220]\nTP=251 FP=137 TN=126 FN=62\nPer-anion accuracy:\n  O: 63.7%\n  F: 83.3%\n  Cl: 59.2%\n  Br: 59.3%\n  I: 67.4%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/fa2af015.png",
+      "visit_count": 1,
+      "total_reward": 0.14,
+      "children_ids": [],
+      "depth": 1
+    },
+    "28206b00": {
+      "id": "28206b00",
+      "parent_id": "eea9be49",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute ionic radius ratios for A and B\n    ratio_A = rA / rX\n    ratio_B = rB / rX\n    # Calculate the difference in size ratios, emphasizing size mismatch\n    size_diff = abs(ratio_A - ratio_B)\n    # Handle division by zero in charge_factor calculation\n    denom = nB + nX\n    if denom == 0:\n        charge_factor = 0.0\n    else:\n        charge_factor = abs(nA + nX) / denom\n    # Combine size mismatch and charge factor with a non-linear transformation\n    value = size_diff ** 1.5 + (charge_factor ** 2)\n    return float(value)",
+      "description": "This descriptor explicitly captures the size mismatch between the A and B cations relative to the anion, which influences the stability of the perovskite cage. It also incorporates oxidation states to reflect charge balance and bonding preferences, addressing the limitations of size-only metrics. The non-linear transformation emphasizes significant mismatches and charge imbalances, which are critical for stability and are often overlooked by simple tolerance factors. This approach aims to better discriminate stable perovskite structures from nonperovskites, especially in cases with varying anion types and charge distributions.",
+      "formula": "D = \\left| \\frac{r_A}{r_X} - \\frac{r_B}{r_X} \\right|^{1.5} + \\left( \\frac{|n_A + n_X|}{|n_B + n_X|} \\right)^2",
+      "accuracy": 0.7101349325337332,
+      "metrics": {
+        "train_accuracy": 0.6934782608695652,
+        "test_accuracy": 0.7758620689655172,
+        "cv_accuracy": 0.7101349325337332,
+        "cv_std": 0.02528388746249364,
+        "cv_fold_scores": [
+          0.6724137931034483,
+          0.6956521739130435,
+          0.7217391304347827,
+          0.7130434782608696,
+          0.7478260869565218
+        ],
+        "false_positive_rate": 0.5665399239543726,
+        "per_anion_accuracy": {
+          "O": 0.7154471544715447,
+          "F": 0.8787878787878788,
+          "Cl": 0.6619718309859155,
+          "Br": 0.6666666666666666,
+          "I": 0.5116279069767442
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 71.0%\nTrain accuracy: 69.3%\nTest accuracy: 77.6%\nCV accuracy (5 fold): 71.0% \u00b1 2.5%  [67.2%, 69.6%, 72.2%, 71.3%, 74.8%]\nFalse positive rate: 56.7%\nDecision thresholds: [0.1739, 0.2342, 1.1277]\nTP=295 FP=149 TN=114 FN=18\nPer-anion accuracy:\n  O: 71.5%\n  F: 87.9%\n  Cl: 66.2%\n  Br: 66.7%\n  I: 51.2%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/28206b00.png",
+      "visit_count": 1,
+      "total_reward": 0.6799999999999999,
+      "children_ids": [],
+      "depth": 1
+    },
+    "534e7fb3": {
+      "id": "534e7fb3",
+      "parent_id": "b7b8644d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the normalized size difference between A and B sites\n    size_diff = abs(rA - rB) / (rA + rB)\n    # Calculate the electrostatic imbalance based on oxidation states\n    electrostatic_imbalance = abs(nA * nX) / (abs(nB) * abs(nX) + 1e-6)\n    # Incorporate ionic radii difference and electrostatics into a combined measure\n    combined_effect = size_diff * electrostatic_imbalance\n    # Use a sigmoid-like transformation to produce a monotonic stability indicator\n    return 1 / (1 + np.exp(10 * (combined_effect - 0.2)))",
+      "description": "This descriptor emphasizes the importance of size compatibility and electrostatic balance by combining the relative size difference between A and B ions with the magnitude of the charge interactions. Larger size mismatch and stronger electrostatic imbalance are associated with reduced stability. The sigmoid transformation ensures the descriptor remains monotonic, sharply distinguishing stable from unstable structures, and addresses the overlap issues by emphasizing critical thresholds relevant to perovskite formation.",
+      "formula": "D = \\frac{1}{1 + \\exp\\left[10 \\left( \\frac{|r_A - r_B|}{r_A + r_B} \\times \\frac{|n_A n_X|}{|n_B| |n_X| + \\varepsilon} - 0.2 \\right) \\right]}",
+      "accuracy": 0.6961769115442279,
+      "metrics": {
+        "train_accuracy": 0.7086956521739131,
+        "test_accuracy": 0.6637931034482759,
+        "cv_accuracy": 0.6961769115442279,
+        "cv_std": 0.030638530411466212,
+        "cv_fold_scores": [
+          0.6982758620689655,
+          0.6608695652173913,
+          0.7043478260869566,
+          0.6695652173913044,
+          0.7478260869565218
+        ],
+        "false_positive_rate": 0.5513307984790875,
+        "per_anion_accuracy": {
+          "O": 0.7371273712737128,
+          "F": 0.8787878787878788,
+          "Cl": 0.5774647887323944,
+          "Br": 0.6296296296296297,
+          "I": 0.3488372093023256
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 70.0%\nTrain accuracy: 70.9%\nTest accuracy: 66.4%\nCV accuracy (5 fold): 69.6% \u00b1 3.1%  [69.8%, 66.1%, 70.4%, 67.0%, 74.8%]\nFalse positive rate: 55.1%\nDecision thresholds: [0.0833, 0.7020, 0.8094]\nTP=285 FP=145 TN=118 FN=28\nPer-anion accuracy:\n  O: 73.7%\n  F: 87.9%\n  Cl: 57.7%\n  Br: 63.0%\n  I: 34.9%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/534e7fb3.png",
+      "visit_count": 2,
+      "total_reward": 1.1400000000000001,
+      "children_ids": [
+        "3907dab5"
+      ],
+      "depth": 1
+    },
+    "62adad62": {
+      "id": "62adad62",
+      "parent_id": "71542192",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Compute the difference between ionic radii ratios to capture size mismatch.\n    radius_ratio_A = rA / rX\n    radius_ratio_B = rB / rX\n    size_discrepancy = abs(radius_ratio_A - radius_ratio_B)\n    # Incorporate oxidation states to account for electrostatic stability.\n    charge_balance = abs(nA + nX) / (abs(nB) + 1)\n    # Use an exponential decay function to give higher scores to smaller discrepancies,\n    # emphasizing the importance of size compatibility.\n    stability_score = 1 / (1 + np.exp(10 * (size_discrepancy - 0.2)))  # threshold tuned for typical mismatch\n    # Combine the size and charge factors into a single descriptor.\n    return stability_score * (1 + charge_balance)",
+      "description": "This descriptor assesses the compatibility of ionic sizes via the ratio differences between A and B relative to the X anion, capturing how well the ions fit into the perovskite cage. It emphasizes size similarity by using an exponential decay, which sharply penalizes larger mismatches that tend to destabilize the structure. Additionally, it incorporates charge balance through oxidation states to account for electrostatic stability. This form differs fundamentally from the classical tolerance factor by focusing on relative size ratios and a nonlinear penalty, better capturing the physical factors influencing perovskite stability, especially where different anion types and electrostatic effects are significant.",
+      "formula": "D = \\frac{1}{1 + \\exp\\left(10 \\times \\left(\\frac{r_A}{r_X} - \\frac{r_B}{r_X} - 0.2\\right)\\right)} \\times \\left(1 + \\frac{|n_A + n_X|}{|n_B| + 1}\\right)",
+      "accuracy": 0.6962068965517241,
+      "metrics": {
+        "train_accuracy": 0.7043478260869566,
+        "test_accuracy": 0.7241379310344828,
+        "cv_accuracy": 0.6962068965517241,
+        "cv_std": 0.030818826429432674,
+        "cv_fold_scores": [
+          0.6810344827586207,
+          0.7478260869565218,
+          0.6782608695652174,
+          0.6608695652173913,
+          0.7130434782608696
+        ],
+        "false_positive_rate": 0.5665399239543726,
+        "per_anion_accuracy": {
+          "O": 0.7913279132791328,
+          "F": 0.8484848484848485,
+          "Cl": 0.43661971830985913,
+          "Br": 0.5555555555555556,
+          "I": 0.32558139534883723
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 70.8%\nTrain accuracy: 70.4%\nTest accuracy: 72.4%\nCV accuracy (5 fold): 69.6% \u00b1 3.1%  [68.1%, 74.8%, 67.8%, 66.1%, 71.3%]\nFalse positive rate: 56.7%\nDecision thresholds: [0.0038, 0.4132, 0.4531]\nTP=294 FP=149 TN=114 FN=19\nPer-anion accuracy:\n  O: 79.1%\n  F: 84.8%\n  Cl: 43.7%\n  Br: 55.6%\n  I: 32.6%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/62adad62.png",
+      "visit_count": 1,
+      "total_reward": 0.6599999999999999,
+      "children_ids": [],
+      "depth": 1
+    },
+    "39ba33d5": {
+      "id": "39ba33d5",
+      "parent_id": "eea9be49",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # New descriptor based on ion size mismatch and electronegativity difference\n    size_mismatch = abs(rA - rX) / (rB + rX)\n    charge_diff = abs(nA - nX / nB)\n    # Combine size mismatch with electronic property difference\n    value = size_mismatch * (1 + charge_diff)\n    return float(value)",
+      "description": "This descriptor emphasizes the size mismatch between the A cation and the X anion, which influences how well the A-site fits within the BX6 cage, a key factor in stability. Additionally, it incorporates the difference in oxidation states (or effective electronegativity differences) to account for charge balance effects. By combining these two aspects multiplicatively, it captures the physical interplay between ionic size compatibility and electronic stability, addressing the weaknesses of the previous size-only ratio and improving discrimination, especially across different anion types with varied bonding character.",
+      "formula": "D = \\left| r_A - r_X \\right| / (r_B + r_X) \\times \\left( 1 + \\left| n_A - \\frac{n_X}{n_B} \\right| \\right)",
+      "accuracy": 0.6458620689655172,
+      "metrics": {
+        "train_accuracy": 0.6304347826086957,
+        "test_accuracy": 0.7241379310344828,
+        "cv_accuracy": 0.6458620689655172,
+        "cv_std": 0.023743714853913196,
+        "cv_fold_scores": [
+          0.6293103448275862,
+          0.6869565217391305,
+          0.6173913043478261,
+          0.6434782608695652,
+          0.6521739130434783
+        ],
+        "false_positive_rate": 0.7414448669201521,
+        "per_anion_accuracy": {
+          "O": 0.7588075880758808,
+          "F": 0.7727272727272727,
+          "Cl": 0.352112676056338,
+          "Br": 0.2962962962962963,
+          "I": 0.23255813953488372
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 64.9%\nTrain accuracy: 63.0%\nTest accuracy: 72.4%\nCV accuracy (5 fold): 64.6% \u00b1 2.4%  [62.9%, 68.7%, 61.7%, 64.3%, 65.2%]\nFalse positive rate: 74.1%\nDecision thresholds: [0.6385, 0.8680, 0.9849]\nTP=306 FP=195 TN=68 FN=7\nPer-anion accuracy:\n  O: 75.9%\n  F: 77.3%\n  Cl: 35.2%\n  Br: 29.6%\n  I: 23.3%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/39ba33d5.png",
+      "visit_count": 1,
+      "total_reward": 0.24,
+      "children_ids": [],
+      "depth": 1
+    },
+    "af4b46ad": {
+      "id": "af4b46ad",
+      "parent_id": "b7b8644d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the effective electrostatic charge ratio\n    charge_ratio = abs(nA / nB)\n    # Calculate the size mismatch as the difference between A cation size and the average cage size\n    cage_size = (rB + rX) / 2\n    size_difference = abs(rA - cage_size)\n    # Combine size mismatch scaled by electrostatics and the ionic radii difference\n    combined_metric = size_difference * charge_ratio\n    # Use a sigmoid function to map the combined metric to a stability score\n    import math\n    return 1 / (1 + math.exp(combined_metric - 1))",
+      "description": "This descriptor captures the physical balance between the ionic size compatibility and electrostatic interactions. By measuring how far the A cation's size deviates from the average cage size formed by B and X ions, scaled by the charge ratio, it accounts for both geometric fit and electrostatic stability. Applying a sigmoid function ensures the descriptor smoothly transitions between stability regimes, helping to distinguish stable perovskites from nonperovskites even in overlapping size or charge regimes.",
+      "formula": "D = \\frac{1}{1 + \\exp\\left(\\left| r_A - \\frac{r_B + r_X}{2} \\right| \\times \\frac{|n_A|}{|n_B|} - 1\\right)}",
+      "accuracy": 0.6059220389805097,
+      "metrics": {
+        "train_accuracy": 0.6108695652173913,
+        "test_accuracy": 0.6551724137931034,
+        "cv_accuracy": 0.6059220389805097,
+        "cv_std": 0.022010404834181364,
+        "cv_fold_scores": [
+          0.5948275862068966,
+          0.591304347826087,
+          0.6434782608695652,
+          0.6173913043478261,
+          0.5826086956521739
+        ],
+        "false_positive_rate": 0.7604562737642585,
+        "per_anion_accuracy": {
+          "O": 0.6693766937669376,
+          "F": 0.8484848484848485,
+          "Cl": 0.39436619718309857,
+          "Br": 0.37037037037037035,
+          "I": 0.37209302325581395
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 62.0%\nTrain accuracy: 61.1%\nTest accuracy: 65.5%\nCV accuracy (5 fold): 60.6% \u00b1 2.2%  [59.5%, 59.1%, 64.3%, 61.7%, 58.3%]\nFalse positive rate: 76.0%\nDecision thresholds: [0.6468, 0.7234, 0.7250]\nTP=294 FP=200 TN=63 FN=19\nPer-anion accuracy:\n  O: 66.9%\n  F: 84.8%\n  Cl: 39.4%\n  Br: 37.0%\n  I: 37.2%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/af4b46ad.png",
+      "visit_count": 1,
+      "total_reward": 0.07999999999999996,
+      "children_ids": [],
+      "depth": 1
+    },
+    "204d17af": {
+      "id": "204d17af",
+      "parent_id": "71542192",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the geometric mean of the ionic radii for B and X to capture effective bond length.\n    r_bx_mean = (rB * rX) ** 0.5\n    # Compute a charge-weighted radius difference to incorporate electrostatic considerations.\n    charge_weighted_diff = abs(nA * rA - nB * r_bx_mean)\n    # Incorporate the ionic radii ratio (rA / r_bx_mean) to reflect size compatibility.\n    size_ratio = rA / r_bx_mean\n    # Combine size and charge factors, emphasizing their interaction.\n    stability_indicator = (charge_weighted_diff) * (size_ratio ** 2)\n    # Apply a logarithmic transformation to compress scale and improve monotonicity.\n    import math\n    return math.log1p(stability_indicator)",
+      "description": "This descriptor integrates the size mismatch between the A cation and the combined B-X bond environment, emphasizing both ionic size compatibility and electrostatic charge effects. By using the geometric mean of B and X radii, it captures an effective bond length relevant to the cage fit. The charge-weighted difference highlights electrostatic interactions, while the radius ratio reflects geometric compatibility. The logarithmic transformation ensures the function varies monotonically and reduces the influence of extreme values, addressing overlaps seen in the previous descriptor. This formulation aims to better differentiate stable perovskites across diverse anion types, especially those with lower accuracy predictions, by explicitly modeling size and charge interplay in a different mathematical form.",
+      "formula": "D = \\log\\left(1 + |n_A \\cdot r_A - n_B \\times \\sqrt{r_B r_X}|\\right) \\times \\left(\\frac{r_A}{\\sqrt{r_B r_X}}\\right)^2",
+      "accuracy": 0.623343328335832,
+      "metrics": {
+        "train_accuracy": 0.6543478260869565,
+        "test_accuracy": 0.5775862068965517,
+        "cv_accuracy": 0.623343328335832,
+        "cv_std": 0.03577110856402201,
+        "cv_fold_scores": [
+          0.5775862068965517,
+          0.6521739130434783,
+          0.6434782608695652,
+          0.5826086956521739,
+          0.6608695652173913
+        ],
+        "false_positive_rate": 0.17870722433460076,
+        "per_anion_accuracy": {
+          "O": 0.6097560975609756,
+          "F": 0.7878787878787878,
+          "Cl": 0.5352112676056338,
+          "Br": 0.7037037037037037,
+          "I": 0.7906976744186046
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 63.9%\nTrain accuracy: 65.4%\nTest accuracy: 57.8%\nCV accuracy (5 fold): 62.3% \u00b1 3.6%  [57.8%, 65.2%, 64.3%, 58.3%, 66.1%]\nFalse positive rate: 17.9%\nDecision thresholds: [0.1854, 0.8142, 1.5263]\nTP=152 FP=47 TN=216 FN=161\nPer-anion accuracy:\n  O: 61.0%\n  F: 78.8%\n  Cl: 53.5%\n  Br: 70.4%\n  I: 79.1%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/204d17af.png",
+      "visit_count": 1,
+      "total_reward": 0.09999999999999998,
+      "children_ids": [],
+      "depth": 1
+    },
+    "e7560dea": {
+      "id": "e7560dea",
+      "parent_id": "ec4d1d8e",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the electrostatic difference term\n    charge_diff = abs(nA) - (abs(nB) + abs(nX))\n    # Compute the geometric size mismatch based on the ratio of A to the B-X bond length\n    size_difference = abs(rA - (rB + rX)/2)\n    # Incorporate the electronegativity difference using Pauling scale (assuming availability)\n    # For illustration, assume a function get_electronegativity(element) exists\n    # Here, as a placeholder, we just use the oxidation states ratio as a proxy\n    electronegativity_factor = abs(nA / nX) - abs(nB / nX)\n    # Combine the three physical considerations into a single nonlinear function\n    value = (\n        (1 / (1 + 10 * size_difference)) *\n        (1 - abs(charge_diff) / max(abs(nA), abs(nB) + abs(nX))) *\n        (1 / (1 + abs(electronegativity_factor)))\n    )\n    # Normalize to a finite positive range\n    return max(0.0, value)",
+      "description": "This descriptor captures the stability factors from three different physical perspectives: the electrostatic compatibility via the charge difference between A and the B-X framework, the geometric fit through the size mismatch between A and the B-X cage, and the electronegativity difference indirectly estimated by oxidation states. By combining an exponential decay for size mismatch, a quadratic penalty for charge mismatch, and an inverse relation for electronegativity disparity, this formulation addresses the previous shortcomings related to distribution overlap and anion-specific accuracy issues. It emphasizes stable configurations with balanced electrostatic and size considerations, improving discrimination especially for diverse anions.",
+      "formula": " \n\ndescriptor = \\left( \\frac{1}{1 + 10 \\times |r_A - (r_B + r_X)/2|} \\right) \\times \\left( 1 - \\frac{|n_A| - (|n_B| + |n_X|)}{\\max(|n_A|, |n_B| + |n_X|)} \\right) \\times \\left( \\frac{1}{1 + |\\frac{n_A}{n_X}|} \\right)",
+      "accuracy": 0.6632533733133432,
+      "metrics": {
+        "train_accuracy": 0.658695652173913,
+        "test_accuracy": 0.7155172413793104,
+        "cv_accuracy": 0.6632533733133432,
+        "cv_std": 0.03201987462983884,
+        "cv_fold_scores": [
+          0.6293103448275862,
+          0.6521739130434783,
+          0.6347826086956522,
+          0.7130434782608696,
+          0.6869565217391305
+        ],
+        "false_positive_rate": 0.5475285171102662,
+        "per_anion_accuracy": {
+          "O": 0.6612466124661247,
+          "F": 0.8787878787878788,
+          "Cl": 0.5774647887323944,
+          "Br": 0.48148148148148145,
+          "I": 0.6976744186046512
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 67.0%\nTrain accuracy: 65.9%\nTest accuracy: 71.6%\nCV accuracy (5 fold): 66.3% \u00b1 3.2%  [62.9%, 65.2%, 63.5%, 71.3%, 68.7%]\nFalse positive rate: 54.8%\nDecision thresholds: [0.0490, 0.1920, 0.4530]\nTP=267 FP=144 TN=119 FN=46\nPer-anion accuracy:\n  O: 66.1%\n  F: 87.9%\n  Cl: 57.7%\n  Br: 48.1%\n  I: 69.8%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/e7560dea.png",
+      "visit_count": 1,
+      "total_reward": 0.38,
+      "children_ids": [],
+      "depth": 1
+    },
+    "7cc51e88": {
+      "id": "7cc51e88",
+      "parent_id": "466df8ef",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import math\n    # Physical rationale: stability depends on the degree of charge balance and the electrostatic stabilization\n    # Incorporate the product of the ionic radii to reflect the strength of lattice interactions\n    radius_product = rA * rB * rX\n    # Include the electrostatic term as the product of charges, emphasizing charge balance\n    charge_factor = abs(nA) * abs(nB) * abs(nX)\n    # Combine the size and charge factors, normalized by the sum of radii to modulate scale\n    combined_value = (radius_product * charge_factor) / (rA + rB + rX)\n    return float(combined_value)",
+      "description": "This descriptor captures the interplay between ionic size compatibility and electrostatic charge balance, both crucial for perovskite stability. By multiplying the radii, it emphasizes the lattice stabilization strength, while the product of oxidation states highlights charge neutrality and electrostatic interactions. Dividing by the sum of radii normalizes the scale, reducing bias from absolute sizes and focusing on the relative balance. This approach addresses previous limitations by explicitly incorporating charge effects and the multiplicative influence of ionic sizes, improving discrimination between stable and unstable structures, especially across different anion types.",
+      "formula": "D = \\frac{r_A \\times r_B \\times r_X \\times |n_A| \\times |n_B| \\times |n_X|}{r_A + r_B + r_X}",
+      "accuracy": 0.7760119940029986,
+      "metrics": {
+        "train_accuracy": 0.7978260869565217,
+        "test_accuracy": 0.75,
+        "cv_accuracy": 0.7760119940029986,
+        "cv_std": 0.020422409772364897,
+        "cv_fold_scores": [
+          0.7931034482758621,
+          0.7565217391304347,
+          0.7478260869565218,
+          0.8,
+          0.782608695652174
+        ],
+        "false_positive_rate": 0.23954372623574144,
+        "per_anion_accuracy": {
+          "O": 0.8617886178861789,
+          "F": 0.696969696969697,
+          "Cl": 0.5211267605633803,
+          "Br": 0.7037037037037037,
+          "I": 0.7906976744186046
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 78.8%\nTrain accuracy: 79.8%\nTest accuracy: 75.0%\nCV accuracy (5 fold): 77.6% \u00b1 2.0%  [79.3%, 75.7%, 74.8%, 80.0%, 78.3%]\nFalse positive rate: 24.0%\nDecision thresholds: [0.9810, 4.6779, 5.4052]\nTP=254 FP=63 TN=200 FN=59\nPer-anion accuracy:\n  O: 86.2%\n  F: 69.7%\n  Cl: 52.1%\n  Br: 70.4%\n  I: 79.1%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/7cc51e88.png",
+      "visit_count": 1,
+      "total_reward": 0.94,
+      "children_ids": [],
+      "depth": 2
+    },
+    "3f6c96cf": {
+      "id": "3f6c96cf",
+      "parent_id": "b7b8644d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the size difference between A-site cation and the average size of B and X ions\n    size_diff = abs(rA - (rB + rX)/2)\n    # Quantify the electrostatic difference via oxidation states\n    electrostatic_diff = abs(nA + nX) + abs(nB + nX) / 2\n    # Incorporate the covalent character and ion pairing tendencies\n    covalent_factor = (rX / (rA + rX)) * (abs(nX) / (abs(nA) + 1e-6))\n    # Combine factors into a single descriptor with different mathematical structure\n    return 1.0 / (1.0 + size_diff * electrostatic_diff * covalent_factor)",
+      "description": "This descriptor integrates size mismatch, electrostatic interactions, and covalent bonding tendencies, which are critical for stability but were not fully captured in the previous size-based ratio. By measuring the deviation in ionic radii and combining it multiplicatively with electrostatic and covalent factors, it accounts for both geometric fit and chemical bonding characteristics. This holistic approach aims to reduce the overlap in the distribution of stable versus unstable compounds, especially addressing shortcomings seen with different anion types and noncubic structures.",
+      "formula": "D = \\frac{1}{1 + \\left| r_A - \\frac{r_B + r_X}{2} \\right| \\times \\left( |n_A + n_X| + \\frac{|n_B + n_X|}{2} \\right) \\times \\left( \\frac{r_X}{r_A + r_X} \\times \\frac{|n_X|}{|n_A| + 1e-6} \\right)}",
+      "accuracy": 0.5764167916041979,
+      "metrics": {
+        "train_accuracy": 0.6347826086956522,
+        "test_accuracy": 0.5603448275862069,
+        "cv_accuracy": 0.5764167916041979,
+        "cv_std": 0.04060416222304883,
+        "cv_fold_scores": [
+          0.5603448275862069,
+          0.5304347826086957,
+          0.6434782608695652,
+          0.6,
+          0.5478260869565217
+        ],
+        "false_positive_rate": 0.4296577946768061,
+        "per_anion_accuracy": {
+          "O": 0.5853658536585366,
+          "F": 0.8484848484848485,
+          "Cl": 0.5915492957746479,
+          "Br": 0.6666666666666666,
+          "I": 0.5813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 62.0%\nTrain accuracy: 63.5%\nTest accuracy: 56.0%\nCV accuracy (5 fold): 57.6% \u00b1 4.1%  [56.0%, 53.0%, 64.3%, 60.0%, 54.8%]\nFalse positive rate: 43.0%\nDecision thresholds: [0.3883, 0.7784, 0.9423]\nTP=207 FP=113 TN=150 FN=106\nPer-anion accuracy:\n  O: 58.5%\n  F: 84.8%\n  Cl: 59.2%\n  Br: 66.7%\n  I: 58.1%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/3f6c96cf.png",
+      "visit_count": 1,
+      "total_reward": 0.06000000000000005,
+      "children_ids": [],
+      "depth": 1
+    },
+    "a46d87ab": {
+      "id": "a46d87ab",
+      "parent_id": "fd3eb216",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the electronegativity difference term to capture bonding tendencies.\n    # Using the difference of ionic radii ratios as a proxy for electronegativity mismatch.\n    delta_ratio = abs((rA / rX) - (rB / rX))\n    # Incorporate the average oxidation state to reflect electrostatic balance.\n    avg_ox_state = (nA + nB + nX) / 3\n    # Compute a stability indicator combining size mismatch with electrostatic effects.\n    stability_index = delta_ratio / (abs(avg_ox_state) + 1)\n    # Transform to a bounded, monotonic scale emphasizing size and charge effects.\n    descriptor_value = 1 / (1 + stability_index)\n    return descriptor_value",
+      "description": "This descriptor assesses stability by examining the mismatch in ionic size ratios (A vs. B relative to X), which influences the cage fit, and the average oxidation state, which affects electrostatic interactions. By combining size mismatch with charge balance in a ratio, it captures how well the ionic sizes and charges promote stable perovskite formation. The function's form emphasizes that smaller size mismatch and balanced charge states lead to higher stability, helping to distinguish perovskites across different anion types and addressing overlaps seen in the original size-based descriptor.",
+      "formula": "D = \\frac{1}{1 + \\frac{|(\\frac{r_A}{r_X}) - (\\frac{r_B}{r_X})|}{|\\frac{n_A + n_B + n_X}{3}| + 1}}",
+      "accuracy": 0.6631934032983509,
+      "metrics": {
+        "train_accuracy": 0.6826086956521739,
+        "test_accuracy": 0.7068965517241379,
+        "cv_accuracy": 0.6631934032983509,
+        "cv_std": 0.0519933026519134,
+        "cv_fold_scores": [
+          0.6637931034482759,
+          0.7565217391304347,
+          0.6,
+          0.6347826086956522,
+          0.6608695652173913
+        ],
+        "false_positive_rate": 0.5095057034220533,
+        "per_anion_accuracy": {
+          "O": 0.8075880758807588,
+          "F": 0.3787878787878788,
+          "Cl": 0.6338028169014085,
+          "Br": 0.5185185185185185,
+          "I": 0.32558139534883723
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 68.8%\nTrain accuracy: 68.3%\nTest accuracy: 70.7%\nCV accuracy (5 fold): 66.3% \u00b1 5.2%  [66.4%, 75.7%, 60.0%, 63.5%, 66.1%]\nFalse positive rate: 51.0%\nDecision thresholds: [0.7625, 0.9035, 0.9142]\nTP=267 FP=134 TN=129 FN=46\nPer-anion accuracy:\n  O: 80.8%\n  F: 37.9%\n  Cl: 63.4%\n  Br: 51.9%\n  I: 32.6%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/a46d87ab.png",
+      "visit_count": 1,
+      "total_reward": 0.36,
+      "children_ids": [],
+      "depth": 2
+    },
+    "7e363c3f": {
+      "id": "7e363c3f",
+      "parent_id": "6b1a8807",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Improved descriptor: combines ionic size difference with electronegativity difference and oxidation states.\n    # Calculates size mismatch and electronegativity difference to better capture stability variations.\n    delta_size = abs(rA - rB) + abs(rA - rX) + abs(rB - rX)\n    # Use Pauling electronegativity values for elements (example values, to be replaced with actual data in implementation)\n    # For demonstration, assume a function get_electronegativity(element) exists.\n    # Here, we'll mock with a simple function.\n    def get_electronegativity(element):\n        # Placeholder: in practice, replace with actual electronegativity data.\n        return 3.0\n    # Map element symbols based on atomic numbers for simplicity (requires actual lookup in practice)\n    # For this example, assume nA, nB, nX are enough to infer electronegativities.\n    # Placeholder: assign dummy electronegativities based on oxidation states (not physically accurate but illustrative)\n    enA = 4.0 - 0.1 * nA\n    enB = 4.0 - 0.1 * nB\n    enX = 3.5 - 0.1 * nX\n    en_diff = abs(enA - enX) + abs(enB - enX)\n    # Combine size mismatch and electronegativity difference, scaled by oxidation states.\n    stability_index = (delta_size / (rA + rB + rX + 1e-6)) + 0.5 * (abs(nA - nB) + abs(nA - nX) + abs(nB - nX)) / (abs(nA) + abs(nB) + abs(nX) + 1e-6) + en_diff / 4.0\n    # Sigmoid to ensure monotonicity and bounded output\n    import math\n    return 1 / (1 + math.exp(-stability_index + 1.0))",
+      "description": "This descriptor integrates ionic size mismatches with differences in electronegativity and oxidation states, capturing electrostatic and chemical compatibility effects more comprehensively. By combining these factors, it addresses weaknesses related to different anion types and non-ideal bonding environments, improving the discrimination between stable and unstable perovskites. The nonlinear sigmoid ensures a smooth, monotonic relation with stability likelihood, reducing overlap between classes observed in the previous descriptor.",
+      "formula": "\\text{descriptor} = \\frac{1}{1 + \\exp\\left(-\\left(\\frac{|r_A - r_B| + |r_A - r_X| + |r_B - r_X|}{r_A + r_B + r_X + \\varepsilon} + 0.5 \\times \\frac{|n_A - n_B| + |n_A - n_X| + |n_B - n_X|}{|n_A| + |n_B| + |n_X| + \\varepsilon} + \\frac{|\\text{en}_A - \\text{en}_X| + |\\text{en}_B - \\text{en}_X|}{4} \\right)\\right)}",
+      "accuracy": 0.8037781109445277,
+      "metrics": {
+        "train_accuracy": 0.8152173913043478,
+        "test_accuracy": 0.8017241379310345,
+        "cv_accuracy": 0.8037781109445277,
+        "cv_std": 0.032096341961178686,
+        "cv_fold_scores": [
+          0.8275862068965517,
+          0.8260869565217391,
+          0.7565217391304347,
+          0.8347826086956521,
+          0.7739130434782608
+        ],
+        "false_positive_rate": 0.26996197718631176,
+        "per_anion_accuracy": {
+          "O": 0.8699186991869918,
+          "F": 0.5606060606060606,
+          "Cl": 0.7464788732394366,
+          "Br": 0.6666666666666666,
+          "I": 0.9069767441860465
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 81.2%\nTrain accuracy: 81.5%\nTest accuracy: 80.2%\nCV accuracy (5 fold): 80.4% \u00b1 3.2%  [82.8%, 82.6%, 75.7%, 83.5%, 77.4%]\nFalse positive rate: 27.0%\nDecision thresholds: [0.5286, 0.5861, 0.5974]\nTP=276 FP=71 TN=192 FN=37\nPer-anion accuracy:\n  O: 87.0%\n  F: 56.1%\n  Cl: 74.6%\n  Br: 66.7%\n  I: 90.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/7e363c3f.png",
+      "visit_count": 1,
+      "total_reward": 1.0,
+      "children_ids": [],
+      "depth": 1
+    },
+    "e5ca4127": {
+      "id": "e5ca4127",
+      "parent_id": "6b1a8807",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Improved descriptor: combines ionic radii ratios with oxidation state differences.\n    # Emphasizes the mismatch in ionic size ratios and the disparity in oxidation states.\n    radius_ratio_A_B = rA / rB\n    size_disparity = abs(rA / rX - rB / rX)\n    oxidation_state_diff = abs(nA - nB)\n    # Use a polynomial combination to capture nonlinear effects and improve separation.\n    stability_metric = (radius_ratio_A_B - 1)**2 + 0.5 * oxidation_state_diff + 0.3 * size_disparity\n    # Apply an exponential decay to emphasize smaller deviations.\n    import math\n    return math.exp(-stability_metric)\n",
+      "description": "This descriptor integrates the relative size mismatch between A and B ions with the difference in their oxidation states, acknowledging that both size compatibility and charge balance critically influence perovskite stability. The quadratic term captures how deviations from ideal size ratios reduce stability, while the linear oxidation state difference accounts for electrostatic mismatch. Using an exponential decay emphasizes configurations closer to ideal conditions, reducing the influence of large mismatches and improving discrimination between stable and unstable perovskites, especially addressing the overlap seen with different anion types.",
+      "formula": "descriptor = \\exp\\left( - \\left[ (\\frac{r_A}{r_B} - 1)^2 + 0.5 \\times |n_A - n_B| + 0.3 \\times \\left| \\frac{r_A}{r_X} - \\frac{r_B}{r_X} \\right| \\right] \\right)",
+      "accuracy": 0.6493553223388305,
+      "metrics": {
+        "train_accuracy": 0.6456521739130435,
+        "test_accuracy": 0.6982758620689655,
+        "cv_accuracy": 0.6493553223388305,
+        "cv_std": 0.028730957619044137,
+        "cv_fold_scores": [
+          0.6206896551724138,
+          0.6956521739130435,
+          0.6260869565217392,
+          0.6695652173913044,
+          0.6347826086956522
+        ],
+        "false_positive_rate": 0.7452471482889734,
+        "per_anion_accuracy": {
+          "O": 0.7967479674796748,
+          "F": 0.7727272727272727,
+          "Cl": 0.29577464788732394,
+          "Br": 0.18518518518518517,
+          "I": 0.16279069767441862
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 65.6%\nTrain accuracy: 64.6%\nTest accuracy: 69.8%\nCV accuracy (5 fold): 64.9% \u00b1 2.9%  [62.1%, 69.6%, 62.6%, 67.0%, 63.5%]\nFalse positive rate: 74.5%\nDecision thresholds: [0.0000, 0.0061, 0.8490]\nTP=311 FP=196 TN=67 FN=2\nPer-anion accuracy:\n  O: 79.7%\n  F: 77.3%\n  Cl: 29.6%\n  Br: 18.5%\n  I: 16.3%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/e5ca4127.png",
+      "visit_count": 1,
+      "total_reward": 0.28,
+      "children_ids": [],
+      "depth": 1
+    },
+    "18e3448d": {
+      "id": "18e3448d",
+      "parent_id": "92fb8406",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the effective size difference weighted by electrostatic stability\n    size_diff = abs(rA - rB) / (rA + rB)\n    # Incorporate oxidation states to account for charge-driven stabilization\n    charge_factor = abs(nA + nX) / (abs(nA) + abs(nX) + 1e-8)\n    # Include the average anion radius to account for different anion sizes\n    R_avg_X = rX\n    # Combine size difference and charge factor with a nonlinear power to emphasize deviations\n    stability_score = (size_diff ** 2 + charge_factor ** 2) ** 0.5 / (R_avg_X + 1e-8)\n    return float(stability_score)",
+      "description": "This descriptor assesses perovskite stability by measuring the relative size mismatch between A and B cations, weighted to reflect how size compatibility influences cage fit. It also incorporates the oxidation states to address charge neutrality effects, which are critical for stability but are not captured solely by ionic radii. The inclusion of the average anion radius adjusts for different anion sizes, which can influence lattice flexibility and bonding. Combining these factors nonlinearly emphasizes deviations from optimal conditions, thus better distinguishing stable perovskites, especially across different anion types, and capturing some of the physical effects missing in the previous size-only ratio.",
+      "formula": "\\text{Descriptor} = \\frac{\\sqrt{(r_A - r_B)^2 + (n_A + n_X)^2}}{r_X + \\varepsilon}",
+      "accuracy": 0.7361469265367317,
+      "metrics": {
+        "train_accuracy": 0.7652173913043478,
+        "test_accuracy": 0.6982758620689655,
+        "cv_accuracy": 0.7361469265367317,
+        "cv_std": 0.04630554136157381,
+        "cv_fold_scores": [
+          0.7155172413793104,
+          0.7217391304347827,
+          0.7478260869565218,
+          0.6782608695652174,
+          0.8173913043478261
+        ],
+        "false_positive_rate": 0.30038022813688214,
+        "per_anion_accuracy": {
+          "O": 0.8346883468834688,
+          "F": 0.7424242424242424,
+          "Cl": 0.38028169014084506,
+          "Br": 0.5555555555555556,
+          "I": 0.7906976744186046
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 75.2%\nTrain accuracy: 76.5%\nTest accuracy: 69.8%\nCV accuracy (5 fold): 73.6% \u00b1 4.6%  [71.6%, 72.2%, 74.8%, 67.8%, 81.7%]\nFalse positive rate: 30.0%\nDecision thresholds: [0.2007, 0.3448, 0.4063]\nTP=249 FP=79 TN=184 FN=64\nPer-anion accuracy:\n  O: 83.5%\n  F: 74.2%\n  Cl: 38.0%\n  Br: 55.6%\n  I: 79.1%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/18e3448d.png",
+      "visit_count": 1,
+      "total_reward": 0.78,
+      "children_ids": [],
+      "depth": 2
+    },
+    "7d55b23f": {
+      "id": "7d55b23f",
+      "parent_id": "b7b8644d",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import math\n    # Calculate the effective ionic size mismatch considering bond covalency and ion polarizability\n    size_ratio = (rA / rX) / (rB / rX)\n    # Incorporate ionic charge imbalance to account for electrostatic effects influencing stability\n    charge_disparity = abs(nA / nX) - abs(nB / nX)\n    # Combine size ratio and charge disparity nonlinearly to capture complex stability trends\n    combined_effect = size_ratio ** 2 + charge_disparity ** 2\n    # To prevent math range errors, ensure the argument of exp is within a safe range\n    exponent = 5 * (combined_effect - 1)\n    # Clamp the exponent to avoid overflow in math.exp\n    max_exp = 700  # approximate upper bound for math.exp without overflow\n    min_exp = -700\n    exponent = min(max(exponent, min_exp), max_exp)\n    return 1 / (1 + math.exp(exponent))",
+      "description": "This descriptor integrates the relative size ratios normalized by polarizability effects and the ionic charge imbalance to better capture the complex factors influencing perovskite stability. By combining size and charge effects nonlinearly and mapping into a sigmoid function, it emphasizes the optimal conditions for stable perovskite formation, addressing the limitations of the previous linear mismatch approach, especially across different anion types and coordination environments.",
+      "formula": "D = \\frac{1}{1 + \\exp\\left(5 \\left( \\left( \\frac{r_A}{r_X} \\middle/ \\frac{r_B}{r_X} \\right)^2 + \\left| \\frac{n_A}{n_X} \\right| - \\left| \\frac{n_B}{n_X} \\right| \\right) - 1 \\right)}",
+      "accuracy": 0.5433733133433283,
+      "metrics": {
+        "train_accuracy": 0.5695652173913044,
+        "test_accuracy": 0.5,
+        "cv_accuracy": 0.5433733133433283,
+        "cv_std": 0.02877762570506543,
+        "cv_fold_scores": [
+          0.5603448275862069,
+          0.5565217391304348,
+          0.5478260869565217,
+          0.5652173913043478,
+          0.48695652173913045
+        ],
+        "false_positive_rate": 0.29277566539923955,
+        "per_anion_accuracy": {
+          "O": 0.6260162601626016,
+          "F": 0.15151515151515152,
+          "Cl": 0.5492957746478874,
+          "Br": 0.48148148148148145,
+          "I": 0.627906976744186
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 55.6%\nTrain accuracy: 57.0%\nTest accuracy: 50.0%\nCV accuracy (5 fold): 54.3% \u00b1 2.9%  [56.0%, 55.7%, 54.8%, 56.5%, 48.7%]\nFalse positive rate: 29.3%\nDecision thresholds: [0.0000, 0.0037, 0.0066]\nTP=134 FP=77 TN=186 FN=179\nPer-anion accuracy:\n  O: 62.6%\n  F: 15.2%\n  Cl: 54.9%\n  Br: 48.1%\n  I: 62.8%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/7d55b23f.png",
+      "visit_count": 1,
+      "total_reward": 0.020000000000000018,
+      "children_ids": [],
+      "depth": 1
+    },
+    "3519e291": {
+      "id": "3519e291",
+      "parent_id": "ec4d1d8e",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the average ionic radius of the B-site cation and X-site anion\n    rB_X_avg = (rB + rX) / 2\n    # Compute the size mismatch ratio with respect to A-site cation\n    size_mismatch = abs(rA - rB_X_avg) / rB_X_avg\n    # Calculate the electrostatic charge product as a measure of Coulombic attraction\n    charge_product = abs(nA * nX)\n    # Compute the electronegativity difference indicative of ionic bonding character\n    # Using a placeholder proportional to charge product (since actual electronegativity data isn't provided)\n    electronegativity_factor = 1 / (1 + charge_product)\n    # Combine size mismatch quadratically and electrostatic/ionic factors multiplicatively\n    stability_indicator = size_mismatch ** 2 * electronegativity_factor\n    # Apply a sigmoidal transformation to normalize and make monotonic\n    import math\n    descriptor_value = 1 / (1 + math.exp(stability_indicator - 1))\n    return descriptor_value",
+      "description": "This descriptor integrates the physical principles of ionic size compatibility and electrostatic interactions. It measures how well the A cation fits the B-X cage via the size mismatch ratio, emphasizing deviations from ideal fit. It also accounts for electrostatic attraction through the product of oxidation states and an approximated electronegativity factor, capturing bonding character variations. Combining these in a nonlinear, sigmoidal form enables the descriptor to distinguish stable perovskites from nonperovskites by emphasizing configurations with optimal size matching and electrostatic compatibility, addressing known weaknesses such as anion-specific inaccuracies and missing covalent effects.",
+      "formula": "D = \\frac{1}{1 + \\exp\\left( \\left( \\frac{|r_A - \\frac{r_B + r_X}{2}|}{\\frac{r_B + r_X}{2}} \\right)^2 \\times \\frac{1}{1 + |n_A n_X|} - 1 \\right)}",
+      "accuracy": 0.5677361319340329,
+      "metrics": {
+        "train_accuracy": 0.5565217391304348,
+        "test_accuracy": 0.6293103448275862,
+        "cv_accuracy": 0.5677361319340329,
+        "cv_std": 0.016945747839519115,
+        "cv_fold_scores": [
+          0.5517241379310345,
+          0.5652173913043478,
+          0.5565217391304348,
+          0.6,
+          0.5652173913043478
+        ],
+        "false_positive_rate": 0.935361216730038,
+        "per_anion_accuracy": {
+          "O": 0.6693766937669376,
+          "F": 0.7878787878787878,
+          "Cl": 0.2535211267605634,
+          "Br": 0.18518518518518517,
+          "I": 0.16279069767441862
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 57.1%\nTrain accuracy: 55.7%\nTest accuracy: 62.9%\nCV accuracy (5 fold): 56.8% \u00b1 1.7%  [55.2%, 56.5%, 55.7%, 60.0%, 56.5%]\nFalse positive rate: 93.5%\nDecision thresholds: [0.6046, 0.6845, 0.6967]\nTP=312 FP=246 TN=17 FN=1\nPer-anion accuracy:\n  O: 66.9%\n  F: 78.8%\n  Cl: 25.4%\n  Br: 18.5%\n  I: 16.3%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/3519e291.png",
+      "visit_count": 1,
+      "total_reward": 0.040000000000000036,
+      "children_ids": [],
+      "depth": 1
+    },
+    "f2fe84f7": {
+      "id": "f2fe84f7",
+      "parent_id": "33248ada",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the difference in ionic radii between A and B, scaled by their oxidation states.\n    size_ratio = (rA / abs(nA)) / (rB / abs(nB))\n    # Incorporate the ratio of ionic radii to account for cage fit and size mismatch.\n    # Add a penalty for the disparity between the anion radius and the B cation radius.\n    anion_b_disparity = abs(rX - rB)\n    # Combine the size ratio and disparity with a nonlinear exponential to emphasize deviations.\n    stability_score = np.tanh(size_ratio) - np.exp(-anion_b_disparity / (rX + rB))\n    return stability_score",
+      "description": "This descriptor combines a scaled ratio of ionic radii, accounting for charge and size compatibility between A and B cations, with a penalty based on how well the anion fits relative to the B cation. The use of the hyperbolic tangent captures monotonic trends in size mismatch, while the exponential penalizes poor anion-cation size compatibility, addressing limitations in the previous size-based and electrostatic mismatch descriptors. This approach explicitly incorporates anion size effects and charge balance, improving discrimination especially for different halide anions and non-cubic distortions.",
+      "formula": "D = \\tanh\\left(\\frac{r_A / |n_A|}{r_B / |n_B|}\\right) - \\exp\\left(\\frac{-|r_X - r_B|}{r_X + r_B}\\right)",
+      "accuracy": 0.7794902548725637,
+      "metrics": {
+        "train_accuracy": 0.7956521739130434,
+        "test_accuracy": 0.7672413793103449,
+        "cv_accuracy": 0.7794902548725637,
+        "cv_std": 0.02905273356600047,
+        "cv_fold_scores": [
+          0.7931034482758621,
+          0.7217391304347827,
+          0.8,
+          0.7913043478260869,
+          0.7913043478260869
+        ],
+        "false_positive_rate": 0.33079847908745247,
+        "per_anion_accuracy": {
+          "O": 0.8346883468834688,
+          "F": 0.8333333333333334,
+          "Cl": 0.647887323943662,
+          "Br": 0.6296296296296297,
+          "I": 0.6744186046511628
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 79.0%\nTrain accuracy: 79.6%\nTest accuracy: 76.7%\nCV accuracy (5 fold): 77.9% \u00b1 2.9%  [79.3%, 72.2%, 80.0%, 79.1%, 79.1%]\nFalse positive rate: 33.1%\nDecision thresholds: [0.1286, 0.3457, 0.3628]\nTP=279 FP=87 TN=176 FN=34\nPer-anion accuracy:\n  O: 83.5%\n  F: 83.3%\n  Cl: 64.8%\n  Br: 63.0%\n  I: 67.4%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/f2fe84f7.png",
+      "visit_count": 1,
+      "total_reward": 0.96,
+      "children_ids": [],
+      "depth": 2
+    },
+    "1ba8a88f": {
+      "id": "1ba8a88f",
+      "parent_id": "2de163df",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    # Calculate the electrostatic mismatch as a normalized charge difference scaled by ionic radii\n    electrostatic_mismatch = abs(nA / rA - nX / rX) + abs(nB / rB - nX / rX)\n    # Compute the geometric size mismatch normalized by the average ionic radius\n    size_mismatch = (abs(rA - rX) + abs(rB - rX)) / ((rA + rB + rX) / 3)\n    # Combine the two physical effects with a weighted sum, emphasizing electrostatic compatibility\n    value = 0.7 * electrostatic_mismatch + 0.3 * size_mismatch\n    return float(value)",
+      "description": "This descriptor incorporates two key physical factors influencing perovskite stability: electrostatic compatibility and ionic size mismatch. The electrostatic mismatch term accounts for how well the charge states balance when scaled by ionic radii, capturing electrostatic interactions that are crucial for lattice stability. The size mismatch term measures the relative deviation of A and B ionic sizes from the X anion, normalized to prevent bias from absolute radii sizes. Combining these factors with weighted emphasis addresses limitations in the previous model by explicitly capturing charge distribution effects and more nuanced size effects, improving discrimination especially across different anion types and addressing overlaps observed in the prior descriptor.",
+      "formula": "D = 0.7 \\times \\left( \\left| \\frac{n_A}{r_A} - \\frac{n_X}{r_X} \\right| + \\left| \\frac{n_B}{r_B} - \\frac{n_X}{r_X} \\right| \\right) + 0.3 \\times \\frac{ |r_A - r_X| + |r_B - r_X| }{ (r_A + r_B + r_X)/3 }",
+      "accuracy": 0.7915892053973013,
+      "metrics": {
+        "train_accuracy": 0.8,
+        "test_accuracy": 0.7931034482758621,
+        "cv_accuracy": 0.7915892053973013,
+        "cv_std": 0.02795064339553131,
+        "cv_fold_scores": [
+          0.8362068965517241,
+          0.7913043478260869,
+          0.7478260869565218,
+          0.7913043478260869,
+          0.7913043478260869
+        ],
+        "false_positive_rate": 0.10646387832699619,
+        "per_anion_accuracy": {
+          "O": 0.9051490514905149,
+          "F": 0.22727272727272727,
+          "Cl": 0.7464788732394366,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 79.9%\nTrain accuracy: 80.0%\nTest accuracy: 79.3%\nCV accuracy (5 fold): 79.2% \u00b1 2.8%  [83.6%, 79.1%, 74.8%, 79.1%, 79.1%]\nFalse positive rate: 10.6%\nDecision thresholds: [5.9742, 8.5055, 8.6220]\nTP=225 FP=28 TN=235 FN=88\nPer-anion accuracy:\n  O: 90.5%\n  F: 22.7%\n  Cl: 74.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/1ba8a88f.png",
+      "visit_count": 1,
+      "total_reward": 0.98,
+      "children_ids": [],
+      "depth": 2
+    },
+    "3907dab5": {
+      "id": "3907dab5",
+      "parent_id": "534e7fb3",
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import numpy as np\n    # Calculate the difference between ionic radii of A and B\n    delta_r = rA - rB\n    # Compute the electrostatic difference term based on oxidation states\n    electrostat_diff = abs(nA / nX - nB / nX)\n    # Incorporate the size difference scaled by ionic radii\n    size_scale = delta_r / (rA + rB)\n    # Combine the size and electrostatic terms non-linearly to capture complex interactions\n    combined_metric = np.tanh(10 * (size_scale ** 2 + electrostat_diff))\n    # Return a monotonic measure where higher indicates greater likelihood of stability\n    return combined_metric",
+      "description": "This descriptor integrates size mismatch and electrostatic imbalance in a nonlinear manner to better distinguish stable perovskites from nonperovskites. By squaring the size difference and applying the hyperbolic tangent, it captures the complex interplay of ionic fit and charge interactions that influence structural stability. This approach addresses the overlap issues observed with simple linear or sigmoid functions, especially for different anion types, by emphasizing deviations from ideal size and charge balance in a smooth, monotonic form.",
+      "formula": "D = \\tanh \\left[ 10 \\left( \\left( \\frac{r_A - r_B}{r_A + r_B} \\right)^2 + \\left| \\frac{n_A}{n_X} - \\frac{n_B}{n_X} \\right| \\right) \\right]",
+      "accuracy": 0.6822488755622189,
+      "metrics": {
+        "train_accuracy": 0.7065217391304348,
+        "test_accuracy": 0.6637931034482759,
+        "cv_accuracy": 0.6822488755622189,
+        "cv_std": 0.021579541398599623,
+        "cv_fold_scores": [
+          0.7068965517241379,
+          0.6956521739130435,
+          0.6869565217391305,
+          0.6434782608695652,
+          0.6782608695652174
+        ],
+        "false_positive_rate": 0.026615969581749048,
+        "per_anion_accuracy": {
+          "O": 0.7479674796747967,
+          "F": 0.22727272727272727,
+          "Cl": 0.7464788732394366,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 69.8%\nTrain accuracy: 70.7%\nTest accuracy: 66.4%\nCV accuracy (5 fold): 68.2% \u00b1 2.2%  [70.7%, 69.6%, 68.7%, 64.3%, 67.8%]\nFalse positive rate: 2.7%\nDecision thresholds: [0.3273, 0.9676, 0.9999]\nTP=146 FP=7 TN=256 FN=167\nPer-anion accuracy:\n  O: 74.8%\n  F: 22.7%\n  Cl: 74.6%\n  Br: 81.5%\n  I: 83.7%"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/20260318_131513/plots/3907dab5.png",
+      "visit_count": 1,
+      "total_reward": 0.5,
+      "children_ids": [],
+      "depth": 2
+    }
+  },
+  "root_children": [
+    "eea9be49",
+    "6b1a8807",
+    "ec4d1d8e",
+    "b7b8644d",
+    "71542192"
+  ],
+  "budget_used": 50,
+  "total_llm_calls": 50,
+  "debug_calls": 4
+}
