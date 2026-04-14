@@ -50,10 +50,10 @@ r"\\frac{{r_X}}{{r_B}} - n_A \\cdot (n_A - \\frac{{r_A/r_B}}{{\\ln(r_A/r_B)}})")
 Do this brainstorming internally and then select the single best candidate for output.
 
 STRICT RULES — violating any of these will make your answer invalid:
-- Do NOT reproduce the classical Goldschmidt tolerance factor: t = (rA + rX) / (sqrt(2) * (rB + rX))
-- Do NOT reproduce the Bartel tau factor: tau = (rX / rB) - nA * (nA - (rA / rB) / ln(rA / rB))
-- Do NOT output any formula that is t or tau, including simple rescalings/rearrangements of them.
-- Your descriptor must use a meaningfully different functional form from both of the above.
+- Do NOT reproduce t or tau exactly as standalone formulas with no modification.
+- You MAY incorporate t = (rA + rX) / (sqrt(2) * (rB + rX)) or tau as a COMPONENT inside a larger expression — for example, multiplying by nA, adding a correction term, taking a ratio with another expression, or combining with log(nB). This is encouraged.
+- Your descriptor must add something physically meaningful beyond just t or tau alone (e.g., an oxidation-state correction, an anion-size correction, a combined radii–charge term).
+- The best descriptors in the literature combine geometric packing (Goldschmidt-like) with charge/electronegativity effects — aim for this.
 
 Output ONLY the JSON, no other text.
 """.strip()
@@ -87,12 +87,12 @@ Each candidate should be representable as a raw LaTeX string. Do this brainstorm
 internally and then pick the single best candidate for output.
 
 STRICT RULES — violating any of these will make your answer invalid:
-- Do NOT reproduce the classical Goldschmidt tolerance factor: t = (rA + rX) / (sqrt(2) * (rB + rX))
-- Do NOT reproduce the Bartel tau factor: tau = (rX / rB) - nA * (nA - (rA / rB) / ln(rA / rB))
-- Do NOT output any formula that is t or tau, including simple rescalings/rearrangements of them.
-- Your new descriptor must have a DIFFERENT functional form from the parent descriptor shown above — different mathematical structure, not just rescaled or rearranged versions of it.
+- Do NOT reproduce t or tau exactly as standalone formulas with no modification.
+- You MAY incorporate t = (rA + rX) / (sqrt(2) * (rB + rX)) or tau as a COMPONENT inside a larger expression — multiplying by nA, adding a correction, combining with log(nB), etc. This is encouraged.
+- Your descriptor must add something physically meaningful beyond just t or tau alone.
+- Your new descriptor must have a DIFFERENT functional form from the parent descriptor shown above — different mathematical structure, not just a constant offset or rescaling of the parent.
 - Do NOT simply rename variables or add a constant offset/scaling to the parent formula.
-- Make a genuinely meaningful change: introduce new physical terms, combine variables in a new way, or use a completely different physical rationale.
+- Make a genuinely meaningful change: introduce new physical terms, combine variables in a new way, or extend Goldschmidt/tau with charge and electronegativity effects.
 
 Output ONLY the JSON, no other text.
 """.strip()

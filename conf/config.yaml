@@ -12,7 +12,7 @@ mcts:
 
 eval:
   data_path: "perovskite-stability/TableS1.csv"
-  decision_tree_max_depth: 2
+  decision_tree_max_depth: 3
   train_split_label: 1
   cv_folds: 5
 

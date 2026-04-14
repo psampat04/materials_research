@@ -1,0 +1,35 @@
+eval:
+  data_path: "perovskite-stability/TableS1.csv"
+  decision_tree_max_depth: 2
+  train_split_label: 1
+  cv_folds: 5
+
+pysr:
+  niterations: 50
+  populations: 20
+  maxsize: 25
+  population_size: 33
+  ncycles_per_iteration: 550
+  binary_operators:
+    - "+"
+    - "-"
+    - "*"
+    - "/"
+  unary_operators:
+    - "log"
+    - "sqrt"
+    - "abs"
+    - "square"
+  # Penalize complexity so PySR prefers compact, interpretable formulas
+  parsimony: 0.0005
+  # Fraction of top equations to keep across runs
+  fraction_replaced: 0.05
+  # Minimum improvement in loss to count as progress
+  min_score: 0.0
+  # Random seed for reproducibility
+  random_state: 42
+  # Warn rather than error on invalid expressions during evolution
+  batching: false
+
+search:
+  output_dir: "search_runs"

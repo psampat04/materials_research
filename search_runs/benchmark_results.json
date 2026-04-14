@@ -1,0 +1,86 @@
+{
+  "methods": [
+    {
+      "method": "FEX",
+      "description": "RL over expression trees (FEX-PIDEs-PDEs adapted)",
+      "test_accuracy": 0.8706896551724138,
+      "train_accuracy": 0.808695652173913,
+      "best_formula": "inv((rB * cube(rX)))",
+      "source": "search_runs/fex_results/fex_results.json"
+    },
+    {
+      "method": "LLMSR",
+      "description": "LLM-guided MCTS symbolic regression",
+      "test_accuracy": 0.853448275862069,
+      "train_accuracy": 0.8608695652173913,
+      "best_formula": "\\text{stability\textunderscore score} = \\frac{(r_A n_A + r_B n_B + r_X n_X)}{(n_A",
+      "source": "search_runs/20260326_153248/search_state.json",
+      "run": "20260326_153248"
+    },
+    {
+      "method": "DSR",
+      "description": "Direct Symbolic Regression (PySR)",
+      "test_accuracy": 0.896551724137931,
+      "train_accuracy": 0.85,
+      "best_formula": "log(0.55657687526464*nA*rA**2*rB*(2.2971272 + nX*rA/nB)**2/rX**2)",
+      "source": "search_runs/pysr_20260402_181223/pysr_results.json",
+      "run": "pysr_20260402_181223"
+    },
+    {
+      "method": "FEM",
+      "description": "Feature Engineering Method (physics features + Decision Tree)",
+      "test_accuracy": 0.9396551724137931,
+      "train_accuracy": 0.9347826086956522,
+      "best_formula": "Decision Tree (depth=3) on 8 physics features",
+      "source": "search_runs/piecewise_results/fem_results.json"
+    },
+    {
+      "method": "Goldschmidt t (baseline)",
+      "description": "Goldschmidt tolerance factor  t = (rA+rX)/(\u221a2\u00b7(rB+rX))",
+      "test_accuracy": 0.7396,
+      "train_accuracy": null,
+      "best_formula": "t = (rA + rX) / (\u221a2 \u00b7 (rB + rX))",
+      "source": "Bartel et al. (2019) Table S1 \u2014 published 74% accuracy"
+    },
+    {
+      "method": "Bartel \u03c4 (target)",
+      "description": "Bartel tau factor  \u03c4 = rX/rB - nA\u00b7(nA - (rA/rB)/ln(rA/rB))",
+      "test_accuracy": 0.9201,
+      "train_accuracy": null,
+      "best_formula": "\u03c4 = rX/rB \u2212 nA\u00b7(nA \u2212 (rA/rB)/ln(rA/rB))",
+      "source": "Bartel et al. (2019) \u2014 published 92% accuracy"
+    }
+  ],
+  "ranking": [
+    {
+      "rank": 1,
+      "method": "FEM",
+      "test_accuracy": 0.9396551724137931
+    },
+    {
+      "rank": 2,
+      "method": "Bartel \u03c4 (target)",
+      "test_accuracy": 0.9201
+    },
+    {
+      "rank": 3,
+      "method": "DSR",
+      "test_accuracy": 0.896551724137931
+    },
+    {
+      "rank": 4,
+      "method": "FEX",
+      "test_accuracy": 0.8706896551724138
+    },
+    {
+      "rank": 5,
+      "method": "LLMSR",
+      "test_accuracy": 0.853448275862069
+    },
+    {
+      "rank": 6,
+      "method": "Goldschmidt t (baseline)",
+      "test_accuracy": 0.7396
+    }
+  ]
+}
