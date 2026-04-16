@@ -19,3 +19,4 @@ eval:
 search:
   state_path: "search_runs/"
   resume: null
+  mode: "llmsr"

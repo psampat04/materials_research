@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from llm_client import LLMClient
-from prompts import (
+from mcts.prompts import (
     IMPROVEMENT_PROMPT_TEMPLATE,
     INITIAL_PROMPT_TEMPLATE,
     PROBLEM_DESCRIPTION,

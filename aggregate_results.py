@@ -4,59 +4,99 @@ import json
 from pathlib import Path
 
 SEARCH_RUNS = Path(__file__).parent / "search_runs"
-OUTPUT = Path(__file__).parent / "ranked_formulas.json"
+OUTPUT_DIR = Path(__file__).parent / "ranked_results"
+OUTPUT_MCTS = OUTPUT_DIR / "ranked_formulas_mcts.json"
+OUTPUT_LLMSR = OUTPUT_DIR / "ranked_formulas_llmsr.json"
+OUTPUT_ALL = OUTPUT_DIR / "ranked_formulas.json"
+OUTPUT_DIR.mkdir(exist_ok=True)
 
 
-def main():
-    all_formulas = []
+def _load_run(state_file: Path, algorithm: str) -> list[dict]:
+    if state_file.stat().st_size == 0:
+        print(f"Skipping empty file: {state_file}")
+        return []
+    with open(state_file) as f:
+        try:
+            data = json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"Skipping malformed JSON: {state_file} ({e})")
+            return []
 
-    for state_file in sorted(SEARCH_RUNS.glob("*/search_state.json")):
-        run_name = state_file.parent.name
-        if state_file.stat().st_size == 0:
-            print(f"Skipping empty file: {state_file}")
-            continue
-        with open(state_file) as f:
-            try:
-                data = json.load(f)
-            except json.JSONDecodeError as e:
-                print(f"Skipping malformed JSON: {state_file} ({e})")
-                continue
+    run_name = state_file.parent.name
+    entries = []
+    for node in data["nodes"].values():
+        entry = {
+            "algorithm": algorithm,
+            "run": run_name,
+            "node_id": node["id"],
+            "depth": node["depth"],
+            "parent_id": node["parent_id"],
+            "accuracy": node["accuracy"],
+            "train_accuracy": node["metrics"].get("train_accuracy"),
+            "test_accuracy": node["metrics"].get("test_accuracy"),
+            "per_anion_accuracy": node["metrics"].get("per_anion_accuracy", {}),
+            "formula": node["formula"],
+            "explanation": node["description"],
+            "code": node["code"],
+        }
+        # LLM-SR specific fields
+        if algorithm == "llmsr":
+            entry["skeleton_code"] = node["metrics"].get("skeleton_code", "")
+            entry["params"] = node["metrics"].get("params", [])
+        entries.append(entry)
+    return entries
 
-        for node in data["nodes"].values():
-            all_formulas.append({
-                "run": run_name,
-                "node_id": node["id"],
-                "depth": node["depth"],
-                "parent_id": node["parent_id"],
-                "accuracy": node["accuracy"],
-                "train_accuracy": node["metrics"].get("train_accuracy"),
-                "test_accuracy": node["metrics"].get("test_accuracy"),
-                "per_anion_accuracy": node["metrics"].get("per_anion_accuracy", {}),
-                "formula": node["formula"],
-                "explanation": node["description"],
-                "code": node["code"],
-            })
 
-    all_formulas.sort(key=lambda x: x["accuracy"], reverse=True)
-
-    for rank, entry in enumerate(all_formulas, 1):
+def _write_output(formulas: list[dict], output_path: Path, run_count: int) -> None:
+    formulas.sort(key=lambda x: x["accuracy"], reverse=True)
+    for rank, entry in enumerate(formulas, 1):
         entry["rank"] = rank
 
     output = {
-        "total_formulas": len(all_formulas),
-        "total_runs": len(list(SEARCH_RUNS.glob("*/search_state.json"))),
-        "formulas": all_formulas,
+        "total_formulas": len(formulas),
+        "total_runs": run_count,
+        "formulas": formulas,
     }
-
-    with open(OUTPUT, "w") as f:
+    with open(output_path, "w") as f:
         json.dump(output, f, indent=2)
 
-    print(f"Aggregated {len(all_formulas)} formulas from {output['total_runs']} runs")
-    print(f"Saved to {OUTPUT}")
-    print(f"\nTop 10:")
-    for entry in all_formulas[:10]:
-        print(f"  #{entry['rank']} | {entry['accuracy']:.1%} (train={entry['train_accuracy']:.1%}, test={entry['test_accuracy']:.1%}) | run={entry['run']} node={entry['node_id']} depth={entry['depth']}")
-        print(f"       {entry['formula'][:80]}")
+    print(f"Saved {len(formulas)} formulas from {run_count} runs → {output_path.name}")
+    print("Top 5:")
+    for entry in formulas[:5]:
+        anion = entry.get("per_anion_accuracy", {})
+        anion_str = " ".join(f"{a}={v:.0%}" for a, v in anion.items()) if anion else "N/A"
+        print(f"  #{entry['rank']} | {entry['accuracy']:.1%} | run={entry['run']} | {anion_str}")
+        if entry.get("formula"):
+            print(f"       {entry['formula'][:80]}")
+    print()
+
+
+def main():
+    mcts_formulas, llmsr_formulas = [], []
+    mcts_runs, llmsr_runs = 0, 0
+
+    for state_file in sorted((SEARCH_RUNS / "mcts").glob("*/search_state.json")):
+        mcts_formulas.extend(_load_run(state_file, "mcts"))
+        mcts_runs += 1
+
+    for state_file in sorted((SEARCH_RUNS / "llmsr").glob("*/search_state.json")):
+        llmsr_formulas.extend(_load_run(state_file, "llmsr"))
+        llmsr_runs += 1
+
+    if mcts_formulas:
+        _write_output(mcts_formulas, OUTPUT_MCTS, mcts_runs)
+    else:
+        print("No MCTS runs found.")
+
+    if llmsr_formulas:
+        _write_output(llmsr_formulas, OUTPUT_LLMSR, llmsr_runs)
+    else:
+        print("No LLM-SR runs found.")
+
+    # Combined file with all formulas
+    all_formulas = mcts_formulas + llmsr_formulas
+    if all_formulas:
+        _write_output(all_formulas, OUTPUT_ALL, mcts_runs + llmsr_runs)
 
 
 if __name__ == "__main__":

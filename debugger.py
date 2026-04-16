@@ -4,7 +4,33 @@ import logging
 import re
 
 from llm_client import LLMClient
-from prompts import DEBUG_PROMPT_TEMPLATE, DEBUG_SYSTEM_PROMPT
+
+DEBUG_SYSTEM_PROMPT = "You are a Python debugging expert."
+
+DEBUG_PROMPT_TEMPLATE = """
+The following Python descriptor function crashed when executed on the dataset:
+
+```python
+{code}
+```
+
+Error message:
+```
+{error}
+```
+
+Fix the function so it handles all valid inputs without errors.
+Constraints:
+- The function must be named `descriptor`
+- Signature: def descriptor(rA, rB, rX, nA, nB, nX)
+- rA, rB, rX are positive floats (ionic radii in Angstroms)
+- nA, nB are positive integers (oxidation states)
+- nX is a negative integer (oxidation state)
+- rA > rB is guaranteed
+- Must return a single finite float
+
+Output ONLY the fixed Python function, no explanation.
+""".strip()
 
 log = logging.getLogger(__name__)
 

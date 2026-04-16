@@ -10,7 +10,7 @@ import pandas as pd
 from debugger import debug_function
 from evaluator import evaluate_candidate
 from llm_client import LLMClient
-from proposer import propose_improvement, propose_initial
+from mcts.proposer import propose_improvement, propose_initial
 from state import FormulaNode, SearchState
 
 log = logging.getLogger(__name__)

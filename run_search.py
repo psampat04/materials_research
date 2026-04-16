@@ -11,6 +11,7 @@ from omegaconf import DictConfig
 
 from evaluator import load_dataset
 from llm_client import LLMClient
+from llmsr import run_llmsr
 from mcts import run_mcts
 from state import SearchState
 
@@ -52,7 +53,8 @@ def main(cfg: DictConfig) -> None:
     orig_cwd = hydra.utils.get_original_cwd()
     data_path = Path(orig_cwd) / cfg.eval.data_path
 
-    run_dir = Path(orig_cwd) / cfg.search.state_path
+    mode = getattr(cfg.search, "mode", "mcts")
+    run_dir = Path(orig_cwd) / cfg.search.state_path / mode
     if cfg.search.resume:
         state_file = Path(orig_cwd) / cfg.search.resume
         state = SearchState.load(state_file)
@@ -73,7 +75,10 @@ def main(cfg: DictConfig) -> None:
     df = load_dataset(str(data_path))
     log.info("Loaded %d compounds from %s", len(df), data_path)
 
-    state = run_mcts(client, state, df, plot_dir, cfg, state_save_path=state_save_path)
+    if mode == "llmsr":
+        state = run_llmsr(client, state, df, plot_dir, cfg, state_save_path=state_save_path)
+    else:
+        state = run_mcts(client, state, df, plot_dir, cfg, state_save_path=state_save_path)
 
     _print_top_formulas(state)
 

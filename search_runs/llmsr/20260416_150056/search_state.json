@@ -1,0 +1,91 @@
+{
+  "nodes": {
+    "ad2c7ca1": {
+      "id": "ad2c7ca1",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    params = [2.0281738281249977, 1.7192382812499996]\n    # Compute a weighted size difference influenced by oxidation states\n    delta_size = (rA - nA * params[0]) + (rB - nB * params[0]) + (rX - nX * params[0])\n    # Incorporate a scaled tolerance factor\n    t = (rA + rX) / (params[1] * (rB + rX))\n    # Combine size and charge effects with a nonlinear coupling\n    return delta_size * t ** 2 + params[0] * (nA + nB + nX)\n",
+      "description": "This descriptor combines ionic size differences adjusted by oxidation states with a scaled tolerance factor, capturing both size compatibility and charge effects influencing perovskite stability. The nonlinear coupling emphasizes the interplay between ionic sizes and electrostatic considerations, providing a physically meaningful and adaptable predictor.",
+      "formula": "D = [(rA - nA * p_0) + (rB - nB * p_0) + (rX - nX * p_0)] \\times \\left( \\frac{rA + rX}{p_1 \\times (rB + rX)} \\right)^2 + p_0 (nA + nB + nX)",
+      "accuracy": 0.7378710644677661,
+      "metrics": {
+        "train_accuracy": 0.7652173913043478,
+        "test_accuracy": 0.7931034482758621,
+        "cv_accuracy": 0.7378710644677661,
+        "cv_std": 0.034753852560178954,
+        "cv_fold_scores": [
+          0.7241379310344828,
+          0.7652173913043478,
+          0.7043478260869566,
+          0.7043478260869566,
+          0.7913043478260869
+        ],
+        "false_positive_rate": 0.3231939163498099,
+        "per_anion_accuracy": {
+          "O": 0.7967479674796748,
+          "F": 0.696969696969697,
+          "Cl": 0.6197183098591549,
+          "Br": 0.7407407407407407,
+          "I": 0.9302325581395349
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 77.1%\nTrain accuracy: 76.5%\nTest accuracy: 79.3%\nCV accuracy (5 fold): 73.8% \u00b1 3.5%  [72.4%, 76.5%, 70.4%, 70.4%, 79.1%]\nFalse positive rate: 32.3%\nDecision thresholds: [3.6169, 3.9536, 4.4682, 4.6199, 5.1880, 5.7360, 5.9668]\nTP=266 FP=85 TN=178 FN=47\nPer-anion accuracy:\n  O: 79.7%\n  F: 69.7%\n  Cl: 62.0%\n  Br: 74.1%\n  I: 93.0%",
+        "params": [
+          2.0281738281249977,
+          1.7192382812499996
+        ],
+        "skeleton_code": "def descriptor(rA, rB, rX, nA, nB, nX, params):\n    # Compute a weighted size difference influenced by oxidation states\n    delta_size = (rA - nA * params[0]) + (rB - nB * params[0]) + (rX - nX * params[0])\n    # Incorporate a scaled tolerance factor\n    t = (rA + rX) / (params[1] * (rB + rX))\n    # Combine size and charge effects with a nonlinear coupling\n    return delta_size * t ** 2 + params[0] * (nA + nB + nX)\n"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/llmsr/20260416_150056/plots/ad2c7ca1.png",
+      "visit_count": 1,
+      "total_reward": 0.7378710644677661,
+      "children_ids": [],
+      "depth": 0
+    },
+    "cfa1538f": {
+      "id": "cfa1538f",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    params = [-0.5624999999999989, -1.0968749999999992]\n    # Combine size and charge considerations with a nonlinear coupling\n    t_component = (rA + params[0] * rX) / (params[1] * (rB + rX))\n    charge_factor = abs(nA * nX) / (abs(nB) + 1e-6)\n    size_diff = abs(rA - rB) / (rA + rB + 1e-6)\n    return t_component * (charge_factor ** 0.5) + params[0] * size_diff",
+      "description": "This descriptor integrates the classical tolerance factor with a nonlinear coupling to oxidation states, capturing both size compatibility and charge balance effects influencing perovskite stability. The size difference term adds sensitivity to distortions, while the charge_factor modulates stability likelihood based on oxidation state interactions.",
+      "formula": "f(r_A, r_B, r_X, n_A, n_B, n_X, p_0, p_1) = \\left( \\frac{r_A + p_0 \\times r_X}{p_1 \\times (r_B + r_X)} \\right) \\times \\sqrt{ \\frac{|n_A \\times n_X|}{|n_B| + 1e-6} } + p_0 \\times \\frac{|r_A - r_B|}{r_A + r_B + 1e-6}",
+      "accuracy": 0.7708545727136432,
+      "metrics": {
+        "train_accuracy": 0.7782608695652173,
+        "test_accuracy": 0.8017241379310345,
+        "cv_accuracy": 0.7708545727136432,
+        "cv_std": 0.017596269317640283,
+        "cv_fold_scores": [
+          0.7586206896551724,
+          0.8,
+          0.7565217391304347,
+          0.7565217391304347,
+          0.782608695652174
+        ],
+        "false_positive_rate": 0.3916349809885932,
+        "per_anion_accuracy": {
+          "O": 0.8401084010840109,
+          "F": 0.8636363636363636,
+          "Cl": 0.6197183098591549,
+          "Br": 0.5925925925925926,
+          "I": 0.5581395348837209
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 78.3%\nTrain accuracy: 77.8%\nTest accuracy: 80.2%\nCV accuracy (5 fold): 77.1% \u00b1 1.8%  [75.9%, 80.0%, 75.7%, 75.7%, 78.3%]\nFalse positive rate: 39.2%\nDecision thresholds: [-0.7503, -0.6341, -0.2922, -0.2776, -0.1871, -0.1864, -0.1427]\nTP=291 FP=103 TN=160 FN=22\nPer-anion accuracy:\n  O: 84.0%\n  F: 86.4%\n  Cl: 62.0%\n  Br: 59.3%\n  I: 55.8%",
+        "params": [
+          -0.5624999999999989,
+          -1.0968749999999992
+        ],
+        "skeleton_code": "def descriptor(rA, rB, rX, nA, nB, nX, params):\n    # Combine size and charge considerations with a nonlinear coupling\n    t_component = (rA + params[0] * rX) / (params[1] * (rB + rX))\n    charge_factor = abs(nA * nX) / (abs(nB) + 1e-6)\n    size_diff = abs(rA - rB) / (rA + rB + 1e-6)\n    return t_component * (charge_factor ** 0.5) + params[0] * size_diff"
+      },
+      "plot_path": "/Users/parthsampat/Downloads/research/research_material_science/search_runs/llmsr/20260416_150056/plots/cfa1538f.png",
+      "visit_count": 1,
+      "total_reward": 0.7708545727136432,
+      "children_ids": [],
+      "depth": 1
+    }
+  },
+  "root_children": [
+    "ad2c7ca1",
+    "cfa1538f"
+  ],
+  "budget_used": 2,
+  "total_llm_calls": 2,
+  "debug_calls": 0
+}
