@@ -19,4 +19,12 @@ eval:
 search:
   state_path: "search_runs/"
   resume: null
-  mode: "llmsr"
+  mode: "llmsr"   # one of: "mcts", "llmsr", "sr_mcts"
+
+# Settings for the sr_mcts mode (token-level MCTS with PUCT, paper 2411.04459).
+# Only consulted when search.mode == "sr_mcts".
+sr_mcts:
+  max_len: 11          # max tokens per prefix expression
+  c_puct: 1.5          # PUCT exploration constant
+  seed: 42
+  use_llm_prior: true  # if false, run with uniform prior (no API calls)

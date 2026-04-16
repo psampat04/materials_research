@@ -13,6 +13,7 @@ from evaluator import load_dataset
 from llm_client import LLMClient
 from llmsr import run_llmsr
 from mcts import run_mcts
+from sr_mcts import run_sr_mcts
 from state import SearchState
 
 log = logging.getLogger(__name__)
@@ -77,6 +78,8 @@ def main(cfg: DictConfig) -> None:
 
     if mode == "llmsr":
         state = run_llmsr(client, state, df, plot_dir, cfg, state_save_path=state_save_path)
+    elif mode == "sr_mcts":
+        state = run_sr_mcts(client, state, df, plot_dir, cfg, state_save_path=state_save_path)
     else:
         state = run_mcts(client, state, df, plot_dir, cfg, state_save_path=state_save_path)
 

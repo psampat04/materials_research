@@ -1,4 +1,4 @@
-"""Benchmark comparison: FEX vs LLMSR vs DSR vs FEM on perovskite stability.
+"""Benchmark comparison: FEX vs LLMSR vs LLMSR-v2 vs DSR vs FEM on perovskite stability.
 
 Reads held-out test accuracies from each method's saved results and prints
 a side-by-side comparison table.  Only test accuracy (never CV or train) is
@@ -11,8 +11,12 @@ FEX   (run_fex.py)
     Result file: search_runs/fex_results/fex_results.json
 
 LLMSR (run_search.py)
-    LLM-guided MCTS symbolic-descriptor search.
+    LLM-guided MCTS symbolic-descriptor search (formula-level refinement).
     Result files: search_runs/<timestamp>/search_state.json  (all runs)
+
+LLMSR-v2 (run_sr_mcts.py)
+    Token-level MCTS with PUCT and LLM priors (Kadam 2024, arxiv 2411.04459).
+    Result file: search_runs/sr_mcts_results/sr_mcts_results.json
 
 DSR   (run_pysr.py)
     Direct/Deep Symbolic Regression via PySR.
@@ -57,25 +61,36 @@ def load_fex(search_runs: Path) -> dict | None:
 
 
 def load_llmsr(search_runs: Path) -> dict | None:
+    """Best node across all LLMSR / MCTS runs (post-reorg layout)."""
     best: dict | None = None
-    for state_file in sorted(search_runs.glob("*/search_state.json")):
-        try:
-            with open(state_file) as f:
-                data = json.load(f)
-        except (json.JSONDecodeError, OSError):
-            continue
-        for node in data.get("nodes", {}).values():
-            ta = node.get("metrics", {}).get("test_accuracy", 0.0)
-            if best is None or ta > best["test_accuracy"]:
-                best = {
-                    "method":         "LLMSR",
-                    "description":    "LLM-guided MCTS symbolic regression",
-                    "test_accuracy":  ta,
-                    "train_accuracy": node["metrics"].get("train_accuracy", 0.0),
-                    "best_formula":   node.get("formula", "—")[:80],
-                    "source":         str(state_file),
-                    "run":            state_file.parent.name,
-                }
+    # New layout: search_runs/{llmsr,mcts}/<timestamp>/search_state.json
+    # Old layout: search_runs/<timestamp>/search_state.json  (pre-reorg)
+    patterns = ("llmsr/*/search_state.json",
+                "mcts/*/search_state.json",
+                "*/search_state.json")
+    seen: set[Path] = set()
+    for pat in patterns:
+        for state_file in sorted(search_runs.glob(pat)):
+            if state_file in seen:
+                continue
+            seen.add(state_file)
+            try:
+                with open(state_file) as f:
+                    data = json.load(f)
+            except (json.JSONDecodeError, OSError):
+                continue
+            for node in data.get("nodes", {}).values():
+                ta = node.get("metrics", {}).get("test_accuracy", 0.0)
+                if best is None or ta > best["test_accuracy"]:
+                    best = {
+                        "method":         "LLMSR",
+                        "description":    "LLM-guided MCTS symbolic regression",
+                        "test_accuracy":  ta,
+                        "train_accuracy": node["metrics"].get("train_accuracy", 0.0),
+                        "best_formula":   node.get("formula", "—")[:80],
+                        "source":         str(state_file),
+                        "run":            state_file.parent.name,
+                    }
     return best
 
 
@@ -98,6 +113,30 @@ def load_dsr(search_runs: Path) -> dict | None:
                     "best_formula":   formula.get("formula_sympy", "—")[:80],
                     "source":         str(result_file),
                     "run":            result_file.parent.name,
+                }
+    return best
+
+
+def load_sr_mcts(search_runs: Path) -> dict | None:
+    """Load the best SR-MCTS run from search_runs/sr_mcts/<timestamp>/search_state.json."""
+    best: dict | None = None
+    for state_file in sorted(search_runs.glob("sr_mcts/*/search_state.json")):
+        try:
+            with open(state_file) as f:
+                data = json.load(f)
+        except (json.JSONDecodeError, OSError):
+            continue
+        for node in data.get("nodes", {}).values():
+            ta = node.get("metrics", {}).get("test_accuracy", 0.0)
+            if best is None or ta > best["test_accuracy"]:
+                best = {
+                    "method":         "LLMSR-v2 (SR-MCTS)",
+                    "description":    "Token-level PUCT MCTS with LLM prior (paper 2411.04459)",
+                    "test_accuracy":  ta,
+                    "train_accuracy": node["metrics"].get("train_accuracy", 0.0),
+                    "best_formula":   node.get("formula", "—")[:80],
+                    "source":         str(state_file),
+                    "run":            state_file.parent.name,
                 }
     return best
 
@@ -227,10 +266,11 @@ def main() -> None:
     missing: list[str] = []
 
     loaders = [
-        ("FEX",   load_fex),
-        ("LLMSR", load_llmsr),
-        ("DSR",   load_dsr),
-        ("FEM",   load_fem),
+        ("FEX",      load_fex),
+        ("LLMSR",    load_llmsr),
+        ("LLMSR-v2", load_sr_mcts),
+        ("DSR",      load_dsr),
+        ("FEM",      load_fem),
     ]
 
     for name, loader in loaders:
