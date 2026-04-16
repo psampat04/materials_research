@@ -1,0 +1,49 @@
+{
+  "nodes": {
+    "cdf9bcad": {
+      "id": "cdf9bcad",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import numpy as np\n    return float(rA)\n",
+      "description": "SR-MCTS token-level PUCT (max_len=11)",
+      "formula": "rA",
+      "accuracy": 0.685712143928036,
+      "metrics": {
+        "train_accuracy": 0.7086956521739131,
+        "test_accuracy": 0.6293103448275862,
+        "cv_accuracy": 0.685712143928036,
+        "cv_std": 0.022902913033906964,
+        "cv_fold_scores": [
+          0.7155172413793104,
+          0.7043478260869566,
+          0.6521739130434783,
+          0.6869565217391305,
+          0.6695652173913044
+        ],
+        "false_positive_rate": 0.155893536121673,
+        "per_anion_accuracy": {
+          "O": 0.7533875338753387,
+          "F": 0.30303030303030304,
+          "Cl": 0.647887323943662,
+          "Br": 0.7407407407407407,
+          "I": 0.813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 69.3%\nTrain accuracy: 70.9%\nTest accuracy: 62.9%\nCV accuracy (5 fold): 68.6% \u00b1 2.3%  [71.6%, 70.4%, 65.2%, 68.7%, 67.0%]\nFalse positive rate: 15.6%\nDecision thresholds: [0.8950, 0.9350, 0.9650, 1.0050, 1.1600, 1.2750, 1.3750]\nTP=177 FP=41 TN=222 FN=136\nPer-anion accuracy:\n  O: 75.3%\n  F: 30.3%\n  Cl: 64.8%\n  Br: 74.1%\n  I: 81.4%",
+        "tokens": [
+          "rA"
+        ],
+        "mode": "sr_mcts"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/sr_mcts/20260416_171758/plots/cdf9bcad.png",
+      "visit_count": 1,
+      "total_reward": 0.685712143928036,
+      "children_ids": [],
+      "depth": 1
+    }
+  },
+  "root_children": [
+    "cdf9bcad"
+  ],
+  "budget_used": 50,
+  "total_llm_calls": 0,
+  "debug_calls": 0
+}

@@ -12,10 +12,19 @@
       "method": "LLMSR",
       "description": "LLM-guided MCTS symbolic regression",
       "test_accuracy": 0.853448275862069,
-      "train_accuracy": 0.8608695652173913,
-      "best_formula": "\\text{stability\textunderscore score} = \\frac{(r_A n_A + r_B n_B + r_X n_X)}{(n_A",
-      "source": "search_runs/20260326_153248/search_state.json",
-      "run": "20260326_153248"
+      "train_accuracy": 0.8304347826086956,
+      "best_formula": "Descriptor = \\frac{ |n_A| r_A + |n_B| r_B + |n_X| r_X }{ |n_A| + |n_B| + |n_X| +",
+      "source": "search_runs/llmsr/20260416_150209/search_state.json",
+      "run": "20260416_150209"
+    },
+    {
+      "method": "LLMSR-v2 (SR-MCTS)",
+      "description": "Token-level PUCT MCTS with LLM prior (paper 2411.04459)",
+      "test_accuracy": 0.853448275862069,
+      "train_accuracy": 0.7717391304347826,
+      "best_formula": "((rB \u00b7 rX) + |-((rX + nX))|)",
+      "source": "search_runs/sr_mcts/20260416_172602/search_state.json",
+      "run": "20260416_172602"
     },
     {
       "method": "DSR",
@@ -79,6 +88,11 @@
     },
     {
       "rank": 6,
+      "method": "LLMSR-v2 (SR-MCTS)",
+      "test_accuracy": 0.853448275862069
+    },
+    {
+      "rank": 7,
       "method": "Goldschmidt t (baseline)",
       "test_accuracy": 0.7396
     }

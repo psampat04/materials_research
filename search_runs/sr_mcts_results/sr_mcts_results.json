@@ -1,0 +1,26 @@
+{
+  "method": "SR-MCTS (LLMSR v2)",
+  "best_tokens": [
+    "div",
+    "mul",
+    "mul",
+    "rA",
+    "mul",
+    "log",
+    "rX",
+    "rX",
+    "rB",
+    "nB"
+  ],
+  "best_expression": "(((rA \u00b7 (log(rX) \u00b7 rX)) \u00b7 rB) / nB)",
+  "descriptor_code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import numpy as np\n    return float(((((((rA) * (((np.log(np.maximum(np.abs(rX), 1e-9))) * (rX))))) * (rB))) / (np.abs(nB) + 1e-9)))\n",
+  "train_accuracy": 0.8630434782608696,
+  "test_accuracy": 0.8275862068965517,
+  "iterations": 2000,
+  "max_len": 11,
+  "c_puct": 1.5,
+  "use_llm_prior": true,
+  "llm_model": "gpt-4o-mini",
+  "llm_calls": 3112,
+  "llm_failures": 0
+}

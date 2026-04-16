@@ -7,6 +7,7 @@ SEARCH_RUNS = Path(__file__).parent / "search_runs"
 OUTPUT_DIR = Path(__file__).parent / "ranked_results"
 OUTPUT_MCTS = OUTPUT_DIR / "ranked_formulas_mcts.json"
 OUTPUT_LLMSR = OUTPUT_DIR / "ranked_formulas_llmsr.json"
+OUTPUT_SR_MCTS = OUTPUT_DIR / "ranked_formulas_sr_mcts.json"
 OUTPUT_ALL = OUTPUT_DIR / "ranked_formulas.json"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
@@ -43,6 +44,9 @@ def _load_run(state_file: Path, algorithm: str) -> list[dict]:
         if algorithm == "llmsr":
             entry["skeleton_code"] = node["metrics"].get("skeleton_code", "")
             entry["params"] = node["metrics"].get("params", [])
+        # SR-MCTS specific fields (prefix tokens)
+        if algorithm == "sr_mcts":
+            entry["tokens"] = node["metrics"].get("tokens", [])
         entries.append(entry)
     return entries
 
@@ -72,8 +76,8 @@ def _write_output(formulas: list[dict], output_path: Path, run_count: int) -> No
 
 
 def main():
-    mcts_formulas, llmsr_formulas = [], []
-    mcts_runs, llmsr_runs = 0, 0
+    mcts_formulas, llmsr_formulas, sr_mcts_formulas = [], [], []
+    mcts_runs, llmsr_runs, sr_mcts_runs = 0, 0, 0
 
     for state_file in sorted((SEARCH_RUNS / "mcts").glob("*/search_state.json")):
         mcts_formulas.extend(_load_run(state_file, "mcts"))
@@ -82,6 +86,10 @@ def main():
     for state_file in sorted((SEARCH_RUNS / "llmsr").glob("*/search_state.json")):
         llmsr_formulas.extend(_load_run(state_file, "llmsr"))
         llmsr_runs += 1
+
+    for state_file in sorted((SEARCH_RUNS / "sr_mcts").glob("*/search_state.json")):
+        sr_mcts_formulas.extend(_load_run(state_file, "sr_mcts"))
+        sr_mcts_runs += 1
 
     if mcts_formulas:
         _write_output(mcts_formulas, OUTPUT_MCTS, mcts_runs)
@@ -93,10 +101,15 @@ def main():
     else:
         print("No LLM-SR runs found.")
 
+    if sr_mcts_formulas:
+        _write_output(sr_mcts_formulas, OUTPUT_SR_MCTS, sr_mcts_runs)
+    else:
+        print("No SR-MCTS runs found.")
+
     # Combined file with all formulas
-    all_formulas = mcts_formulas + llmsr_formulas
+    all_formulas = mcts_formulas + llmsr_formulas + sr_mcts_formulas
     if all_formulas:
-        _write_output(all_formulas, OUTPUT_ALL, mcts_runs + llmsr_runs)
+        _write_output(all_formulas, OUTPUT_ALL, mcts_runs + llmsr_runs + sr_mcts_runs)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,217 @@
+{
+  "nodes": {
+    "f3240e2c": {
+      "id": "f3240e2c",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import numpy as np\n    return float(((((np.log(np.maximum(np.abs((((1.0 / (np.abs(rB) + 1e-9))) - (((((nB) + (rA))) / (np.abs(rX) + 1e-9))))), 1e-9))) * (rX))) * (nX)))\n",
+      "description": "SR-MCTS token-level PUCT (max_len=13)",
+      "formula": "((log((1/(rB) - ((nB + rA) / rX))) \u00b7 rX) \u00b7 nX)",
+      "accuracy": 0.7100599700149924,
+      "metrics": {
+        "train_accuracy": 0.7086956521739131,
+        "test_accuracy": 0.7672413793103449,
+        "cv_accuracy": 0.7100599700149924,
+        "cv_std": 0.03241795356828552,
+        "cv_fold_scores": [
+          0.7155172413793104,
+          0.6608695652173913,
+          0.7478260869565218,
+          0.6869565217391305,
+          0.7391304347826086
+        ],
+        "false_positive_rate": 0.6083650190114068,
+        "per_anion_accuracy": {
+          "O": 0.6775067750677507,
+          "F": 0.8333333333333334,
+          "Cl": 0.704225352112676,
+          "Br": 0.8148148148148148,
+          "I": 0.8837209302325582
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 72.0%\nTrain accuracy: 70.9%\nTest accuracy: 76.7%\nCV accuracy (5 fold): 71.0% \u00b1 3.2%  [71.6%, 66.1%, 74.8%, 68.7%, 73.9%]\nFalse positive rate: 60.8%\nDecision thresholds: [-1.1222, -1.1159, -0.3448, 0.5783, 0.7205, 0.7263]\nTP=312 FP=160 TN=103 FN=1\nPer-anion accuracy:\n  O: 67.8%\n  F: 83.3%\n  Cl: 70.4%\n  Br: 81.5%\n  I: 88.4%",
+        "tokens": [
+          "mul",
+          "mul",
+          "log",
+          "sub",
+          "inv",
+          "rB",
+          "div",
+          "add",
+          "nB",
+          "rA",
+          "rX",
+          "rX",
+          "nX"
+        ],
+        "mode": "sr_mcts"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/sr_mcts/20260416_173555/plots/f3240e2c.png",
+      "visit_count": 1,
+      "total_reward": 0.7100599700149924,
+      "children_ids": [],
+      "depth": 1
+    },
+    "1635d7d5": {
+      "id": "1635d7d5",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import numpy as np\n    return float(((((((((np.log(np.maximum(np.abs(nA), 1e-9))) - (np.abs(rB)))) * (((nA) - (nB))))) * (rX))) * (nX)))\n",
+      "description": "SR-MCTS token-level PUCT (max_len=13)",
+      "formula": "((((log(nA) - |rB|) \u00b7 (nA - nB)) \u00b7 rX) \u00b7 nX)",
+      "accuracy": 0.7742878560719639,
+      "metrics": {
+        "train_accuracy": 0.7739130434782608,
+        "test_accuracy": 0.7758620689655172,
+        "cv_accuracy": 0.7742878560719639,
+        "cv_std": 0.0125820964577228,
+        "cv_fold_scores": [
+          0.7844827586206896,
+          0.7652173913043478,
+          0.7913043478260869,
+          0.7565217391304347,
+          0.7739130434782608
+        ],
+        "false_positive_rate": 0.19391634980988592,
+        "per_anion_accuracy": {
+          "O": 0.7886178861788617,
+          "F": 0.7424242424242424,
+          "Cl": 0.676056338028169,
+          "Br": 0.8148148148148148,
+          "I": 0.8372093023255814
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 77.4%\nTrain accuracy: 77.4%\nTest accuracy: 77.6%\nCV accuracy (5 fold): 77.4% \u00b1 1.3%  [78.4%, 76.5%, 79.1%, 75.7%, 77.4%]\nFalse positive rate: 19.4%\nDecision thresholds: [-10.0769, -6.9440, -3.4336, -1.2036, -0.8464, 0.0813, 0.9976]\nTP=234 FP=51 TN=212 FN=79\nPer-anion accuracy:\n  O: 78.9%\n  F: 74.2%\n  Cl: 67.6%\n  Br: 81.5%\n  I: 83.7%",
+        "tokens": [
+          "mul",
+          "mul",
+          "mul",
+          "sub",
+          "log",
+          "nA",
+          "abs",
+          "rB",
+          "sub",
+          "nA",
+          "nB",
+          "rX",
+          "nX"
+        ],
+        "mode": "sr_mcts"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/sr_mcts/20260416_173555/plots/1635d7d5.png",
+      "visit_count": 1,
+      "total_reward": 0.7742878560719639,
+      "children_ids": [],
+      "depth": 2
+    },
+    "cb026dee": {
+      "id": "cb026dee",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import numpy as np\n    return float(((((((((((nA) + (np.log(np.maximum(np.abs(rA), 1e-9))))) - (rB))) * (np.abs(nB)))) * (nX))) * (rB)))\n",
+      "description": "SR-MCTS token-level PUCT (max_len=13)",
+      "formula": "(((((nA + log(rA)) - rB) \u00b7 |nB|) \u00b7 nX) \u00b7 rB)",
+      "accuracy": 0.784767616191904,
+      "metrics": {
+        "train_accuracy": 0.8217391304347826,
+        "test_accuracy": 0.7241379310344828,
+        "cv_accuracy": 0.784767616191904,
+        "cv_std": 0.02730539560187451,
+        "cv_fold_scores": [
+          0.7586206896551724,
+          0.7652173913043478,
+          0.808695652173913,
+          0.7652173913043478,
+          0.8260869565217391
+        ],
+        "false_positive_rate": 0.24714828897338403,
+        "per_anion_accuracy": {
+          "O": 0.8509485094850948,
+          "F": 0.696969696969697,
+          "Cl": 0.8028169014084507,
+          "Br": 0.7777777777777778,
+          "I": 0.5581395348837209
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 80.2%\nTrain accuracy: 82.2%\nTest accuracy: 72.4%\nCV accuracy (5 fold): 78.5% \u00b1 2.7%  [75.9%, 76.5%, 80.9%, 76.5%, 82.6%]\nFalse positive rate: 24.7%\nDecision thresholds: [-11.4369, -8.7435, -8.7048, -7.6870, -5.4413, -1.2967, -0.9862]\nTP=264 FP=65 TN=198 FN=49\nPer-anion accuracy:\n  O: 85.1%\n  F: 69.7%\n  Cl: 80.3%\n  Br: 77.8%\n  I: 55.8%",
+        "tokens": [
+          "mul",
+          "mul",
+          "mul",
+          "sub",
+          "add",
+          "nA",
+          "log",
+          "rA",
+          "rB",
+          "abs",
+          "nB",
+          "nX",
+          "rB"
+        ],
+        "mode": "sr_mcts"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/sr_mcts/20260416_173555/plots/cb026dee.png",
+      "visit_count": 1,
+      "total_reward": 0.784767616191904,
+      "children_ids": [],
+      "depth": 3
+    },
+    "e87ed816": {
+      "id": "e87ed816",
+      "parent_id": null,
+      "code": "def descriptor(rA, rB, rX, nA, nB, nX):\n    import numpy as np\n    return float(((((((((np.abs(np.log(np.maximum(np.abs(((nX) ** 2)), 1e-9)))) + (rB))) / (np.abs(rX) + 1e-9))) * ((-(nA))))) - (nA)))\n",
+      "description": "SR-MCTS token-level PUCT (max_len=13)",
+      "formula": "((((|log((nX)\u00b2)| + rB) / rX) \u00b7 -(nA)) - nA)",
+      "accuracy": 0.7690554722638681,
+      "metrics": {
+        "train_accuracy": 0.841304347826087,
+        "test_accuracy": 0.7586206896551724,
+        "cv_accuracy": 0.7690554722638681,
+        "cv_std": 0.044050170231206005,
+        "cv_fold_scores": [
+          0.7931034482758621,
+          0.7478260869565218,
+          0.8434782608695652,
+          0.7391304347826086,
+          0.7217391304347827
+        ],
+        "false_positive_rate": 0.16730038022813687,
+        "per_anion_accuracy": {
+          "O": 0.8319783197831978,
+          "F": 0.7424242424242424,
+          "Cl": 0.8450704225352113,
+          "Br": 0.8888888888888888,
+          "I": 0.813953488372093
+        },
+        "metrics_summary": "Overall accuracy (hold-out): 82.5%\nTrain accuracy: 84.1%\nTest accuracy: 75.9%\nCV accuracy (5 fold): 76.9% \u00b1 4.4%  [79.3%, 74.8%, 84.3%, 73.9%, 72.2%]\nFalse positive rate: 16.7%\nDecision thresholds: [-7.8242, -6.8385, -5.3447, -4.8518, -1.6492, -1.4566, -1.4272]\nTP=256 FP=44 TN=219 FN=57\nPer-anion accuracy:\n  O: 83.2%\n  F: 74.2%\n  Cl: 84.5%\n  Br: 88.9%\n  I: 81.4%",
+        "tokens": [
+          "sub",
+          "mul",
+          "div",
+          "add",
+          "abs",
+          "log",
+          "square",
+          "nX",
+          "rB",
+          "rX",
+          "neg",
+          "nA",
+          "nA"
+        ],
+        "mode": "sr_mcts"
+      },
+      "plot_path": "/Users/shaashvatshetty/ResearchFolder/materials_research/search_runs/sr_mcts/20260416_173555/plots/e87ed816.png",
+      "visit_count": 1,
+      "total_reward": 0.7690554722638681,
+      "children_ids": [],
+      "depth": 94
+    }
+  },
+  "root_children": [
+    "f3240e2c",
+    "1635d7d5",
+    "cb026dee",
+    "e87ed816"
+  ],
+  "budget_used": 1000,
+  "total_llm_calls": 0,
+  "debug_calls": 0
+}
